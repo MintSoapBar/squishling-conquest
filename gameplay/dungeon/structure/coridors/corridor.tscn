@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://drm1iw4x7b3gp"]
+
+[ext_resource type="Script" uid="uid://do5tl2h2etxgu" path="res://gameplay/dungeon/structure/coridors/corridor.gd" id="1_oyknw"]
+[ext_resource type="PackedScene" uid="uid://cblhg8xrx5xcf" path="res://gameplay/dungeon/part/block_part/block_part.tscn" id="2_oyknw"]
+[ext_resource type="Material" uid="uid://b675c8l5sn4j1" path="res://assets/materials/stone_brick_dark/stone_brick_dark.tres" id="3_57q66"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h2ln2"]
+size = Vector3(6, 6, 4)
+
+[node name="Corridor" type="Node3D" unique_id=1301995157]
+script = ExtResource("1_oyknw")
+
+[node name="AttachmentPoints" type="Node3D" parent="." unique_id=146999291]
+
+[node name="Front" type="Marker3D" parent="AttachmentPoints" unique_id=643859430]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Back" type="Marker3D" parent="AttachmentPoints" unique_id=1477855675]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 2)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=393833930]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=903215733]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_h2ln2")
+
+[node name="Structure" type="Node3D" parent="." unique_id=1286081232]
+
+[node name="Floor" parent="Structure" unique_id=1542272684 instance=ExtResource("2_oyknw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+block_size = Vector3(6, 1, 4)
+material = ExtResource("3_57q66")
+
+[node name="LeftWall" parent="Structure" unique_id=460843489 instance=ExtResource("2_oyknw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 2, 0)
+block_size = Vector3(1, 6, 4)
+material = ExtResource("3_57q66")
+
+[node name="RightWall" parent="Structure" unique_id=268071466 instance=ExtResource("2_oyknw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2, 0)
+block_size = Vector3(1, 6, 4)
+material = ExtResource("3_57q66")

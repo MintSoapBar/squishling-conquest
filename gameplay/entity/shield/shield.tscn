@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://u2gbc5v7h62u"]
+
+[ext_resource type="ArrayMesh" uid="uid://bu3uksn5eidj7" path="res://gameplay/entity/shield/shield.obj" id="1_rflpk"]
+[ext_resource type="Script" uid="uid://cne0rg2qo20ns" path="res://gameplay/entity/shield/shield.gd" id="3_18dye"]
+[ext_resource type="Shader" uid="uid://d35bibkm20nya" path="res://shaders/shield.gdshader" id="4_18dye"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lfna5"]
+render_priority = 1
+shader = ExtResource("4_18dye")
+shader_parameter/normal_offset = 0.05
+shader_parameter/stretch_direction = Vector3(1, 1, 1)
+shader_parameter/stretch_scale = 1.0
+shader_parameter/rotation = 4.042774346663845
+shader_parameter/alpha = 0.75
+shader_parameter/color = Vector3(1, 0, 0)
+shader_parameter/emission = Vector3(0, 1, 0)
+shader_parameter/emission_strength = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jt21v"]
+render_priority = 2
+shader = ExtResource("4_18dye")
+shader_parameter/normal_offset = 0.1
+shader_parameter/stretch_direction = Vector3(1, 1, 1)
+shader_parameter/stretch_scale = 1.0
+shader_parameter/rotation = -4.078013339998532
+shader_parameter/alpha = 0.75
+shader_parameter/color = Vector3(1, 0, 0)
+shader_parameter/emission = Vector3(0, 1, 0)
+shader_parameter/emission_strength = 1.0
+
+[node name="Shield" type="Node3D" unique_id=1991224442]
+script = ExtResource("3_18dye")
+
+[node name="Core" type="MeshInstance3D" parent="." unique_id=1524210590]
+material_override = SubResource("ShaderMaterial_lfna5")
+cast_shadow = 0
+mesh = ExtResource("1_rflpk")
+
+[node name="Plates" type="MeshInstance3D" parent="." unique_id=489226118]
+material_override = SubResource("ShaderMaterial_jt21v")
+cast_shadow = 0
+mesh = ExtResource("1_rflpk")

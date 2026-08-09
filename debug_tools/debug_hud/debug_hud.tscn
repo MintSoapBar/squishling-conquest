@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://p72j7xijmbda"]
+
+[ext_resource type="PackedScene" uid="uid://nopjipcnxiyu" path="res://components/debug_hud/fps_counter/fps_counter.tscn" id="1_bo7ov"]
+[ext_resource type="Theme" uid="uid://b0ch4r73e2yv7" path="res://components/debug_hud/debug_theme.tres" id="2_6db7m"]
+[ext_resource type="PackedScene" uid="uid://cjiwydienv25l" path="res://components/debug_hud/position_display/position_display.tscn" id="2_lf8o0"]
+
+[node name="DebugHUD" type="MarginContainer" unique_id=773093570]
+offset_right = 66.0
+offset_bottom = 25.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("2_6db7m")
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=65876591]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="FpsCounter" parent="VBoxContainer" unique_id=2078941200 instance=ExtResource("1_bo7ov")]
+layout_mode = 2
+text = "FPS: 60.00"
+
+[node name="PositionDisplay" parent="VBoxContainer" unique_id=1622707807 instance=ExtResource("2_lf8o0")]
+layout_mode = 2

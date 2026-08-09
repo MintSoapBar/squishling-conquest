@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cblhg8xrx5xcf"]
+
+[ext_resource type="Script" uid="uid://doogk537c4eut" path="res://gameplay/dungeon/part/block_part/block_part.gd" id="1_8aucn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_wws0t"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2ve5e"]
+
+[node name="BlockPart" type="Node3D" unique_id=1542272684]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+script = ExtResource("1_8aucn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1083759055]
+mesh = SubResource("BoxMesh_wws0t")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=575715238]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=487673298]
+shape = SubResource("BoxShape3D_2ve5e")

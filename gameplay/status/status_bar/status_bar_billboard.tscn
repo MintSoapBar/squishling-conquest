@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bso3hjhrkti3d"]
+
+[ext_resource type="Script" uid="uid://cb4t0crwcuubb" path="res://gameplay/status/status_bar/status_bar_billboard.gd" id="1_ss6ro"]
+[ext_resource type="PackedScene" uid="uid://d0mv38j2bbdjs" path="res://gameplay/status/status_bar/status_bar.tscn" id="1_verh3"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ss6ro"]
+viewport_path = NodePath("SubViewport")
+
+[node name="StatusBarBillboard" type="Sprite3D" unique_id=954147360]
+pixel_size = 0.004
+billboard = 1
+double_sided = false
+texture_filter = 0
+texture = SubResource("ViewportTexture_ss6ro")
+script = ExtResource("1_ss6ro")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=2025617427]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(200, 50)
+
+[node name="StatusBar" parent="SubViewport" unique_id=1796018216 instance=ExtResource("1_verh3")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2

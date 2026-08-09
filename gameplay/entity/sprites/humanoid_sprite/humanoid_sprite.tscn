@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://d1l5cya067wvg"]
+
+[ext_resource type="Script" uid="uid://c4bgyupyja1xu" path="res://gameplay/entity/sprites/humanoid_sprite/humanoid_sprite.gd" id="1_htrqa"]
+[ext_resource type="PackedScene" uid="uid://bso3hjhrkti3d" path="res://gameplay/status/status_bar/status_bar_billboard.tscn" id="2_n6e3f"]
+[ext_resource type="Script" uid="uid://1l7ir3xeydvc" path="res://gameplay/entity/sprites/nested_collision_shape_3d.gd" id="3_4ke0x"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_at2h3"]
+radius = 0.3
+height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dyerp"]
+albedo_color = Color(0, 0, 0, 1)
+metallic = 0.9
+metallic_specular = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hdj1d"]
+material = SubResource("StandardMaterial3D_dyerp")
+radius = 0.03
+height = 0.1
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4ke0x"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f3d2p"]
+radius = 0.3
+height = 1.2
+
+[node name="HumanoidSprite" type="Node3D" unique_id=570781724]
+script = ExtResource("1_htrqa")
+
+[node name="Model" type="Node3D" parent="." unique_id=771302206]
+
+[node name="Body" type="MeshInstance3D" parent="Model" unique_id=138241794]
+mesh = SubResource("CapsuleMesh_at2h3")
+
+[node name="Face" type="Marker3D" parent="Model" unique_id=1618720529]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.29999998)
+
+[node name="LeftEye" type="MeshInstance3D" parent="Model/Face" unique_id=586907558]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.05, 0.02)
+mesh = SubResource("CapsuleMesh_hdj1d")
+
+[node name="RightEye" type="MeshInstance3D" parent="Model/Face" unique_id=1106751415]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.05, 0.02)
+mesh = SubResource("CapsuleMesh_hdj1d")
+surface_material_override/0 = SubResource("StandardMaterial3D_dyerp")
+
+[node name="Hand" type="Marker3D" parent="." unique_id=1390555959]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0, 0)
+
+[node name="StatusBarBillboard" parent="." unique_id=954147360 instance=ExtResource("2_n6e3f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+texture = SubResource("ViewportTexture_4ke0x")
+
+[node name="HumanoidCollider" type="CollisionShape3D" parent="." unique_id=746658890]
+shape = SubResource("CapsuleShape3D_f3d2p")
+script = ExtResource("3_4ke0x")

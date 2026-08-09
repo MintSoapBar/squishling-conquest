@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bp3pfanhl2m6v"]
+
+[ext_resource type="Script" uid="uid://c6ifwm2q1fgik" path="res://gameplay/dungeon/part/plane_part/plane_part.gd" id="1_5acn2"]
+[ext_resource type="Material" uid="uid://qlygdhst0g7t" path="res://assets/materials/debug_grid/debug_grid.tres" id="1_f6kod"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_lrgcv"]
+size = Vector3(1, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dvucb"]
+size = Vector3(1, 0, 1)
+
+[node name="PlanePart" type="Node3D" unique_id=1038160209]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+script = ExtResource("1_5acn2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1323599962]
+mesh = SubResource("BoxMesh_lrgcv")
+surface_material_override/0 = ExtResource("1_f6kod")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=45535369]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1083939093]
+shape = SubResource("BoxShape3D_dvucb")

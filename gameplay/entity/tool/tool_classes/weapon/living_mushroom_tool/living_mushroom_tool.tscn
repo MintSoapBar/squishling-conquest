@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bc2bv2r7l01r1"]
+
+[ext_resource type="Script" uid="uid://dkqsymli4p0ei" path="res://gameplay/entity/tool/tool_classes/weapon/living_mushroom_tool/living_mushroom_tool.gd" id="1_oackq"]
+
+[node name="living_mushroom_tool" type="Node3D" unique_id=1291293267]
+script = ExtResource("1_oackq")

@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://dr48dbdaruerl"]
+
+[ext_resource type="Script" uid="uid://c784chnlgifum" path="res://gameplay/entity/sprites/living_mushroom_sprite/living_mushroom_sprite.gd" id="1_jvuhx"]
+[ext_resource type="ArrayMesh" uid="uid://fsjphjqvu0md" path="res://gameplay/entity/sprites/living_mushroom_sprite/living_mushroom.mesh" id="2_6rmim"]
+[ext_resource type="PackedScene" uid="uid://bso3hjhrkti3d" path="res://gameplay/status/status_bar/status_bar_billboard.tscn" id="3_ajriw"]
+[ext_resource type="Script" uid="uid://1l7ir3xeydvc" path="res://gameplay/entity/sprites/nested_collision_shape_3d.gd" id="4_ve0t6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rp1uq"]
+albedo_color = Color(0.9647059, 0.8862745, 0.627451, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_il7kq"]
+albedo_color = Color(0.76, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k7nnc"]
+albedo_color = Color(0.68, 0.5029734, 0.19720002, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dyerp"]
+albedo_color = Color(0, 0, 0, 1)
+metallic = 0.9
+metallic_specular = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nwcxb"]
+material = SubResource("StandardMaterial3D_dyerp")
+radius = 0.03
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50vk3"]
+albedo_color = Color(0, 0, 0, 1)
+metallic = 0.9
+metallic_specular = 1.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_nwcxb"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_551ov"]
+radius = 0.35888672
+height = 1.0937195
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ksm3a"]
+height = 0.17500001
+radius = 0.69091797
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0uebs"]
+height = 0.15
+radius = 0.45898438
+
+[node name="LivingMushroomSprite" type="Node3D" unique_id=902926490]
+script = ExtResource("1_jvuhx")
+
+[node name="Model" type="Node3D" parent="." unique_id=808506220]
+
+[node name="Body" type="MeshInstance3D" parent="Model" unique_id=1714120653]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = ExtResource("2_6rmim")
+surface_material_override/0 = SubResource("StandardMaterial3D_rp1uq")
+surface_material_override/1 = SubResource("StandardMaterial3D_il7kq")
+surface_material_override/2 = SubResource("StandardMaterial3D_k7nnc")
+
+[node name="Face" type="Marker3D" parent="Model" unique_id=528518289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.29999998)
+
+[node name="LeftEye" type="MeshInstance3D" parent="Model/Face" unique_id=927548374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.05, 0.02)
+mesh = SubResource("CapsuleMesh_nwcxb")
+
+[node name="RightEye" type="MeshInstance3D" parent="Model/Face" unique_id=1300344123]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.05, 0.02)
+mesh = SubResource("CapsuleMesh_nwcxb")
+surface_material_override/0 = SubResource("StandardMaterial3D_50vk3")
+
+[node name="Hand" type="Marker3D" parent="." unique_id=2103551564]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35000002, 0, 0)
+
+[node name="StatusBarBillboard" parent="." unique_id=954147360 instance=ExtResource("3_ajriw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+texture = SubResource("ViewportTexture_nwcxb")
+
+[node name="StalkCollider" type="CollisionShape3D" parent="." unique_id=1218737846]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16444397, 0)
+shape = SubResource("CapsuleShape3D_551ov")
+script = ExtResource("4_ve0t6")
+
+[node name="CapCollider1" type="CollisionShape3D" parent="." unique_id=1850432546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.425, 0)
+shape = SubResource("CylinderShape3D_ksm3a")
+script = ExtResource("4_ve0t6")
+
+[node name="CapCollider2" type="CollisionShape3D" parent="." unique_id=1851954184]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("CylinderShape3D_0uebs")
+script = ExtResource("4_ve0t6")

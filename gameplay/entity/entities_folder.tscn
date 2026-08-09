@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bj7d3ygdbdarq"]
+
+[ext_resource type="Script" uid="uid://hbeds7on6axf" path="res://gameplay/entity/entities_folder.gd" id="1_pmdx5"]
+
+[node name="EntitiesFolder" type="Node3D" unique_id=843975943]
+script = ExtResource("1_pmdx5")

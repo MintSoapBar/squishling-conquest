@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://q3hyviw43v0g"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_b36eq"]
+load_path = "res://.godot/imported/export.svg-ba64d7457d1823d2768cd57752cca753.s3tc.ctex"
+
+[resource]
+transparency = 1
+cull_mode = 2
+depth_draw_mode = 1
+albedo_color = Color(1, 0, 0, 1)
+albedo_texture = SubResource("CompressedTexture2D_b36eq")
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 16.0

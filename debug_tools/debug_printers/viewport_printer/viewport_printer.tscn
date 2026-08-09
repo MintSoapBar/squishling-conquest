@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://depmxpeis8ln5"]
+
+[ext_resource type="Script" uid="uid://34ygdsvbyckb" path="res://components/debug_printers/viewport_printer/viewport_printer.gd" id="1_sh08o"]
+
+[node name="ViewportPrinter" type="RichTextLabel" unique_id=412789673]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+scroll_following = true
+vertical_alignment = 2
+script = ExtResource("1_sh08o")

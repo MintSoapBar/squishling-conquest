@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://bit00f1k2pt05"]
+
+[ext_resource type="Script" uid="uid://cfh2macankjkr" path="res://gameplay/dungeon/structure/doors/door.gd" id="1_yb37b"]
+[ext_resource type="Material" uid="uid://dma2tn1xu8v5v" path="res://assets/materials/steel_dark/steel_dark.tres" id="2_3v3am"]
+[ext_resource type="Material" uid="uid://b675c8l5sn4j1" path="res://assets/materials/stone_brick_dark/stone_brick_dark.tres" id="4_hye6u"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_3v3am"]
+size = Vector3(0.25, 2, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eyhx2"]
+size = Vector3(2, 2, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ina2o"]
+size = Vector3(2, 2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hye6u"]
+size = Vector3(2, 2, 1)
+
+[node name="Door" type="Node3D" unique_id=1437609051]
+script = ExtResource("1_yb37b")
+
+[node name="Bars" type="Node3D" parent="." unique_id=1358335071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)
+
+[node name="Bar1" type="MeshInstance3D" parent="Bars" unique_id=1083759055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1, 0)
+material_override = ExtResource("2_3v3am")
+mesh = SubResource("BoxMesh_3v3am")
+
+[node name="Bar2" type="MeshInstance3D" parent="Bars" unique_id=317612818]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.375, 1, 0)
+material_override = ExtResource("2_3v3am")
+mesh = SubResource("BoxMesh_3v3am")
+
+[node name="Bar3" type="MeshInstance3D" parent="Bars" unique_id=1506441689]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = ExtResource("2_3v3am")
+mesh = SubResource("BoxMesh_3v3am")
+
+[node name="Bar4" type="MeshInstance3D" parent="Bars" unique_id=1925066940]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.375, 1, 0)
+material_override = ExtResource("2_3v3am")
+mesh = SubResource("BoxMesh_3v3am")
+
+[node name="Bar5" type="MeshInstance3D" parent="Bars" unique_id=2083235390]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1, 0)
+material_override = ExtResource("2_3v3am")
+mesh = SubResource("BoxMesh_3v3am")
+
+[node name="Collider" type="StaticBody3D" parent="Bars" unique_id=1669795411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bars/Collider" unique_id=2058290314]
+shape = SubResource("BoxShape3D_eyhx2")
+
+[node name="Wall" type="Node3D" parent="." unique_id=1542272684]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall" unique_id=793241867]
+mesh = SubResource("BoxMesh_ina2o")
+surface_material_override/0 = ExtResource("4_hye6u")
+
+[node name="Collider" type="StaticBody3D" parent="Wall" unique_id=575715238]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall/Collider" unique_id=487673298]
+shape = SubResource("BoxShape3D_hye6u")
+disabled = true

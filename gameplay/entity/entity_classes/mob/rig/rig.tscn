@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://c6k3jdssd0337"]
+
+[ext_resource type="Script" uid="uid://het4081qqxqw" path="res://gameplay/entity/entity_classes/mob/rig/rig.gd" id="2_c7gx7"]
+[ext_resource type="PackedScene" uid="uid://d1l5cya067wvg" path="res://gameplay/entity/sprites/humanoid_sprite/humanoid_sprite.tscn" id="2_ypje3"]
+
+[node name="Rig" type="CharacterBody3D" unique_id=623215840]
+script = ExtResource("2_c7gx7")
+
+[node name="HumanoidSprite" parent="." unique_id=570781724 instance=ExtResource("2_ypje3")]

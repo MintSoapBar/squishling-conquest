@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://u47nmj6fw4c2"]
+
+[ext_resource type="Script" uid="uid://d3u7pyos4b45v" path="res://network/server.gd" id="1_isdew"]
+[ext_resource type="Script" uid="uid://lagu5o0gh5kv" path="res://network/network.gd" id="1_xcdrc"]
+[ext_resource type="Script" uid="uid://caar4ib75xm00" path="res://network/client.gd" id="2_xcdrc"]
+
+[node name="Network" type="Node" unique_id=970467472]
+script = ExtResource("1_xcdrc")
+
+[node name="Server" type="Node" parent="." unique_id=287438414]
+script = ExtResource("1_isdew")
+
+[node name="Client" type="Node" parent="." unique_id=195793248]
+script = ExtResource("2_xcdrc")
+
+[node name="IPHTTPRequest" type="HTTPRequest" parent="." unique_id=816989740]
+
+[connection signal="request_completed" from="IPHTTPRequest" to="." method="_on_iphttp_request_request_completed"]

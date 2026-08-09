@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cjiwydienv25l"]
+
+[ext_resource type="Script" uid="uid://dccl0rmic2a1t" path="res://components/debug_hud/position_display/position_display.gd" id="1_t0wm3"]
+
+[node name="PositionDisplay" type="Label" unique_id=2078941200]
+theme_override_font_sizes/font_size = 12
+text = "Pos: 0, 0, 0"
+script = ExtResource("1_t0wm3")

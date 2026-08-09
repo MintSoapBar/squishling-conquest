@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://drff6wbyt4rey"]
+
+[ext_resource type="Material" uid="uid://dmkvv682rg6sw" path="res://assets/materials/wood_dark.tres" id="1_dejdi"]
+[ext_resource type="Material" uid="uid://b2601ynekqh4p" path="res://assets/materials/charcoal_glow.tres" id="2_dejdi"]
+[ext_resource type="Material" uid="uid://cold2lf34y1qc" path="res://assets/materials/metal_dark.tres" id="4_of8gp"]
+[ext_resource type="PackedScene" uid="uid://cblhg8xrx5xcf" path="res://gameplay/dungeon/part/block_part/block_part.tscn" id="5_26clo"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1o6en"]
+material = ExtResource("1_dejdi")
+size = Vector3(0.05, 0.3, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bx6nv"]
+material = ExtResource("2_dejdi")
+size = Vector3(0.06, 0.06, 0.06)
+
+[sub_resource type="BoxMesh" id="BoxMesh_551ov"]
+material = ExtResource("4_of8gp")
+size = Vector3(0.08, 0.1, 0.1)
+
+[node name="WallTorch" type="Node3D" unique_id=280605894]
+
+[node name="Stick" type="MeshInstance3D" parent="." unique_id=2101040488]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0, -0.09336491)
+mesh = SubResource("BoxMesh_1o6en")
+
+[node name="Glow" type="MeshInstance3D" parent="." unique_id=289637923]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0.12074073, -0.12571728)
+mesh = SubResource("BoxMesh_bx6nv")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Glow" unique_id=722382672]
+light_color = Color(1, 0.5882353, 0, 1)
+light_size = 0.1
+omni_range = 2.0
+
+[node name="Holder" type="MeshInstance3D" parent="." unique_id=1797348351]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
+mesh = SubResource("BoxMesh_551ov")
+
+[node name="BlockPart" parent="." unique_id=1542272684 instance=ExtResource("5_26clo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+block_size = Vector3(2, 2, 1)

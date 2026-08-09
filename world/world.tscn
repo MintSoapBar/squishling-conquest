@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://btmdt8ueoildk"]
+
+[ext_resource type="Script" uid="uid://br5pchhfpckbp" path="res://world/world.gd" id="1_4717r"]
+[ext_resource type="Script" uid="uid://t862dbw251ks" path="res://world/core_interface.gd" id="3_h5o24"]
+[ext_resource type="PackedScene" uid="uid://c7jk6odqx723q" path="res://core_interface/custom_cameras/orbital_camera/orbital_camera.tscn" id="3_mmdvd"]
+[ext_resource type="PackedScene" uid="uid://bxwem2qlkm3i6" path="res://core_interface/cursors/crosshair_cursor/crosshair_cursor.tscn" id="4_fn3g3"]
+[ext_resource type="PackedScene" uid="uid://p72j7xijmbda" path="res://debug_tools/debug_hud/debug_hud.tscn" id="5_ai45w"]
+[ext_resource type="PackedScene" uid="uid://bj7d3ygdbdarq" path="res://gameplay/entity/entities_folder.tscn" id="5_sc4t8"]
+[ext_resource type="PackedScene" uid="uid://u1p5upry5lw3" path="res://gameplay/dungeon/dungeon.tscn" id="6_fn3g3"]
+[ext_resource type="PackedScene" uid="uid://bc1ihq34c3rq6" path="res://gameplay/dungeon/minimap/minimap.tscn" id="7_sc4t8"]
+
+[sub_resource type="Environment" id="Environment_fn3g3"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.5
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_1o6en"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1o6en"]
+size = Vector3(100, 1, 100)
+
+[node name="World" type="Node3D" unique_id=642953348]
+script = ExtResource("1_4717r")
+
+[node name="CoreInterface" type="Node" parent="." unique_id=53065678]
+script = ExtResource("3_h5o24")
+
+[node name="OrbitalCamera" parent="CoreInterface" unique_id=8928706 instance=ExtResource("3_mmdvd")]
+camera_lock_toggle = true
+camera_locked = false
+
+[node name="CrosshairCursor" parent="CoreInterface" unique_id=831864083 instance=ExtResource("4_fn3g3")]
+
+[node name="DebugHUD" parent="." unique_id=773093570 instance=ExtResource("5_ai45w")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1027387874]
+environment = SubResource("Environment_fn3g3")
+
+[node name="EntitiesFolder" parent="." unique_id=843975943 instance=ExtResource("5_sc4t8")]
+
+[node name="Dungeon" parent="." unique_id=1171770167 instance=ExtResource("6_fn3g3")]
+
+[node name="Minimap" parent="." unique_id=987131916 instance=ExtResource("7_sc4t8")]
+
+[node name="Ground" type="Node3D" parent="." unique_id=1018230883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1258792901]
+mesh = SubResource("BoxMesh_1o6en")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground" unique_id=927975829]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D" unique_id=1522417008]
+shape = SubResource("BoxShape3D_1o6en")

@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://bta3jvdrwrxf6"]
+
+[ext_resource type="Shader" uid="uid://d4nyyb8pv5fl4" path="res://shaders/slime.gdshader" id="1_aq5ou"]
+[ext_resource type="Script" uid="uid://bmf1hu7777n2l" path="res://gameplay/entity/sprites/squishling_sprite/squishling_sprite.gd" id="1_qcnw3"]
+[ext_resource type="ArrayMesh" uid="uid://mr20vpumj5s5" path="res://gameplay/entity/sprites/squishling_sprite/squishling.mesh" id="3_fwonu"]
+[ext_resource type="Script" uid="uid://ba2qlojd7l5y0" path="res://gameplay/entity/sprites/squishling_sprite/squishling_sprite_body.gd" id="4_45m62"]
+[ext_resource type="Material" uid="uid://eif3xukpgr8a" path="res://gameplay/entity/sprites/squishling_sprite/squishling_eye_material.tres" id="5_3pf2m"]
+[ext_resource type="PackedScene" uid="uid://bso3hjhrkti3d" path="res://gameplay/status/status_bar/status_bar_billboard.tscn" id="7_ooq1l"]
+[ext_resource type="Script" uid="uid://1l7ir3xeydvc" path="res://gameplay/entity/sprites/nested_collision_shape_3d.gd" id="8_nctdn"]
+[ext_resource type="PackedScene" uid="uid://u2gbc5v7h62u" path="res://gameplay/entity/shield/shield.tscn" id="8_yi8bn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rslwy"]
+render_priority = 0
+shader = ExtResource("1_aq5ou")
+shader_parameter/normal_offset = 0.0
+shader_parameter/time = 0.0
+shader_parameter/wobble_strength = 0.01
+shader_parameter/wobble_speed = 5.0
+shader_parameter/wobble_y_multiplier = 1.0
+shader_parameter/wobble_x_multiplier = 0.0
+shader_parameter/wobble_z_multiplier = 0.0
+shader_parameter/stretch_direction = Vector3(1, 1, 1)
+shader_parameter/stretch_scale = 1.0
+shader_parameter/alpha = 1.0
+shader_parameter/add_color = Vector3(0, 0, 0)
+shader_parameter/multiply_color = Vector3(0, 1, 0)
+shader_parameter/emission_color = Vector3(0, 1, 0)
+shader_parameter/ripple_strength = 0.008
+shader_parameter/ripple_speed_x = 2.0
+shader_parameter/ripple_speed_y = 2.7
+shader_parameter/zoom_strength = 0.04
+shader_parameter/emission_strength = 0.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3pf2m"]
+material = ExtResource("5_3pf2m")
+radius = 0.05
+height = 0.2
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_us4gi"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1o6en"]
+radius = 0.3652668
+
+[node name="SquishlingSprite" type="Node3D" unique_id=1736933242]
+script = ExtResource("1_qcnw3")
+
+[node name="Model" type="Node3D" parent="." unique_id=1621953886]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Model" unique_id=511772306]
+material_override = SubResource("ShaderMaterial_rslwy")
+mesh = ExtResource("3_fwonu")
+script = ExtResource("4_45m62")
+
+[node name="LeftEye" type="MeshInstance3D" parent="Model/Body" unique_id=1872408738]
+transform = Transform3D(1, 0, 0, 0, 0.9962854, -0.086112484, 0, 0.086112484, 0.9962854, -0.2, 0.1932505, -0.8195118)
+mesh = SubResource("CapsuleMesh_3pf2m")
+
+[node name="RightEye" type="MeshInstance3D" parent="Model/Body" unique_id=812131439]
+transform = Transform3D(1, 0, 0, 0, 0.9962854, -0.086112484, 0, 0.086112484, 0.9962854, 0.2, 0.1932505, -0.8195118)
+mesh = SubResource("CapsuleMesh_3pf2m")
+
+[node name="Shield" parent="Model/Body" unique_id=1991224442 instance=ExtResource("8_yi8bn")]
+transform = Transform3D(2.6, 0, 0, 0, 2.6, 0, 0, 0, 2.6, 0, 0, 0)
+visible = false
+
+[node name="Hand" type="Marker3D" parent="." unique_id=1838840288]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39, 0.1, -0.1)
+
+[node name="StatusBarBillboard" parent="." unique_id=954147360 instance=ExtResource("7_ooq1l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+texture = SubResource("ViewportTexture_us4gi")
+
+[node name="BodyCollider" type="CollisionShape3D" parent="." unique_id=1646061403]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+shape = SubResource("SphereShape3D_1o6en")
+script = ExtResource("8_nctdn")

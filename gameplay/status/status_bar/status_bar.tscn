@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://d0mv38j2bbdjs"]
+
+[ext_resource type="Script" uid="uid://vaj62a2dobpe" path="res://gameplay/status/status_bar/status_bar.gd" id="1_f7mq3"]
+
+[node name="StatusBar" type="Control" unique_id=1796018216]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_f7mq3")
+
+[node name="Title" type="Control" parent="." unique_id=1253017635]
+visible = false
+anchors_preset = 0
+
+[node name="Label" type="Label" parent="Title" unique_id=1613258215]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -23.5
+offset_top = -30.0
+offset_right = 23.5
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Name"
+
+[node name="HealthBar" type="Control" parent="." unique_id=1197303778]
+anchors_preset = 0
+
+[node name="Background" type="ColorRect" parent="HealthBar" unique_id=1473584199]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -8.0
+offset_right = 64.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 0.49803922)
+
+[node name="Fill" type="ColorRect" parent="HealthBar/Background" unique_id=140465457]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+color = Color(0, 1, 0, 0.7490196)
+
+[node name="ShieldBar" type="Control" parent="." unique_id=1753231956]
+anchors_preset = 0
+offset_top = -10.0
+offset_bottom = -10.0
+
+[node name="Background" type="ColorRect" parent="ShieldBar" unique_id=1452404777]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -8.0
+offset_right = 64.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 0.49803922)
+
+[node name="Fill" type="ColorRect" parent="ShieldBar/Background" unique_id=1386879608]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+color = Color(0.8, 0.8, 0.8, 0.8627451)

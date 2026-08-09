@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://c42woetoisxse"]
+
+[ext_resource type="Script" uid="uid://cflbvfkmdyx0k" path="res://gameplay/magic/magic_circle/magic_circle.gd" id="1_w76r6"]
+[ext_resource type="Texture2D" uid="uid://b758l7yjrw24a" path="res://gameplay/magic/magic_circle/layers/layer_1/explosion.png" id="1_y0ybd"]
+[ext_resource type="Texture2D" uid="uid://bc3hsgehyo8wp" path="res://gameplay/magic/magic_circle/layers/layer_0/fire.png" id="3_dyoun"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dyoun"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0.34509805, 0, 1)
+albedo_texture = ExtResource("3_dyoun")
+
+[sub_resource type="QuadMesh" id="QuadMesh_qy62a"]
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t0mkt"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+albedo_texture = ExtResource("1_y0ybd")
+stencil_flags = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_irloh"]
+
+[node name="MagicCircle" type="Node3D" unique_id=285106482]
+script = ExtResource("1_w76r6")
+
+[node name="Layer0" type="MeshInstance3D" parent="." unique_id=775506579]
+transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_dyoun")
+mesh = SubResource("QuadMesh_qy62a")
+
+[node name="Layer1" type="MeshInstance3D" parent="." unique_id=1676181911]
+transform = Transform3D(-0.98546046, 0.16990408, 0, -0.16990408, -0.98546046, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_t0mkt")
+mesh = SubResource("QuadMesh_irloh")

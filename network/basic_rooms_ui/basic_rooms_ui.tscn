@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://b5icm4ab732c2"]
+
+[ext_resource type="Script" uid="uid://dj8mql6jt50f3" path="res://network/basic_rooms_ui/basic_rooms_ui.gd" id="1_8086i"]
+
+[node name="BasicRoomsUi" type="VBoxContainer" unique_id=984085998]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -318.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 140.0
+grow_horizontal = 0
+theme_override_constants/separation = 4
+script = ExtResource("1_8086i")
+
+[node name="PortSetting" type="HBoxContainer" parent="." unique_id=1456320297]
+layout_mode = 2
+size_flags_horizontal = 8
+alignment = 2
+
+[node name="PortLabel" type="Label" parent="PortSetting" unique_id=1252610325]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = " Port:"
+
+[node name="PortBox" type="TextEdit" parent="PortSetting" unique_id=1286826026]
+custom_minimum_size = Vector2(150, 32)
+layout_mode = 2
+theme_override_colors/font_readonly_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+theme_override_font_sizes/font_size = 15
+placeholder_text = "20260"
+scroll_fit_content_width = true
+
+[node name="Hosting" type="HBoxContainer" parent="." unique_id=2028492311]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="RoomAddressLabel" type="Label" parent="Hosting" unique_id=109481511]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = " Room IP: "
+
+[node name="RoomAddressBox" type="TextEdit" parent="Hosting" unique_id=399434725]
+custom_minimum_size = Vector2(150, 32)
+layout_mode = 2
+theme_override_colors/font_readonly_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+theme_override_font_sizes/font_size = 15
+text = "Not hosting yet"
+editable = false
+scroll_fit_content_width = true
+
+[node name="HostButton" type="Button" parent="Hosting" unique_id=67154588]
+custom_minimum_size = Vector2(100, 32)
+layout_mode = 2
+focus_mode = 0
+text = "Host"
+
+[node name="Joining" type="HBoxContainer" parent="." unique_id=821824091]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="ServerAddressLabel" type="Label" parent="Joining" unique_id=638393728]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = " Server IP:"
+
+[node name="ServerAddressBox" type="TextEdit" parent="Joining" unique_id=378791235]
+custom_minimum_size = Vector2(150, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+placeholder_text = "Search LAN"
+scroll_fit_content_width = true
+
+[node name="JoinButton" type="Button" parent="Joining" unique_id=2062394292]
+custom_minimum_size = Vector2(100, 32)
+layout_mode = 2
+focus_mode = 0
+text = "Join"
+
+[node name="LeaveButton" type="Button" parent="." unique_id=1722096390]
+custom_minimum_size = Vector2(100, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+text = "Leave
+"
+
+[connection signal="focus_exited" from="PortSetting/PortBox" to="." method="clean_port_text"]
+[connection signal="text_changed" from="PortSetting/PortBox" to="." method="_on_port_text_changed"]
+[connection signal="pressed" from="Hosting/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="focus_exited" from="Joining/ServerAddressBox" to="." method="clean_server_address_text"]
+[connection signal="text_changed" from="Joining/ServerAddressBox" to="." method="_on_server_address_text_changed"]
+[connection signal="pressed" from="Joining/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

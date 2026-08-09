@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dma2tn1xu8v5v"]
+
+[ext_resource type="Texture2D" uid="uid://disb5r3rnbm7u" path="res://materials/steel_dark/steel_dark.png" id="1_fcird"]
+
+[resource]
+albedo_texture = ExtResource("1_fcird")
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0

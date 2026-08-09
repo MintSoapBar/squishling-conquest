@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c7jk6odqx723q"]
+
+[ext_resource type="Script" uid="uid://b5v7i77whmah5" path="res://components/custom_cameras/orbital_camera/orbital_camera.gd" id="1_n072d"]
+
+[node name="OrbitalCamera" type="Marker3D" unique_id=8928706]
+script = ExtResource("1_n072d")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1366546514]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=93349104]
+target_position = Vector3(0, 0, 1)

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://3a4got1ccrc6"]
+
+[ext_resource type="Script" uid="uid://drhtaj6daqrl" path="res://gameplay/status/hit_indicator/hit_indicator.gd" id="1_ypyme"]
+
+[node name="HitIndicator" type="Label3D" unique_id=1082526251]
+ignore_occlusion_culling = true
+billboard = 1
+double_sided = false
+no_depth_test = true
+fixed_size = true
+texture_filter = 0
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(1, 0, 0, 1)
+outline_modulate = Color(0.2509804, 0, 0, 1)
+text = "-1230"
+outline_size = 8
+script = ExtResource("1_ypyme")

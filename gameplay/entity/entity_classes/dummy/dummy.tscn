@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://773o4ge30bby"]
+
+[ext_resource type="Script" uid="uid://b5ntnp58gfufy" path="res://gameplay/entity/entity_classes/dummy/dummy.gd" id="1_jepv3"]
+[ext_resource type="PackedScene" uid="uid://d1l5cya067wvg" path="res://gameplay/entity/sprites/humanoid_sprite/humanoid_sprite.tscn" id="1_mkhhk"]
+
+[node name="Dummy" type="CharacterBody3D" unique_id=1716667126]
+script = ExtResource("1_jepv3")
+
+[node name="HumanoidSprite" parent="." unique_id=570781724 instance=ExtResource("1_mkhhk")]

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://nopjipcnxiyu"]
+
+[ext_resource type="Script" uid="uid://fp7a5ut5srbd" path="res://components/debug_hud/fps_counter/fps_counter.gd" id="1_uii3m"]
+
+[node name="FpsCounter" type="Label" unique_id=2078941200]
+theme_override_font_sizes/font_size = 12
+text = "FPS: 60"
+script = ExtResource("1_uii3m")

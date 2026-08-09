@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://bxwem2qlkm3i6"]
+
+[ext_resource type="Material" uid="uid://d0u42cjgntjfh" path="res://cursors/invert_color_material.tres" id="1_fw7d8"]
+[ext_resource type="Script" uid="uid://d3cpbt7djk0ja" path="res://cursors/crosshair_cursor/crosshair_cursor.gd" id="1_tirc2"]
+
+[node name="CrosshairCursor" type="Control" unique_id=831864083]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_tirc2")
+
+[node name="Right" type="ColorRect" parent="." unique_id=91062531]
+material = ExtResource("1_fw7d8")
+layout_mode = 0
+offset_left = 2.0
+offset_right = 12.0
+offset_bottom = 1.0
+pivot_offset = Vector2(-1.5, 0.5)
+mouse_filter = 2
+
+[node name="Bottom" type="ColorRect" parent="." unique_id=1086763694]
+material = ExtResource("1_fw7d8")
+layout_mode = 0
+offset_left = 2.0
+offset_right = 12.0
+offset_bottom = 1.0
+rotation = 1.5707964
+pivot_offset = Vector2(-1.5, 0.5)
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="." unique_id=144428338]
+material = ExtResource("1_fw7d8")
+layout_mode = 0
+offset_left = 2.0
+offset_right = 12.0
+offset_bottom = 1.0
+rotation = 3.1415927
+pivot_offset = Vector2(-1.5, 0.5)
+mouse_filter = 2
+
+[node name="Top" type="ColorRect" parent="." unique_id=923857926]
+material = ExtResource("1_fw7d8")
+layout_mode = 0
+offset_left = 2.0
+offset_right = 12.0
+offset_bottom = 1.0
+rotation = 4.712389
+pivot_offset = Vector2(-1.5, 0.5)
+mouse_filter = 2
