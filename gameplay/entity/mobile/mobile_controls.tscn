@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bvjjdrd3kt3wl"]
 
-[ext_resource type="Script" path="res://components/entity/mobile/mobile_controls.gd" id="1_7vq3k"]
-[ext_resource type="PackedScene" path="res://components/entity/mobile/mobile_joystick/mobile_joystick.tscn" id="2_8yjnb"]
-[ext_resource type="PackedScene" path="res://components/entity/mobile/mobile_button/mobile_button.tscn" id="3_wmm6k"]
+[ext_resource type="Script" uid="uid://dwet24up1nve1" path="res://gameplay/entity/mobile/mobile_controls.gd" id="1_7vq3k"]
+[ext_resource type="PackedScene" uid="uid://dm0gprt2dftm7" path="res://gameplay/entity/mobile/mobile_joystick/mobile_joystick.tscn" id="2_8yjnb"]
+[ext_resource type="PackedScene" uid="uid://dvvqslran4a6a" path="res://gameplay/entity/mobile/mobile_button/mobile_button.tscn" id="3_wmm6k"]
 
 [node name="MobileControls" type="Control" unique_id=1855731683]
 layout_mode = 3

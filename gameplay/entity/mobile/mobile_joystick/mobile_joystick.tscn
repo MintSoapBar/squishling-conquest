@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dm0gprt2dftm7"]
 
-[ext_resource type="Script" path="res://components/entity/mobile/mobile_joystick/mobile_joystick.gd" id="1_0mqgi"]
-[ext_resource type="Script" path="res://components/entity/mobile/mobile_joystick/joystick_visual.gd" id="1_ge8xo"]
+[ext_resource type="Script" uid="uid://c1r4bh7oob4uy" path="res://gameplay/entity/mobile/mobile_joystick/mobile_joystick.gd" id="1_0mqgi"]
+[ext_resource type="Script" uid="uid://b1b664nay6ns0" path="res://gameplay/entity/mobile/mobile_joystick/joystick_visual.gd" id="1_ge8xo"]
 
 [sub_resource type="Gradient" id="Gradient_68ly8"]
 interpolation_mode = 1

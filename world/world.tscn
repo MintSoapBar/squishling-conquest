@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://p72j7xijmbda" path="res://debug_tools/debug_hud/debug_hud.tscn" id="5_ai45w"]
 [ext_resource type="PackedScene" uid="uid://bj7d3ygdbdarq" path="res://gameplay/entity/entities_folder.tscn" id="5_sc4t8"]
 [ext_resource type="PackedScene" uid="uid://u1p5upry5lw3" path="res://gameplay/dungeon/dungeon.tscn" id="6_fn3g3"]
+[ext_resource type="PackedScene" uid="uid://bvjjdrd3kt3wl" path="res://gameplay/entity/mobile/mobile_controls.tscn" id="7_4papg"]
 [ext_resource type="PackedScene" uid="uid://bc1ihq34c3rq6" path="res://gameplay/dungeon/minimap/minimap.tscn" id="7_sc4t8"]
 
 [sub_resource type="Environment" id="Environment_fn3g3"]
@@ -39,6 +40,8 @@ camera_locked = false
 environment = SubResource("Environment_fn3g3")
 
 [node name="EntitiesFolder" parent="." unique_id=843975943 instance=ExtResource("5_sc4t8")]
+
+[node name="MobileControls" parent="." unique_id=1855731683 instance=ExtResource("7_4papg")]
 
 [node name="Dungeon" parent="." unique_id=1171770167 instance=ExtResource("6_fn3g3")]
 

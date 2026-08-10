@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dvvqslran4a6a"]
 
-[ext_resource type="Script" path="res://components/entity/mobile/mobile_button/mobile_button.gd" id="1_23qpv"]
+[ext_resource type="Script" uid="uid://beot5xdg2nfce" path="res://gameplay/entity/mobile/mobile_button/mobile_button.gd" id="1_23qpv"]
 
 [sub_resource type="Gradient" id="Gradient_8yjnb"]
 interpolation_mode = 1
