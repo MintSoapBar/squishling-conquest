@@ -24,7 +24,7 @@ func start_local(params: Dictionary):
 	
 	params.origin = tool.get_action_origin()
 	params.charge = 0
-	data.start_time = Time.get_ticks_msec()/1000.0
+	data.start_time = GameTime.get_ticks_sec()
 	data.team = tool_user.team
 	action.startup_end_time = data.start_time + get_startup()
 
@@ -33,7 +33,7 @@ func continue_local(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var time := Time.get_ticks_msec()/1000.0
+	var time := GameTime.get_ticks_sec()
 	var charge_time: float = time - data.start_time - get_startup()
 	
 	params.origin = tool.get_action_origin()
@@ -44,7 +44,7 @@ func stop_local(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var time := Time.get_ticks_msec()/1000.0
+	var time := GameTime.get_ticks_sec()
 	var charge_time: float = time - data.start_time - get_startup()
 	
 	action.poll_continue = false
@@ -96,7 +96,7 @@ func stop_server(params: Dictionary):
 				excluded_rids.append(entity)
 	update_excluded_rids.call()
 	
-	var start_time: float = Time.get_ticks_msec()/1000.0
+	var start_time: float = GameTime.get_ticks_sec()
 	
 	var space_state := tool.get_world_3d().direct_space_state
 	
@@ -109,7 +109,7 @@ func stop_server(params: Dictionary):
 	var last_projectile_position: Vector3 = origin
 	
 	while is_skill_valid():
-		var projectile_lifetime = Time.get_ticks_msec()/1000.0 - start_time
+		var projectile_lifetime = GameTime.get_ticks_sec() - start_time
 		if projectile_lifetime > max_projectile_lifetime:
 			break
 		
@@ -231,10 +231,10 @@ func stop_replicated(params: Dictionary):
 		await get_tree().process_frame
 		projectile.visible = true).call_deferred()
 	
-	var start_time: float = Time.get_ticks_msec()/1000.0
+	var start_time: float = GameTime.get_ticks_sec()
 	
 	while data.projectile and is_skill_valid():
-		var projectile_lifetime: float = Time.get_ticks_msec()/1000.0 - start_time
+		var projectile_lifetime: float = GameTime.get_ticks_sec() - start_time
 		if projectile_lifetime > max_projectile_lifetime:
 			break
 		

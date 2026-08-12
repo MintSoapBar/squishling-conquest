@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bxwem2qlkm3i6"]
 
-[ext_resource type="Material" uid="uid://d0u42cjgntjfh" path="res://cursors/invert_color_material.tres" id="1_fw7d8"]
-[ext_resource type="Script" uid="uid://d3cpbt7djk0ja" path="res://cursors/crosshair_cursor/crosshair_cursor.gd" id="1_tirc2"]
+[ext_resource type="Material" uid="uid://d0u42cjgntjfh" path="res://interface/core_3d/cursors/invert_color_material.tres" id="1_fw7d8"]
+[ext_resource type="Script" uid="uid://d3cpbt7djk0ja" path="res://interface/core_3d/cursors/crosshair_cursor/crosshair_cursor.gd" id="1_tirc2"]
 
 [node name="CrosshairCursor" type="Control" unique_id=831864083]
 layout_mode = 3

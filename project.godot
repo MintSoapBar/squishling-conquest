@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.7", "Mobile")
 [autoload]
 
 DebugHud="*uid://p72j7xijmbda"
+GameTime="*uid://gsna00qnaof"
 
 [display]
 

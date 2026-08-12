@@ -17,7 +17,12 @@ func generate(dungeon_seed: int = 0, room_count: int = 12) -> void:
 	else:
 		seed(dungeon_seed)
 	
-	Entity.clear_entities()
+	for entity_id in Entity.current_entities:
+		var entity = Entity.current_entities[entity_id]
+		if entity is Player:
+			entity.position = Vector3(0, 0, 0)
+		else:
+			entity.destroy()
 	
 	for child in get_children():
 		remove_child(child)

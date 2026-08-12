@@ -60,7 +60,7 @@ func continue_action(params: Dictionary = {}) -> void:
 
 
 func stop_action(params: Dictionary = {}) -> void:
-	var time := Time.get_ticks_msec()/1000.0
+	var time := GameTime.get_ticks_sec()
 	if time < startup_end_time:
 		await tool_user.get_tree().create_timer(startup_end_time - time).timeout
 	

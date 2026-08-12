@@ -34,7 +34,7 @@ func animate_test() -> void:
 	var start_position = position
 	animating = true
 	
-	var start_time: float = Time.get_ticks_msec()/1000.0
+	var start_time: float = GameTime.get_ticks_sec()
 	var cur_time = start_time
 	
 	position = start_position + Vector3(0, 0, distance)
@@ -44,7 +44,7 @@ func animate_test() -> void:
 	while cur_time - start_time < lifetime and animating == true:
 		position = start_position + Vector3(0, 0, distance * (1 - (cur_time - start_time)/lifetime))
 		await get_tree().process_frame
-		cur_time = Time.get_ticks_msec()/1000.0
+		cur_time = GameTime.get_ticks_sec()
 	
 	position = start_position
 	particles.emitting = false

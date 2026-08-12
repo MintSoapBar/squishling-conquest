@@ -6,7 +6,7 @@ var first_fire_delay_max: float = 2
 var fire_interval_min: float = 1
 var fire_interval_max: float = 3
 
-var next_fire: float = Time.get_ticks_msec()/1000.0 + (
+var next_fire: float = GameTime.get_ticks_sec() + (
 	randf_range(first_fire_delay_min, first_fire_delay_max))
 
 
@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 		if is_instance_valid(target):
 			movement_target_position = target.global_position
 		
-			var cur_time = Time.get_ticks_msec()/1000.0
+			var cur_time = GameTime.get_ticks_sec()
 			if cur_time >= next_fire:
 				var chosen_key = equipped_tool.tool_actions.keys().pick_random()
 				if chosen_key:

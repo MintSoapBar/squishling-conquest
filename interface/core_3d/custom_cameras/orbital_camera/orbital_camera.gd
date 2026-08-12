@@ -46,12 +46,12 @@ signal camera_temp_lock_changed(bool)
 @export var orientation_y: float = 0.0
 
 @export_category("Locking")
-@export var camera_lock_toggle := false:
+@export var camera_lock_toggle := true:
 	set(val):
 		camera_lock_toggle = val
 		if camera_lock_toggle == false:
 			camera_temp_locked = false
-@export var camera_locked := true
+@export var camera_locked := false
 @export var camera_temp_locked := false
 var first_person_active := false
 var mouse_move_delta := Vector2.ZERO

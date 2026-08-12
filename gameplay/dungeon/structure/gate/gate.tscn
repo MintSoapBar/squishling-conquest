@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://cly1eufgj4kh2"]
+
+[ext_resource type="Script" uid="uid://dsjdji8jpnwah" path="res://gameplay/dungeon/structure/gate/gate.gd" id="1_6ixn4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1o6en"]
+size = Vector3(2, 2, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1o6en"]
+size = Vector3(2, 2, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_551ov"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[node name="Gate" type="Node3D" unique_id=2109916251]
+script = ExtResource("1_6ixn4")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1261293645]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=622602987]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.25)
+shape = SubResource("BoxShape3D_1o6en")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=471030655]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.25)
+mesh = SubResource("BoxMesh_1o6en")
+surface_material_override/0 = SubResource("StandardMaterial3D_551ov")

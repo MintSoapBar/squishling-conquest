@@ -8,7 +8,7 @@ var charge_time_max: float = 1
 var fire_interval_min: float = 1
 var fire_interval_max: float = 3
 
-var next_fire: float = Time.get_ticks_msec()/1000.0 + (
+var next_fire: float = GameTime.get_ticks_sec() + (
 	randf_range(first_fire_delay_min, first_fire_delay_max))
 
 
@@ -42,7 +42,7 @@ func tick_target_attack():
 	if is_instance_valid(target):
 		movement_target_position = target.global_position
 		
-		var cur_time = Time.get_ticks_msec()/1000.0
+		var cur_time = GameTime.get_ticks_sec()
 		if cur_time >= next_fire:
 			if equipped_tool.locking_action:
 				if equipped_tool.locking_action.poll_continue:
