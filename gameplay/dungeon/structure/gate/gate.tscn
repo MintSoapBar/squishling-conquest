@@ -2,26 +2,89 @@
 
 [ext_resource type="Script" uid="uid://dsjdji8jpnwah" path="res://gameplay/dungeon/structure/gate/gate.gd" id="1_6ixn4"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_551ov"]
+size = Vector3(4, 4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6ixn4"]
+size = Vector3(1, 4, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0o2b0"]
+size = Vector3(2, 1, 3)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_1o6en"]
 size = Vector3(2, 2, 0.5)
 
-[sub_resource type="BoxMesh" id="BoxMesh_1o6en"]
-size = Vector3(2, 2, 0.5)
+[sub_resource type="BoxMesh" id="BoxMesh_0o2b0"]
+size = Vector3(2, 2, 2.5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_551ov"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ixn4"]
+cull_mode = 1
 shading_mode = 0
 albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0o2b0"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_6ixn4"]
+material = SubResource("StandardMaterial3D_0o2b0")
+size = Vector3(1, 1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_ii0bk"]
+offsets = PackedFloat32Array(0, 0.43209878, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.90123457, 1, 1, 1, 0)
 
 [node name="Gate" type="Node3D" unique_id=2109916251]
 script = ExtResource("1_6ixn4")
 
+[node name="Collider" type="StaticBody3D" parent="." unique_id=1908774482]
+
+[node name="Back" type="CollisionShape3D" parent="Collider" unique_id=869310172]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3.5)
+shape = SubResource("BoxShape3D_551ov")
+
+[node name="Left" type="CollisionShape3D" parent="Collider" unique_id=226006573]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, 1.5)
+shape = SubResource("BoxShape3D_6ixn4")
+
+[node name="Right" type="CollisionShape3D" parent="Collider" unique_id=1509015462]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 1.5)
+shape = SubResource("BoxShape3D_6ixn4")
+
+[node name="Top" type="CollisionShape3D" parent="Collider" unique_id=1158848729]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 1.5)
+shape = SubResource("BoxShape3D_0o2b0")
+
+[node name="Bottom" type="CollisionShape3D" parent="Collider" unique_id=1379469136]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 1.5)
+shape = SubResource("BoxShape3D_0o2b0")
+
 [node name="Area3D" type="Area3D" parent="." unique_id=1261293645]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=622602987]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1.25)
 shape = SubResource("BoxShape3D_1o6en")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=471030655]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.25)
-mesh = SubResource("BoxMesh_1o6en")
-surface_material_override/0 = SubResource("StandardMaterial3D_551ov")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1666002722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1.75)
+mesh = SubResource("BoxMesh_0o2b0")
+surface_material_override/0 = SubResource("StandardMaterial3D_6ixn4")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="." unique_id=2080780071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5)
+sorting_offset = -10.0
+amount = 32
+lifetime = 4.0
+mesh = SubResource("BoxMesh_6ixn4")
+emission_shape = 3
+emission_box_extents = Vector3(1.5, 1.5, 0)
+direction = Vector3(0, 0, -1)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 0.25
+initial_velocity_max = 0.25
+color = Color(0, 0, 0, 1)
+color_ramp = SubResource("Gradient_ii0bk")

@@ -31,7 +31,7 @@ func _process(_delta: float) -> void:
 		minimap.update_player_location(camera.global_rotation, Player.local_player.position)
 
 
-func on_dungeon_gate_player_enter(player: Player):
+func on_dungeon_gate_player_enter(_player: Player):
 	dungeon.generate()
 	minimap.load_dungeon_shapes(dungeon)
 	home.queue_free()

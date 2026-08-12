@@ -71,7 +71,7 @@ size = Vector3(2, 3, 1)
 script = ExtResource("1_umf75")
 
 [node name="Gate" parent="." unique_id=2109916251 instance=ExtResource("2_qoc0j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
 
 [node name="LivingRoom" type="Node3D" parent="." unique_id=1574742990]
 
