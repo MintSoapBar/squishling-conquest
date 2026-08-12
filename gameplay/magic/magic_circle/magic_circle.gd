@@ -50,10 +50,8 @@ func _process(delta: float) -> void:
 
 func set_magic(magic: String):
 	color = MagicVisuals.magic_colors[magic][0]
-	var layers_path = (get_script() as Script).get_path().replace("magic_circle.gd", "layers/")
+	var layers_path = (MagicCircle as Script).get_path().replace("magic_circle.gd", "layers/")
 	var layer_0_path = layers_path + "layer_0/" + magic + ".png"
-	if not FileAccess.file_exists(layer_0_path):
-		layer_0_path = layer_0_path.replace(magic, "fire")
 	layers[0].material_override.albedo_texture = load(layer_0_path)
 	
 	for layer in layers:
