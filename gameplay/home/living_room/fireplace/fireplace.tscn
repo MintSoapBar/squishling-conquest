@@ -1,0 +1,160 @@
+[gd_scene format=3 uid="uid://cds2d4aewn2ix"]
+
+[ext_resource type="PackedScene" uid="uid://db7hi4kmsyhj3" path="res://gameplay/home/living_room/fireplace/fireplace.glb" id="1_hhan8"]
+[ext_resource type="Material" uid="uid://b675c8l5sn4j1" path="res://assets/materials/stone_brick_dark/stone_brick_dark.tres" id="2_wqn8n"]
+[ext_resource type="Material" uid="uid://dma2tn1xu8v5v" path="res://assets/materials/steel_dark/steel_dark.tres" id="3_0d15h"]
+[ext_resource type="Texture2D" uid="uid://lwlej0bdm7c4" path="res://assets/materials/stone_brick_dark/stone_brick_dark.png" id="3_ow17a"]
+[ext_resource type="Material" uid="uid://bawq71im7o3t3" path="res://assets/materials/coal_burning/coal_burning.tres" id="5_bo642"]
+[ext_resource type="Texture2D" uid="uid://crp3i4dsis1vn" path="res://assets/textures/generic/particle_generic_1.png" id="7_nalbo"]
+[ext_resource type="Material" uid="uid://dwfe34y12bb5i" path="res://assets/materials/coal_glowing/coal_glowing.tres" id="8_ej0dq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1o6en"]
+size = Vector3(0.5, 3, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nalbo"]
+size = Vector3(0.5, 3, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1nnty"]
+size = Vector3(2.5, 0.7, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n65jx"]
+size = Vector3(3, 0.25, 2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g3dlr"]
+size = Vector3(3.5, 0.5, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ygmuh"]
+albedo_color = Color(0.76, 0.6061, 0.418, 1)
+albedo_texture = ExtResource("3_ow17a")
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_r8tgg"]
+lightmap_size_hint = Vector2i(26, 28)
+size = Vector3(3.5, 0.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_u3wt4"]
+lightmap_size_hint = Vector2i(24, 23)
+size = Vector3(3, 0.25, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1nnty"]
+size = Vector3(1.4, 0.1, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1o6en"]
+size = Vector3(1, 0.1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bu0fc"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("7_nalbo")
+texture_filter = 0
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+stencil_flags = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_nyons"]
+material = SubResource("StandardMaterial3D_bu0fc")
+
+[sub_resource type="Curve" id="Curve_vvjaf"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_1nnty"]
+offsets = PackedFloat32Array(0, 0.1, 0.2, 0.4, 0.9)
+colors = PackedColorArray(1, 0.7529412, 0, 1, 1, 0.53333336, 0, 1, 1, 0.25490198, 0, 1, 1, 0.011764706, 0, 0.8352941, 1, 0, 0, 0)
+metadata/_snap_enabled = true
+
+[node name="Fireplace" unique_id=448609357 instance=ExtResource("1_hhan8")]
+
+[node name="Colliders" type="Node3D" parent="." index="0" unique_id=318489246]
+visible = false
+
+[node name="FireplaceCollider" type="StaticBody3D" parent="Colliders" index="0" unique_id=1962036902]
+
+[node name="Left" type="CollisionShape3D" parent="Colliders/FireplaceCollider" index="0" unique_id=1201852382]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0.5)
+shape = SubResource("BoxShape3D_1o6en")
+
+[node name="Right" type="CollisionShape3D" parent="Colliders/FireplaceCollider" index="1" unique_id=1150509466]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0.5)
+shape = SubResource("BoxShape3D_nalbo")
+
+[node name="Top" type="CollisionShape3D" parent="Colliders/FireplaceCollider" index="2" unique_id=1072592485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15, 0.5)
+shape = SubResource("BoxShape3D_1nnty")
+
+[node name="CountertopCollider" type="StaticBody3D" parent="Colliders" index="1" unique_id=871897670]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Colliders/CountertopCollider" index="0" unique_id=671196596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.375, 0.5)
+shape = SubResource("BoxShape3D_n65jx")
+
+[node name="StepCollider" type="StaticBody3D" parent="Colliders" index="2" unique_id=112774377]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Colliders/StepCollider" index="0" unique_id=1739736375]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00049996376, 0.5)
+shape = SubResource("BoxShape3D_g3dlr")
+
+[node name="Fireplace" parent="." index="1" unique_id=937521654]
+surface_material_override/0 = ExtResource("2_wqn8n")
+surface_material_override/1 = SubResource("StandardMaterial3D_ygmuh")
+surface_material_override/2 = ExtResource("3_0d15h")
+
+[node name="Step" type="MeshInstance3D" parent="." index="2" unique_id=1075813537]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+mesh = SubResource("BoxMesh_r8tgg")
+surface_material_override/0 = ExtResource("3_0d15h")
+
+[node name="Countertop" type="MeshInstance3D" parent="." index="3" unique_id=50977353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.375, -0.25)
+mesh = SubResource("BoxMesh_u3wt4")
+surface_material_override/0 = ExtResource("3_0d15h")
+
+[node name="Logs" type="Node3D" parent="." index="4" unique_id=548007776]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="Long1" type="MeshInstance3D" parent="Logs" index="0" unique_id=1618111469]
+transform = Transform3D(0.98048484, 0, -0.19659421, 0, 1, 0, 0.19659421, 0, 0.98048484, 0, 0.050000004, 0.027740836)
+mesh = SubResource("BoxMesh_1nnty")
+surface_material_override/0 = ExtResource("5_bo642")
+
+[node name="Long2" type="MeshInstance3D" parent="Logs" index="1" unique_id=787689272]
+transform = Transform3D(0.96598655, -0.08103014, 0.24556907, 0.08493459, 0.99637204, -0.005333031, -0.24424614, 0.02600896, 0.96936464, 0, 0.050000004, 0.03990966)
+mesh = SubResource("BoxMesh_1nnty")
+surface_material_override/0 = ExtResource("8_ej0dq")
+
+[node name="Short1" type="MeshInstance3D" parent="Logs" index="2" unique_id=746011852]
+transform = Transform3D(0.99117875, 0.07744348, 0.10755204, -0.069005184, 0.99439657, -0.08008315, -0.11315138, 0.07195507, 0.99096876, 0, 0.050000004, 0.20022929)
+mesh = SubResource("BoxMesh_1o6en")
+surface_material_override/0 = ExtResource("8_ej0dq")
+
+[node name="Short2" type="MeshInstance3D" parent="Logs" index="3" unique_id=149570817]
+transform = Transform3D(0.99507236, -0.084687024, 0.05156944, 0.08428282, 0.9963919, 0.009966954, -0.052227452, -0.0055714203, 0.9986198, 0, 0.050000004, -0.18188357)
+mesh = SubResource("BoxMesh_1o6en")
+surface_material_override/0 = ExtResource("8_ej0dq")
+
+[node name="FireParticles" type="CPUParticles3D" parent="." index="5" unique_id=471213953]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18932721, 0.5)
+amount = 16
+lifetime_randomness = 0.5
+mesh = SubResource("QuadMesh_nyons")
+particle_flag_align_y = true
+spread = 180.0
+gravity = Vector3(0, 5, 0)
+initial_velocity_max = 0.5
+angular_velocity_min = -100.0
+angular_velocity_max = 100.0
+linear_accel_min = -3.0
+linear_accel_max = -3.0
+angle_max = 720.0
+scale_amount_min = 1.5
+scale_amount_max = 1.5
+scale_amount_curve = SubResource("Curve_vvjaf")
+color_ramp = SubResource("Gradient_1nnty")

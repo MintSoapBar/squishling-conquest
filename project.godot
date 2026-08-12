@@ -14,6 +14,10 @@ config/name="Squishling Conquest"
 run/main_scene="uid://btmdt8ueoildk"
 config/features=PackedStringArray("4.7", "Mobile")
 
+[autoload]
+
+DebugHud="*uid://p72j7xijmbda"
+
 [display]
 
 window/stretch/mode="canvas_items"

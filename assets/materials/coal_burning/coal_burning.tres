@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bawq71im7o3t3"]
+
+[ext_resource type="Texture2D" uid="uid://cfyb0buq3sqe8" path="res://assets/materials/coal_burning/coal_burning.png" id="1_ybvk1"]
+
+[resource]
+albedo_texture = ExtResource("1_ybvk1")
+uv1_triplanar = true
+uv2_triplanar = true
+texture_filter = 0

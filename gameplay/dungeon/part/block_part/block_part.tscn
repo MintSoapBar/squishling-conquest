@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://cblhg8xrx5xcf"]
 
 [ext_resource type="Script" uid="uid://doogk537c4eut" path="res://gameplay/dungeon/part/block_part/block_part.gd" id="1_8aucn"]
+[ext_resource type="Material" uid="uid://qlygdhst0g7t" path="res://assets/materials/debug_grid/debug_grid.tres" id="2_wws0t"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_wws0t"]
+lightmap_size_hint = Vector2i(14, 21)
+add_uv2 = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2ve5e"]
 
@@ -12,6 +15,7 @@ script = ExtResource("1_8aucn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1083759055]
 mesh = SubResource("BoxMesh_wws0t")
+surface_material_override/0 = ExtResource("2_wws0t")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=575715238]
 

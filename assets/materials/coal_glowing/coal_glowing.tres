@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dwfe34y12bb5i"]
+
+[ext_resource type="Texture2D" uid="uid://yub1iqxc0y47" path="res://assets/materials/coal_glowing/coal_glowing.png" id="1_05t0o"]
+
+[resource]
+albedo_texture = ExtResource("1_05t0o")
+uv1_triplanar = true
+uv2_triplanar = true
+texture_filter = 0

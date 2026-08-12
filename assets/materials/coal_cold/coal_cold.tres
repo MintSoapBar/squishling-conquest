@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b6ylij3bcyxc3"]
+
+[ext_resource type="Texture2D" uid="uid://sluv85f8siei" path="res://assets/materials/coal_cold/coal_cold.png" id="1_i5gm1"]
+
+[resource]
+albedo_texture = ExtResource("1_i5gm1")
+uv1_triplanar = true
+uv2_triplanar = true
+texture_filter = 0
