@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cfyb0buq3sqe8"
 path.s3tc="res://.godot/imported/coal_burning.png-b6fef2b2a317e1a6af43591cfaec30ed.s3tc.ctex"
+path.etc2="res://.godot/imported/coal_burning.png-b6fef2b2a317e1a6af43591cfaec30ed.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/materials/coal_burning/coal_burning.png"
-dest_files=["res://.godot/imported/coal_burning.png-b6fef2b2a317e1a6af43591cfaec30ed.s3tc.ctex"]
+dest_files=["res://.godot/imported/coal_burning.png-b6fef2b2a317e1a6af43591cfaec30ed.s3tc.ctex", "res://.godot/imported/coal_burning.png-b6fef2b2a317e1a6af43591cfaec30ed.etc2.ctex"]
 
 [params]
 

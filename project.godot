@@ -12,7 +12,12 @@ config_version=5
 
 config/name="Squishling Conquest"
 run/main_scene="uid://btmdt8ueoildk"
+config/quit_on_go_back=false
 config/features=PackedStringArray("4.7", "Mobile")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/stretch_mode=0
+boot_splash/image="uid://dxlcxqj0r08es"
+config/icon="uid://bbv7kxg6khdig"
 
 [autoload]
 
@@ -116,3 +121,4 @@ skill_9={
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
