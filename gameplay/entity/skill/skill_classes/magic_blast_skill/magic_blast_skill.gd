@@ -18,6 +18,7 @@ func start_local(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
+	action.active = true
 	action.poll_continue = true
 	action.poll_stop = true
 	tool.lock(action)
@@ -55,7 +56,8 @@ func stop_local(params: Dictionary):
 	
 	await get_tree().create_timer(get_endlag()).timeout
 	
-	if is_instance_valid(tool):
+	if is_instance_valid(tool) and action.active:
+		action.active = false
 		tool.unlock()
 
 
@@ -194,7 +196,7 @@ func start_replicated(params: Dictionary):
 		projectile.basis = preview_basis
 		add_child(projectile)
 		
-		data.projectile = projectile
+		data.charge_projectile = projectile
 
 
 func continue_replicated(params: Dictionary):
@@ -240,19 +242,18 @@ func stop_replicated(params: Dictionary):
 	
 	var projectile_radius = base_projectile_radius * size_multiplier
 	
-	var projectile: MagicProjectileVFX = data.get("projectile")
+	var projectile: MagicProjectileVFX = data.get("charge_projectile")
+	data.erase("charge_projectile")
 	if not projectile:
 		projectile = MagicVFX.create_projectile_sphere(data.magic, projectile_radius)
-		data.projectile = projectile
+		projectile.visible = false
+		(func():
+			await get_tree().process_frame
+			projectile.visible = true).call_deferred()
 		add_child(projectile)
-	projectile.visible = false
+	data.projectile = projectile
 	projectile.position = origin
 	projectile.basis = Basis.looking_at(direction)
-	
-	
-	(func():
-		await get_tree().process_frame
-		projectile.visible = true).call_deferred()
 	
 	var start_time: float = GameTime.get_ticks_sec()
 	
@@ -294,11 +295,12 @@ func explode_projectile_replicated(explode_position: Vector3):
 	
 	# explosion effects
 	
-	var explosion = MagicVFX.create_explosion_sphere(data.magic, explosion_radius)
+	var explosion: MagicExplosionVFX = MagicVFX.create_explosion_sphere(data.magic, explosion_radius)
 	explosion.position = explode_position
 	add_child(explosion)
 	
 	explosion.fade_out.call_deferred()
+	explosion.tree_exited.connect(queue_free)
 
 
 func cancel():

@@ -23,6 +23,7 @@ func _ready() -> void:
 	Player.create_player()
 	
 	home.player_entered_dungeon_gate.connect(on_dungeon_gate_player_enter, CONNECT_ONE_SHOT)
+	Entity.entities_folder.local_player_changed.connect(try_regenerate)
 
 
 func _process(_delta: float) -> void:
@@ -31,7 +32,29 @@ func _process(_delta: float) -> void:
 		minimap.update_player_location(camera.global_rotation, Player.local_player.position)
 
 
-func on_dungeon_gate_player_enter(_player: Player):
-	dungeon.generate()
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_echo():
+		return
+	
+	if event is InputEventKey:
+		var key_event := event as InputEventKey
+		if key_event.keycode == KEY_BACKSPACE and key_event.is_pressed():
+			if is_instance_valid(home):
+				home.queue_free()
+			regenerate()
+			get_viewport().set_input_as_handled()
+
+
+func regenerate():
+	await dungeon.generate()
 	minimap.load_dungeon_shapes(dungeon)
+
+
+func try_regenerate(plr):
+	if plr:
+		regenerate()
+
+
+func on_dungeon_gate_player_enter(_player: Player):
+	regenerate()
 	home.queue_free()

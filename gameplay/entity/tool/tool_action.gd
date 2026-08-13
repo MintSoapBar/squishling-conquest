@@ -13,6 +13,7 @@ var data: Dictionary
 var action_key: String
 
 var pressed: bool = false
+var active: bool = false
 var poll_continue: bool = false
 var poll_stop: bool = false
 var lockable: bool = true
@@ -57,6 +58,7 @@ func stop_action_server(_params: Dictionary = {}):
 
 
 func cancel_action() -> void:
+	active = false
 	poll_continue = false
 	poll_stop = false
 	if is_instance_valid(tool):

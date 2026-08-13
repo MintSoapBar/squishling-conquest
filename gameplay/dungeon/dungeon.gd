@@ -17,18 +17,24 @@ func generate(dungeon_seed: int = 0, room_count: int = 12) -> void:
 	else:
 		seed(dungeon_seed)
 	
+	var entities_to_destroy: Array[Entity] = []
 	for entity_id in Entity.current_entities:
 		var entity = Entity.current_entities[entity_id]
 		if entity is Player:
-			entity.position = Vector3(0, 0, 0)
+			entity.global_position = Vector3(0, 0, 0)
 		else:
-			entity.destroy()
+			entities_to_destroy.append(entity)
+	for entity in entities_to_destroy:
+		entity.destroy()
 	
 	for child in get_children():
-		remove_child(child)
+		child.free()
 	
 	rooms.clear()
 	structures.clear()
+	
+	await get_tree().physics_frame
+	await get_tree().physics_frame
 	
 	##
 	
@@ -110,6 +116,7 @@ func generate(dungeon_seed: int = 0, room_count: int = 12) -> void:
 		
 		add_child(new_corridor)
 		add_child(new_room)
+	
 	
 	loaded.emit()
 

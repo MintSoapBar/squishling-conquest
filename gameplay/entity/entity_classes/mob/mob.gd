@@ -3,7 +3,6 @@ class_name Mob
 extends Entity
 
 var target_teams = [
-	#Team.NEUTRAL,
 	Team.PLAYER,
 ]
 
@@ -12,6 +11,11 @@ var walk_speed: float = 0
 var controls: Dictionary[String, Goal] = {}
 var target: Entity
 var movement_target_position: Vector3 = Vector3(0, 0, 0)
+
+
+func initialize(_data: Dictionary) -> void:
+	team = Team.MOB
+	super(_data)
 
 
 var facing_direction = Vector3.MODEL_FRONT

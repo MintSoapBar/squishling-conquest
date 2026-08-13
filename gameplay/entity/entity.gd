@@ -333,6 +333,15 @@ func destroy():
 	if not check_is_authority(-1, get_multiplayer_authority()):
 		return
 	
+	
+	if equipped_tool:
+		for action_key in equipped_tool.tool_actions:
+			var action = equipped_tool.tool_actions[action_key]
+			
+			if action.active:
+				action.cancel_action()
+	
+	
 	current_entities.erase(str(self))
 	queue_free()
 
@@ -414,7 +423,7 @@ func kill():
 		for action_key in equipped_tool.tool_actions:
 			var action = equipped_tool.tool_actions[action_key]
 			
-			if action.poll_continue:
+			if action.active:
 				action.cancel_action()
 	
 	

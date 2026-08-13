@@ -14,7 +14,7 @@ func trigger() -> void:
 	visited = true
 	set_doors_open(false)
 	
-	for i in range(get_interior_floor_area() / 100):
+	for i in range(max(1, get_interior_floor_area() / 100)):
 		var mob = Entity.create_entity({
 			entity_name = "mushroom",
 			position = get_random_floor_position(),

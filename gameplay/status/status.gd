@@ -22,7 +22,7 @@ var max_health: float
 var cur_shield: float = 0
 var max_shield: float = 0
 var shield_repair_delay: float = 5.0
-var shield_regen: float = 10.0
+var shield_regen: float = 20.0
 var next_shield_repair_time: float = 0
 
 var status_effects: Dictionary[String, StatusEffect] = {}

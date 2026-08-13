@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://btmdt8ueoildk"]
 
 [ext_resource type="Script" uid="uid://br5pchhfpckbp" path="res://world/world.gd" id="1_4717r"]
-[ext_resource type="PackedScene" uid="uid://depmxpeis8ln5" path="res://debug_tools/debug_printers/viewport_printer/viewport_printer.tscn" id="2_fyhu2"]
 [ext_resource type="Script" uid="uid://t862dbw251ks" path="res://world/movement_interface.gd" id="3_h5o24"]
 [ext_resource type="PackedScene" uid="uid://c7jk6odqx723q" path="res://interface/core_3d/custom_cameras/orbital_camera/orbital_camera.tscn" id="3_mmdvd"]
 [ext_resource type="PackedScene" uid="uid://bxwem2qlkm3i6" path="res://interface/core_3d/cursors/crosshair_cursor/crosshair_cursor.tscn" id="4_fn3g3"]
@@ -13,8 +12,6 @@
 
 [node name="World" type="Node3D" unique_id=642953348]
 script = ExtResource("1_4717r")
-
-[node name="ViewportPrinter" parent="." unique_id=412789673 instance=ExtResource("2_fyhu2")]
 
 [node name="Core3DInterface" type="Node" parent="." unique_id=53065678]
 script = ExtResource("3_h5o24")

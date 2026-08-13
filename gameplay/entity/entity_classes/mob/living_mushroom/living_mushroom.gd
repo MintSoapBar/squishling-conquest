@@ -4,11 +4,15 @@ extends Mob
 var first_fire_delay_min: float = 1
 var first_fire_delay_max: float = 2
 var hold_time: float = 0.5
-var fire_interval_min: float = 1
-var fire_interval_max: float = 3
+var fire_interval_min: float = 3
+var fire_interval_max: float = 5
 
 var next_fire: float = GameTime.get_ticks_sec() + (
 	randf_range(first_fire_delay_min, first_fire_delay_max))
+
+
+func initialize(_data: Dictionary) -> void:
+	super(_data)
 
 
 func _ready() -> void:
@@ -38,4 +42,8 @@ func _physics_process(delta: float) -> void:
 					var chosen_action := equipped_tool.tool_actions[chosen_key]
 					chosen_action.start_action({target_entity = target})
 					await get_tree().create_timer(hold_time).timeout
-					chosen_action.stop_action({target_entity = target})
+					target = find_target()
+					if is_instance_valid(target) and target.is_alive():
+						chosen_action.stop_action({target_entity = target})
+					else:
+						chosen_action.cancel_action()

@@ -14,7 +14,6 @@ var next_fire: float = GameTime.get_ticks_sec() + (
 
 func initialize(_data: Dictionary) -> void:
 	walk_speed = 6
-	team = Team.MOB
 	_data.max_health = 50
 	super(_data)
 
@@ -62,5 +61,5 @@ func tick_target_attack():
 			if equipped_tool.locking_action and equipped_tool.locking_action.poll_continue:
 				equipped_tool.locking_action.continue_action({target_entity = target})
 	else:
-		if equipped_tool.locking_action and equipped_tool.locking_action.poll_continue:
+		if equipped_tool.locking_action and equipped_tool.locking_action.active:
 			equipped_tool.locking_action.cancel_action()
