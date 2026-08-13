@@ -279,7 +279,7 @@ func destroy():
 
 @rpc("authority", "call_local")
 func block():
-	block_start_time = GameTime.get_ticks_sec()
+	block_start_time = GameTime.get_unpaused_elapsed_time()
 	blocking = true
 	sprite.set_shield_visible(true)
 
@@ -293,7 +293,7 @@ func unblock():
 @rpc("any_peer", "call_local")
 func request_damage(amount: float, attributes: Dictionary[String, bool] = {}):
 	if blocking:
-		if GameTime.get_ticks_sec() - block_start_time <= parry_window:
+		if GameTime.get_unpaused_elapsed_time() - block_start_time <= parry_window:
 			amount *= 0.1
 		else:
 			amount *= 0.5

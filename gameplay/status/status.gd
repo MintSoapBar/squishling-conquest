@@ -52,7 +52,7 @@ func _process(_delta: float) -> void:
 		process_mode = Node.PROCESS_MODE_DISABLED
 		return
 	
-	var cur_time = GameTime.get_ticks_sec()
+	var cur_time = GameTime.get_unpaused_elapsed_time()
 	if cur_shield >= max_shield:
 		next_shield_repair_time = cur_time
 	elif cur_time >= next_shield_repair_time:
@@ -128,7 +128,7 @@ func damage(amount: float, attributes: Dictionary[String, bool] = {}):
 	
 	assert(amount >= 0, "Damage amount cannot be a negative value")
 	
-	next_shield_repair_time = GameTime.get_ticks_sec() + shield_repair_delay
+	next_shield_repair_time = GameTime.get_unpaused_elapsed_time() + shield_repair_delay
 	
 	var shield_damage: float = min(cur_shield, amount) if shield_enabled else 0
 	cur_shield -= shield_damage

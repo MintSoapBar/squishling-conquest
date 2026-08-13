@@ -4,7 +4,7 @@ extends Skill
 const max_projectile_lifetime: float = 2
 const base_projectile_speed: float = 20
 
-const base_projectile_radius := 0.25
+const base_projectile_radius := 0.2
 const base_explosion_radius := 0.5
 
 const base_damage: float = 30
@@ -25,7 +25,7 @@ func start_local(params: Dictionary):
 	
 	params.origin = tool.get_action_origin()
 	params.charge = 0
-	data.start_time = GameTime.get_ticks_sec()
+	data.start_time = GameTime.get_unpaused_elapsed_time()
 	data.team = tool_user.team
 	action.startup_end_time = data.start_time + get_startup()
 
@@ -34,7 +34,7 @@ func continue_local(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var time := GameTime.get_ticks_sec()
+	var time := GameTime.get_unpaused_elapsed_time()
 	var charge_time: float = time - data.start_time - get_startup()
 	
 	params.origin = tool.get_action_origin()
@@ -45,7 +45,7 @@ func stop_local(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var time := GameTime.get_ticks_sec()
+	var time := GameTime.get_unpaused_elapsed_time()
 	var charge_time: float = time - data.start_time - get_startup()
 	
 	action.poll_continue = false
@@ -98,7 +98,7 @@ func stop_server(params: Dictionary):
 				excluded_rids.append(entity)
 	update_excluded_rids.call()
 	
-	var start_time: float = GameTime.get_ticks_sec()
+	var start_time: float = GameTime.get_unpaused_elapsed_time()
 	
 	var space_state := tool.get_world_3d().direct_space_state
 	
@@ -111,7 +111,7 @@ func stop_server(params: Dictionary):
 	var last_projectile_position: Vector3 = origin
 	
 	while is_skill_valid():
-		var projectile_lifetime = GameTime.get_ticks_sec() - start_time
+		var projectile_lifetime = GameTime.get_unpaused_elapsed_time() - start_time
 		if projectile_lifetime > max_projectile_lifetime:
 			break
 		
@@ -255,10 +255,10 @@ func stop_replicated(params: Dictionary):
 	projectile.position = origin
 	projectile.basis = Basis.looking_at(direction)
 	
-	var start_time: float = GameTime.get_ticks_sec()
+	var start_time: float = GameTime.get_unpaused_elapsed_time()
 	
 	while data.projectile and is_skill_valid():
-		var projectile_lifetime: float = GameTime.get_ticks_sec() - start_time
+		var projectile_lifetime: float = GameTime.get_unpaused_elapsed_time() - start_time
 		if projectile_lifetime > max_projectile_lifetime:
 			break
 		

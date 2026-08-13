@@ -60,11 +60,11 @@ func _ready():
 	body_shader.set_shader_parameter("wobble_z_multiplier", wobble_z_multiplier)
 
 
-func _process(delta):
+func _process(delta: float):
 	if not entity:
 		return
 	
-	animation_time = Time.get_ticks_msec() / 1000.0
+	animation_time = GameTime.get_unpaused_scaled_elapsed_time()
 	
 	var cur_pos = entity.global_position
 	var entity_velocity: Vector3 = (cur_pos - last_position) / delta

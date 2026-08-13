@@ -34,7 +34,7 @@ func animate_test() -> void:
 	var start_position = position
 	animating = true
 	
-	var start_time: float = GameTime.get_ticks_sec()
+	var start_time: float = GameTime.get_unpaused_elapsed_time()
 	var cur_time = start_time
 	
 	position = start_position + Vector3(0, 0, distance)
@@ -44,7 +44,7 @@ func animate_test() -> void:
 	while cur_time - start_time < lifetime and animating == true:
 		position = start_position + Vector3(0, 0, distance * (1 - (cur_time - start_time)/lifetime))
 		await get_tree().process_frame
-		cur_time = GameTime.get_ticks_sec()
+		cur_time = GameTime.get_unpaused_elapsed_time()
 	
 	position = start_position
 	particles.emitting = false
@@ -56,6 +56,7 @@ func animate_test() -> void:
 
 func set_radius(radius: float):
 	for child in get_children():
+		child.scale = Vector3.ONE * radius / MODELED_PROJECTILE_RADIUS
 		if child is CPUParticles3D:
 			var particles = child as CPUParticles3D
 			var mesh = particles.mesh.duplicate()

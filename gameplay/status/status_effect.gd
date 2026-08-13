@@ -25,7 +25,7 @@ func _process(_delta: float) -> void:
 		process_mode = Node.PROCESS_MODE_DISABLED
 		return
 	
-	var time = GameTime.get_ticks_sec()
+	var time = GameTime.get_unpaused_elapsed_time()
 	
 	var to_remove: Array[int] = []
 	
@@ -53,7 +53,7 @@ func _process(_delta: float) -> void:
 
 
 func add_stack(health_change: float, duration: float):
-	var time := GameTime.get_ticks_sec()
+	var time := GameTime.get_unpaused_elapsed_time()
 	
 	var new_stack = StatusEffectStack.new()
 	new_stack.health_change = health_change
@@ -66,4 +66,4 @@ func add_stack(health_change: float, duration: float):
 class StatusEffectStack:
 	var health_change: float = 0
 	var end_time: float
-	var next_tick: float = GameTime.get_ticks_sec()
+	var next_tick: float = GameTime.get_unpaused_elapsed_time()
