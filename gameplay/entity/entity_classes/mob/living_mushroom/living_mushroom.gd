@@ -3,6 +3,7 @@ extends Mob
 
 var first_fire_delay_min: float = 1
 var first_fire_delay_max: float = 2
+var hold_time: float = 0.5
 var fire_interval_min: float = 1
 var fire_interval_max: float = 3
 
@@ -23,7 +24,8 @@ func _physics_process(delta: float) -> void:
 	if not can_move_network():
 		return
 	if is_alive():
-		if not is_instance_valid(target):
+		if not is_instance_valid(target) or not target.is_alive():
+			target = null
 			target = find_target()
 		if is_instance_valid(target):
 			movement_target_position = target.global_position
@@ -31,8 +33,9 @@ func _physics_process(delta: float) -> void:
 			var cur_time = GameTime.get_ticks_sec()
 			if cur_time >= next_fire:
 				var chosen_key = equipped_tool.tool_actions.keys().pick_random()
+				next_fire = cur_time + randf_range(fire_interval_min, fire_interval_max)
 				if chosen_key:
 					var chosen_action := equipped_tool.tool_actions[chosen_key]
 					chosen_action.start_action({target_entity = target})
+					await get_tree().create_timer(hold_time).timeout
 					chosen_action.stop_action({target_entity = target})
-				next_fire = cur_time + randf_range(fire_interval_min, fire_interval_max)

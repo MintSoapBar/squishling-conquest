@@ -52,3 +52,16 @@ func animate_test() -> void:
 		mesh_instance.visible = false
 	
 	animating = false
+
+
+func set_radius(radius: float):
+	for child in get_children():
+		if child is CPUParticles3D:
+			var particles = child as CPUParticles3D
+			var mesh = particles.mesh.duplicate()
+			particles.mesh = mesh
+			if not mesh.has_meta("initial_size"):
+				mesh.set_meta("initial_size", particles.mesh.size)
+			mesh.size = mesh.get_meta("initial_size") * radius / MODELED_PROJECTILE_RADIUS
+		elif child is AudioStreamPlayer3D:
+			continue

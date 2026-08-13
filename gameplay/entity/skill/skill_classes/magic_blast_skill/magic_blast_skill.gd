@@ -177,25 +177,46 @@ func start_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var circle: MagicCircle = MagicCircle.create_magic_circle(data.magic)
-	circle.position = params.origin
-	circle.basis = Basis.looking_at(params.target_position - params.origin, circle.basis.y)
-	circle.scale = Vector3.ONE * 2 * base_projectile_radius * 1.5
-	add_child(circle)
-	circle.fade_in(get_startup()/2)
+	var preview_pos: Vector3 = params.origin
+	var preview_basis: Basis = Basis.looking_at(params.target_position - params.origin)
+	if not data.get("hide_circle"):
+		var circle: MagicCircle = MagicCircle.create_magic_circle(data.magic)
+		circle.position = preview_pos
+		circle.basis = preview_basis
+		circle.scale = Vector3.ONE * 2 * base_projectile_radius * 1.5
+		add_child(circle)
+		circle.fade_in(get_startup()/2)
 	
-	data.magic_circle = circle
+		data.magic_circle = circle
+	else:
+		var projectile: MagicProjectileVFX = MagicVFX.create_projectile_sphere(data.magic, base_projectile_radius)
+		projectile.position = preview_pos
+		projectile.basis = preview_basis
+		add_child(projectile)
+		
+		data.projectile = projectile
 
 
 func continue_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var circle: Node3D = data.magic_circle
-	circle.position = params.origin
-	circle.basis = Basis.looking_at(params.target_position - params.origin, circle.basis.y)
-	circle.scale = Vector3.ONE * 2 * base_projectile_radius * 1.5 * (
-		SkillCharge.get_size_multiplier(params.charge))
+	var preview_pos: Vector3 = params.origin
+	var target_delta: Vector3 = params.target_position - preview_pos
+	var charge_size_multiplier: float = SkillCharge.get_size_multiplier(params.charge)
+	if not data.get("hide_circle"):
+		var circle: Node3D = data.magic_circle
+		circle.position = preview_pos
+		circle.basis = Basis.looking_at(target_delta, circle.basis.y)
+		circle.scale = Vector3.ONE * 2 * base_projectile_radius * 1.5 * charge_size_multiplier
+	else:
+		var projectile: MagicProjectileVFX = data.projectile
+		projectile.position = preview_pos
+		projectile.basis = Basis.looking_at(target_delta)
+		
+		var stats: StatBlock = MagicStats.stats[data.magic]
+		var size_multiplier = stats.size * SkillCharge.get_size_multiplier(params.charge)
+		projectile.set_radius(base_projectile_radius * size_multiplier)
 
 
 func stop_replicated(params: Dictionary):
@@ -203,29 +224,31 @@ func stop_replicated(params: Dictionary):
 		return
 	
 	var stats: StatBlock = MagicStats.stats[data.magic]
-	var speed_multiplier = stats.speed * lerp(1.0, SkillCharge.SPEED_MULTIPLIER, params.charge)
-	var size_multiplier = stats.size * lerp(1.0, SkillCharge.SIZE_MULTIPLIER, params.charge)
+	var speed_multiplier = stats.speed * SkillCharge.get_speed_multiplier(params.charge)
+	var size_multiplier = stats.size * SkillCharge.get_size_multiplier(params.charge)
 	
 	data.charge = params.charge
 	
 	var origin: Vector3 = params.origin
 	var direction: Vector3 = (params.target_position - origin).normalized()
 	
-	var circle: MagicCircle = data.magic_circle
+	var circle: MagicCircle = data.get("magic_circle")
 	if circle:
 		circle.fade_out(get_endlag()/2, get_endlag()/2)
 		circle.faded_out.connect(circle.queue_free)
-	data.magic_circle = null
+		data.erase("magic_circle")
 	
 	var projectile_radius = base_projectile_radius * size_multiplier
 	
-	var projectile: Node3D = MagicVFX.create_projectile_sphere(data.magic, projectile_radius)
+	var projectile: MagicProjectileVFX = data.get("projectile")
+	if not projectile:
+		projectile = MagicVFX.create_projectile_sphere(data.magic, projectile_radius)
+		data.projectile = projectile
+		add_child(projectile)
 	projectile.visible = false
 	projectile.position = origin
 	projectile.basis = Basis.looking_at(direction)
-	data.projectile = projectile
 	
-	add_child(projectile)
 	
 	(func():
 		await get_tree().process_frame

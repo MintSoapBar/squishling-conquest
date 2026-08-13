@@ -18,13 +18,7 @@ static func create_projectile_sphere(magic: String, radius: float) -> MagicVFX:
 	if not projectile.get_script():
 		projectile.set_script(MagicProjectileVFX)
 	
-	for child in projectile.get_children():
-		if child is CPUParticles3D:
-			var particles = child as CPUParticles3D
-			particles.mesh = particles.mesh.duplicate()
-			particles.mesh.size *= radius / MODELED_PROJECTILE_RADIUS
-		elif child is AudioStreamPlayer3D:
-			continue
+	projectile.set_radius(radius)
 	
 	return projectile
 
