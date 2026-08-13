@@ -60,7 +60,6 @@ distance = 10.0
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1549591953]
 stream = ExtResource("2_q0hwq")
-volume_db = 2.0
 unit_size = 5.0
 pitch_scale = 0.5
 autoplay = true
