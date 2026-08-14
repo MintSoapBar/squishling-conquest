@@ -16,7 +16,7 @@ func trigger() -> void:
 	
 	for i in range(max(1, get_interior_floor_area() / 100)):
 		var mob = Entity.create_entity({
-			entity_name = "mushroom",
+			entity_name = "living_mushroom",
 			position = get_random_floor_position(),
 		})
 		mobs[str(mob)] = mob

@@ -126,12 +126,12 @@ func _exit_tree() -> void:
 
 
 func get_startup():
-	var stats: StatBlock = MagicStats.stats[data.magic]
+	var stats := MagicStats.stats[data.magic]
 	return startup / stats.speed
 
 
 func get_endlag():
-	var stats: StatBlock = MagicStats.stats[data.magic]
+	var stats := MagicStats.stats[data.magic]
 	return endlag / stats.speed
 
 

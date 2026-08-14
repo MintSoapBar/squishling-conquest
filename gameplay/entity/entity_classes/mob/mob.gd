@@ -14,7 +14,11 @@ var movement_target_position: Vector3 = Vector3(0, 0, 0)
 
 
 func initialize(_data: Dictionary) -> void:
+	var stat_block: MobStatBlock = MobStats.stats[_data.entity_name]
+	
 	team = Team.MOB
+	_data.max_health = stat_block.max_health
+	walk_speed = stat_block.walk_speed
 	super(_data)
 
 

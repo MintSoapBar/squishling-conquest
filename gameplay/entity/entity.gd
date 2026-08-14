@@ -142,14 +142,15 @@ static func register_scenes(registry: Dictionary, path: String, callback := Call
 			var resource: Resource = load(stripped_path)
 			assert(resource, "Resource could not be loaded for " + stripped_path)
 			
+			var key = file.substr(0, file.find("."))
 			if resource is PackedScene:
 				var instance = resource.instantiate()
 				if callback.is_null() or callback.call(instance) == true:
-					registry[instance.name.to_snake_case()] = resource
+					registry[key] = resource
 				instance.queue_free()
 			elif resource is GDScript:
 				if callback.is_null() or callback.call(resource) == true:
-					registry[resource.get_global_name().to_snake_case()] = resource
+					registry[key] = resource
 		
 		file = dir.get_next()
 	

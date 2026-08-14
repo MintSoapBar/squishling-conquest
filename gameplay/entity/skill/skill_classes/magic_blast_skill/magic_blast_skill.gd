@@ -81,7 +81,7 @@ func stop_server(params: Dictionary):
 	
 	call_replicated(stop_replicated, params)
 	
-	var stats: StatBlock = MagicStats.stats[data.magic]
+	var stats := MagicStats.stats[data.magic]
 	var damage_multiplier = stats.damage * lerp(1.0, SkillCharge.DAMAGE_MULTIPLIER, params.charge)
 	var speed_multiplier = stats.speed * lerp(1.0, SkillCharge.SPEED_MULTIPLIER, params.charge)
 	var size_multiplier = stats.size * lerp(1.0, SkillCharge.SIZE_MULTIPLIER, params.charge)
@@ -216,7 +216,7 @@ func continue_replicated(params: Dictionary):
 		projectile.position = preview_pos
 		projectile.basis = Basis.looking_at(target_delta)
 		
-		var stats: StatBlock = MagicStats.stats[data.magic]
+		var stats := MagicStats.stats[data.magic]
 		var size_multiplier = stats.size * SkillCharge.get_size_multiplier(params.charge)
 		projectile.set_radius(base_projectile_radius * size_multiplier)
 
@@ -225,7 +225,7 @@ func stop_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var stats: StatBlock = MagicStats.stats[data.magic]
+	var stats := MagicStats.stats[data.magic]
 	var speed_multiplier = stats.speed * SkillCharge.get_speed_multiplier(params.charge)
 	var size_multiplier = stats.size * SkillCharge.get_size_multiplier(params.charge)
 	
@@ -286,7 +286,7 @@ func explode_projectile_replicated(explode_position: Vector3):
 	
 	data.projectile = null
 	
-	var stats: StatBlock = MagicStats.stats[data.magic]
+	var stats := MagicStats.stats[data.magic]
 	var size_multiplier = stats.size * lerp(1.0, SkillCharge.SIZE_MULTIPLIER, data.charge)
 	
 	var explosion_radius = base_explosion_radius * size_multiplier

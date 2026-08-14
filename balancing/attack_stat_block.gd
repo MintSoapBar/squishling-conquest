@@ -1,4 +1,4 @@
-class_name StatBlock
+class_name AttackStatBlock
 
 var damage: float
 var speed: float

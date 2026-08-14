@@ -12,12 +12,6 @@ var next_fire: float = GameTime.get_unpaused_elapsed_time() + (
 	randf_range(first_fire_delay_min, first_fire_delay_max))
 
 
-func initialize(_data: Dictionary) -> void:
-	walk_speed = 6
-	_data.max_health = 50
-	super(_data)
-
-
 func _ready() -> void:
 	super()
 	
