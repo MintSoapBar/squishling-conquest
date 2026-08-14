@@ -56,7 +56,10 @@ func animate_test() -> void:
 
 func set_radius(radius: float):
 	for child in get_children():
-		child.scale = Vector3.ONE * radius / MODELED_PROJECTILE_RADIUS
+		if not child.has_meta("initial_scale"):
+			child.set_meta("initial_scale", child.scale)
+		child.scale = child.get_meta("initial_scale") * Vector3.ONE * radius / MODELED_PROJECTILE_RADIUS
+		
 		if child is CPUParticles3D:
 			var particles = child as CPUParticles3D
 			var mesh = particles.mesh.duplicate()

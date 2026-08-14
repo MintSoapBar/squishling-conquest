@@ -33,7 +33,7 @@ shading_mode = 0
 albedo_color = Color(0.37254903, 0.3137255, 0.25882354, 1)
 
 [node name="Projectile" type="Node3D" unique_id=263683715]
-transform = Transform3D(0.84074986, 0.5414444, 0, -0.5414444, 0.84074986, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(-0.8143784, -0.58035356, 0, 0.58035356, -0.8143784, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_i2p3k")
 rotation_speed = Vector3(0, 0, 0.6)
 
