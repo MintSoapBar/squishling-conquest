@@ -2,6 +2,7 @@
 class_name MagicProjectileVFX
 extends MagicVFX
 
+@export_category("Test Animation")
 @export var test: bool = false:
 	set(val):
 		animating = false
@@ -10,6 +11,8 @@ extends MagicVFX
 		animate_test()
 @export var distance: float = 30
 @export var lifetime: float = 1
+
+@export_category("Mesh Instance")
 @export var rotation_speed: Vector3 = Vector3(0, 0, 0)
 
 var animating = true

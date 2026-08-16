@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d2ru382ltbalf"]
 
-[ext_resource type="Script" uid="uid://bhv7n3vq30nre" path="res://world/home.gd" id="1_umf75"]
+[ext_resource type="Script" uid="uid://bhv7n3vq30nre" path="res://gameplay/home/home.gd" id="1_umf75"]
 [ext_resource type="PackedScene" uid="uid://cly1eufgj4kh2" path="res://gameplay/dungeon/structure/gate/gate.tscn" id="2_qoc0j"]
 [ext_resource type="Material" uid="uid://b675c8l5sn4j1" path="res://assets/materials/stone_brick_dark/stone_brick_dark.tres" id="3_out16"]
 [ext_resource type="PackedScene" uid="uid://cds2d4aewn2ix" path="res://gameplay/home/living_room/fireplace/fireplace.tscn" id="4_jxm0r"]

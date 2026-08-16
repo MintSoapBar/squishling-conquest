@@ -9,7 +9,7 @@ var area: Area3D
 var interior_area: Area3D
 var attachment_points: Array[Node3D] = []
 
-var area_leeway_margin = ProjectSettings.get_setting(
+var area_leeway_margin = 2 * ProjectSettings.get_setting(
 	"physics/jolt_physics_3d/collisions/collision_margin_fraction")
 var interior_area_margin: float = 1
 
@@ -18,8 +18,11 @@ static func snap_vector3(v: Vector3, step: float) -> Vector3:
 	return (v / step).round() * step
 
 
-static func snap_transform3D(t: Transform3D, origin_step: float) -> Transform3D:
-	return Transform3D(t.basis, snap_vector3(t.origin, origin_step))
+static func snap_transform3d(t: Transform3D, origin_step: float, rotation_step: float) -> Transform3D:
+	var new_t = Transform3D.IDENTITY
+	new_t.origin = Structure.snap_vector3(t.origin, origin_step)
+	new_t.basis = Basis.from_euler(Structure.snap_vector3(t.basis.get_euler(), rotation_step))
+	return new_t
 
 
 static func get_shape_floor_area(shape: Shape3D) -> float:
@@ -122,6 +125,7 @@ func generate_interior_area():
 		interior_area.queue_free()
 	
 	interior_area = area.duplicate()
+	interior_area.name = "InteriorArea3D"
 	
 	for collision_shape: CollisionShape3D in interior_area.get_children():
 		collision_shape.shape = collision_shape.shape.duplicate()

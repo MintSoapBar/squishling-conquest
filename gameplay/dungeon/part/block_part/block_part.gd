@@ -6,7 +6,7 @@ extends Part
 @export var block_size: Vector3 = Vector3.ONE:
 	set(val):
 		block_size = val
-		if Engine.is_editor_hint() and box_mesh and box_shape:
+		if box_mesh and box_shape:
 			resize()
 
 

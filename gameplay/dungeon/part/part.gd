@@ -21,7 +21,7 @@ var substitute := func(node: Node, new_parent: Node, new_name: String, new_trans
 @export var to_localized_scene: bool = false:
 	set(val):
 		to_localized_scene = val
-		if Engine.is_editor_hint():
+		if Engine.is_editor_hint() and is_inside_tree():
 			scene_file_path = ""
 			var root = get_tree().get_edited_scene_root()
 			if not is_instance_valid(root):

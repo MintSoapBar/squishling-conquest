@@ -31,7 +31,7 @@ func is_multiplayer_connected() -> bool:
 func get_public_ip_via_http_req() -> void:
 	var error = http_request.request("https://icanhazip.com")
 	if error != OK:
-		print("An error occurred while making the HTTP request.")
+		push_warning("An error occurred while making the HTTP request.")
 
 
 func _on_iphttp_request_request_completed(

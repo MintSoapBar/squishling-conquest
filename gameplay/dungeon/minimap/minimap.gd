@@ -35,7 +35,7 @@ func load_dungeon_shapes(dungeon: Dungeon):
 		child.queue_free()
 	
 	for structure: Structure in dungeon.structures:
-		for collision_shape: CollisionShape3D in structure.area.get_children():
+		for collision_shape: CollisionShape3D in structure.interior_area.get_children():
 			var shape: BoxShape3D = collision_shape.shape
 			
 			var rect_size := Vector2(shape.size.x, shape.size.z)

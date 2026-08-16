@@ -109,7 +109,6 @@ static func set_network(network_):
 
 static func initialize_registry():
 	var entity_classes_path := (Entity as GDScript).resource_path.replace("entity.gd", "entity_classes")
-	print(entity_classes_path)
 	register_scenes(
 		entity_registry, 
 		entity_classes_path, 

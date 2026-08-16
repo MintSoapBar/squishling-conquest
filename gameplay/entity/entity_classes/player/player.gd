@@ -66,6 +66,7 @@ static func set_orbital_camera(camera):
 	orbital_camera = camera
 	
 	camera.camera_third_person_offset = Vector3(0.8, 0.8, 0)
+	camera.focus_offset = Vector3(0, 0.35, 0)
 	
 	entities_folder.local_player_changed.connect(func(plr: Player):
 		camera.focused_node = plr

@@ -36,17 +36,17 @@ material = ExtResource("5_3pf2m")
 radius = 0.05
 height = 0.2
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_us4gi"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ooq1l"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_1o6en"]
-radius = 0.3652668
+radius = 0.35
 
 [node name="SquishlingSprite" type="Node3D" unique_id=1736933242]
 script = ExtResource("1_qcnw3")
 
 [node name="Model" type="Node3D" parent="." unique_id=1621953886]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.365, 0)
 
 [node name="Body" type="MeshInstance3D" parent="Model" unique_id=511772306]
 material_override = SubResource("ShaderMaterial_rslwy")
@@ -66,13 +66,13 @@ transform = Transform3D(2.6, 0, 0, 0, 2.6, 0, 0, 0, 2.6, 0, 0, 0)
 visible = false
 
 [node name="Hand" type="Marker3D" parent="." unique_id=1838840288]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39, 0.1, -0.1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39, 0.45, -0.1)
 
 [node name="StatusBarBillboard" parent="." unique_id=954147360 instance=ExtResource("7_ooq1l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-texture = SubResource("ViewportTexture_us4gi")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+texture = SubResource("ViewportTexture_ooq1l")
 
 [node name="BodyCollider" type="CollisionShape3D" parent="." unique_id=1646061403]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 shape = SubResource("SphereShape3D_1o6en")
 script = ExtResource("8_nctdn")

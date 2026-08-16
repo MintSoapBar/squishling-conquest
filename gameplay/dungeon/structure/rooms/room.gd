@@ -11,7 +11,7 @@ func initialize() -> void:
 	super()
 	
 	for door: Door in $Doors.get_children():
-		door.initialize()
+		door.initialize(self)
 		attachment_points.append(door)
 
 

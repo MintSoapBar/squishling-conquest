@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://b866e31dkc26r"]
+
+[ext_resource type="Script" uid="uid://fraph3kq36e6" path="res://gameplay/dungeon/structure/rooms/classes/exit_room/exit_room.gd" id="1_csow0"]
+[ext_resource type="PackedScene" uid="uid://bit00f1k2pt05" path="res://gameplay/dungeon/structure/doors/door.tscn" id="2_yuy1s"]
+[ext_resource type="PackedScene" uid="uid://cly1eufgj4kh2" path="res://gameplay/dungeon/structure/gate/gate.tscn" id="3_amkkr"]
+[ext_resource type="PackedScene" uid="uid://cblhg8xrx5xcf" path="res://gameplay/dungeon/part/block_part/block_part.tscn" id="4_rlus2"]
+[ext_resource type="Material" uid="uid://b675c8l5sn4j1" path="res://assets/materials/stone_brick_dark/stone_brick_dark.tres" id="5_iri5q"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yuy1s"]
+size = Vector3(16, 6, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_csow0"]
+size = Vector3(14, 6, 14)
+
+[node name="ExitRoom" type="Node3D" unique_id=1979470526]
+script = ExtResource("1_csow0")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=843094130]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1429503075]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
+shape = SubResource("BoxShape3D_yuy1s")
+
+[node name="InteriorArea" type="Area3D" parent="." unique_id=776758550]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorArea" unique_id=164838549]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_csow0")
+
+[node name="Doors" type="Node3D" parent="." unique_id=164963935]
+
+[node name="Front" parent="Doors" unique_id=1739551774 instance=ExtResource("2_yuy1s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+
+[node name="Structure" type="Node3D" parent="." unique_id=2131205842]
+
+[node name="Floor" parent="Structure" unique_id=1542272684 instance=ExtResource("4_rlus2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+block_size = Vector3(16, 1, 16)
+material = ExtResource("5_iri5q")
+
+[node name="Ceiling" parent="Structure" unique_id=1886442866 instance=ExtResource("4_rlus2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+block_size = Vector3(16, 1, 16)
+material = ExtResource("5_iri5q")
+
+[node name="Walls" type="Node3D" parent="Structure" unique_id=850599381]
+
+[node name="Front1" parent="Structure/Walls" unique_id=1776007500 instance=ExtResource("4_rlus2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2, -7.5)
+block_size = Vector3(7, 4, 1)
+material = ExtResource("5_iri5q")
+
+[node name="Front2" parent="Structure/Walls" unique_id=1757799366 instance=ExtResource("4_rlus2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2, -7.5)
+block_size = Vector3(7, 4, 1)
+material = ExtResource("5_iri5q")
+
+[node name="Front3" parent="Structure/Walls" unique_id=1708263098 instance=ExtResource("4_rlus2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -7.5)
+block_size = Vector3(2, 2, 1)
+material = ExtResource("5_iri5q")
+
+[node name="Back1" parent="Structure/Walls" unique_id=709022297 instance=ExtResource("4_rlus2")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.5000005, 2, 7.4999995)
+block_size = Vector3(7, 4, 1)
+material = ExtResource("5_iri5q")
+
+[node name="Back2" parent="Structure/Walls" unique_id=1754385740 instance=ExtResource("4_rlus2")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -4.4999995, 2, 7.5000005)
+block_size = Vector3(7, 4, 1)
+material = ExtResource("5_iri5q")
+
+[node name="Back3" parent="Structure/Walls" unique_id=205366608 instance=ExtResource("4_rlus2")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 6.556708e-07, 3, 7.5)
+block_size = Vector3(2, 2, 1)
+material = ExtResource("5_iri5q")
+
+[node name="Right" parent="Structure/Walls" unique_id=718721505 instance=ExtResource("4_rlus2")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 7.5, 2, 2.3841858e-07)
+block_size = Vector3(14, 4, 1)
+material = ExtResource("5_iri5q")
+
+[node name="Left" parent="Structure/Walls" unique_id=1637250880 instance=ExtResource("4_rlus2")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.5, 2, 4.7683716e-07)
+block_size = Vector3(14, 4, 1)
+material = ExtResource("5_iri5q")
+
+[node name="Gate" parent="." unique_id=2109916251 instance=ExtResource("3_amkkr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+color = Color(0.1936222, 0.17600492, 0.52636373, 1)

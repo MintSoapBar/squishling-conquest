@@ -58,5 +58,5 @@ func update_corridor():
 		if ceiling:
 			ceiling.queue_free()
 	
-	generate_interior_area()
-	interior_area.get_node("CollisionShape3D").shape.size.z = length
+	if initialized:
+		interior_area.get_node("CollisionShape3D").shape.size.z = length

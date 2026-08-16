@@ -6,20 +6,21 @@ extends Sprite
 @onready var shield: Node3D = $Model/Body/Shield
 
 var hand_pos: Vector3
-
+var status_billboard_pos: Vector3
 
 func _ready():
 	model = $Model
 	
 	body.entity = entity
 	hand_pos = hand.position
+	status_billboard_pos = status_bar_billboard.position
 	
 	body.stretched.connect(on_body_stretched)
 
 
 func on_body_stretched():
 	hand.position = body.position + body.get_deformed_vertex_pos(hand_pos)
-	status_bar_billboard.position = body.get_deformed_vertex_pos(Vector3(0, 0.8, 0))
+	status_bar_billboard.position = body.get_deformed_vertex_pos(status_billboard_pos)
 
 
 func set_shield_visible(shield_visible: bool):

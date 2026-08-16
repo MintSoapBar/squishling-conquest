@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cblhg8xrx5xcf" path="res://gameplay/dungeon/part/block_part/block_part.tscn" id="3_tfqbb"]
 [ext_resource type="Material" uid="uid://b675c8l5sn4j1" path="res://assets/materials/stone_brick_dark/stone_brick_dark.tres" id="4_0gcgx"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_h1gyy"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_lemog"]
 size = Vector3(16, 6, 16)
 
 [node name="BoxRoom" type="Node3D" unique_id=1979470526]
@@ -17,7 +17,7 @@ collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1429503075]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-shape = SubResource("BoxShape3D_h1gyy")
+shape = SubResource("BoxShape3D_lemog")
 
 [node name="Doors" type="Node3D" parent="." unique_id=164963935]
 

@@ -25,12 +25,16 @@ enum {X_AXIS, Y_AXIS, Z_AXIS}
 
 func _ready() -> void:
 	super()
-	update_room()
 
 
 func initialize():
 	super()
-	update_room()
+	
+	var collision_shape: CollisionShape3D = $Area3D/CollisionShape3D
+	collision_shape.shape = collision_shape.shape.duplicate()
+	
+	if Engine.is_editor_hint():
+		update_room()
 
 
 func update_room():
@@ -124,4 +128,7 @@ func update_room():
 	collision_shape.position = Vector3(0, room_size.y/2.0 - 1, 0)
 	collision_shape.shape.size = room_size
 	
-	generate_interior_area()
+	if initialized:
+		var interior_collision_shape: CollisionShape3D = interior_area.get_node("CollisionShape3D")
+		interior_collision_shape.position = collision_shape.position
+		interior_collision_shape.shape.size = room_size - Vector3i.ONE * 2

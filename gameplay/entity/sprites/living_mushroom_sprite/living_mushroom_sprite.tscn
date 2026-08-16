@@ -29,7 +29,7 @@ albedo_color = Color(0, 0, 0, 1)
 metallic = 0.9
 metallic_specular = 1.0
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_nwcxb"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_8cvtl"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_551ov"]
@@ -48,6 +48,7 @@ radius = 0.45898438
 script = ExtResource("1_jvuhx")
 
 [node name="Model" type="Node3D" parent="." unique_id=808506220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 
 [node name="Body" type="MeshInstance3D" parent="Model" unique_id=1714120653]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
@@ -69,23 +70,23 @@ mesh = SubResource("CapsuleMesh_nwcxb")
 surface_material_override/0 = SubResource("StandardMaterial3D_50vk3")
 
 [node name="Hand" type="Marker3D" parent="." unique_id=2103551564]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35000002, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35000002, 0.4, 0)
 
 [node name="StatusBarBillboard" parent="." unique_id=954147360 instance=ExtResource("3_ajriw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
-texture = SubResource("ViewportTexture_nwcxb")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1999999, 0)
+texture = SubResource("ViewportTexture_8cvtl")
 
 [node name="StalkCollider" type="CollisionShape3D" parent="." unique_id=1218737846]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16444397, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56444395, 0)
 shape = SubResource("CapsuleShape3D_551ov")
 script = ExtResource("4_ve0t6")
 
 [node name="CapCollider1" type="CollisionShape3D" parent="." unique_id=1850432546]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.425, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.825, 0)
 shape = SubResource("CylinderShape3D_ksm3a")
 script = ExtResource("4_ve0t6")
 
 [node name="CapCollider2" type="CollisionShape3D" parent="." unique_id=1851954184]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_0uebs")
 script = ExtResource("4_ve0t6")

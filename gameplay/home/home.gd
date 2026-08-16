@@ -9,7 +9,7 @@ signal player_entered_dungeon_gate(player: Player)
 @onready var world_environment: WorldEnvironment = $WorldEnvironment
 
 func _ready() -> void:
-	dungeon_gate.player_entered_gate.connect(func(player: Player):
+	dungeon_gate.player_entered.connect(func(player: Player):
 		player_entered_dungeon_gate.emit(player)
 	)
 	world_environment.queue_free()

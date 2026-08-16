@@ -24,6 +24,8 @@ func _ready() -> void:
 	
 	home.player_entered_dungeon_gate.connect(on_dungeon_gate_player_enter, CONNECT_ONE_SHOT)
 	Entity.entities_folder.local_player_changed.connect(try_regenerate)
+	dungeon.player_entered_exit_gate.connect(func(_player: Player):
+		regenerate())
 
 
 func _process(_delta: float) -> void:

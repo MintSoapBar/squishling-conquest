@@ -1,11 +1,13 @@
+@tool
 class_name Door
 extends Node3D
 
 enum DoorState {BLOCKED, CLOSED, OPEN}
 
-var height = 2.0
-var closed_height = 0.3
+const height: float = 2.0
+const closed_height: float = 0.3
 
+var room: Room
 var state: DoorState = DoorState.CLOSED
 
 var bars: Node3D
@@ -15,7 +17,9 @@ var wall: Node3D
 var wall_collider: StaticBody3D
 var wall_collider_shape: CollisionShape3D
 
-func initialize() -> void:
+func initialize(door_room: Room) -> void:
+	room = door_room
+	
 	bars = $Bars
 	bars_collider = $Bars/Collider
 	bars_collider_shape = $Bars/Collider/CollisionShape3D
