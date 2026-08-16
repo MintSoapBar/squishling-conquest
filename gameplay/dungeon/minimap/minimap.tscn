@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://bc1ihq34c3rq6"]
 
 [ext_resource type="Script" uid="uid://b5l0jhx2tl6la" path="res://gameplay/dungeon/minimap/minimap.gd" id="1_arqlq"]
+[ext_resource type="Texture2D" uid="uid://s4d32y5suoge" path="res://gameplay/dungeon/minimap/player_marker.png" id="2_gg6ba"]
 
 [node name="Minimap" type="Control" unique_id=987131916]
-custom_minimum_size = Vector2(150, 150)
 clip_contents = true
 layout_mode = 3
 anchors_preset = 1
@@ -26,22 +26,20 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PlayerMarker" type="Label" parent="." unique_id=1486460697]
+[node name="PlayerMarker" type="TextureRect" parent="." unique_id=2091127734]
+self_modulate = Color(1, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -7.0
-offset_top = -11.5
-offset_right = 7.0
-offset_bottom = 11.5
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -1.5707964
-pivot_offset_ratio = Vector2(0.5, 0.585)
-theme_override_colors/font_color = Color(1, 0, 0, 0.78431374)
-text = "➤"
-horizontal_alignment = 1
-vertical_alignment = 1
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("2_gg6ba")
+expand_mode = 1

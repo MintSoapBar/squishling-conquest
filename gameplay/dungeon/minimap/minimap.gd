@@ -5,7 +5,7 @@ const unvisited_color: Color = Color(0.5, 0.5, 0.5, 0.75)
 const visited_color: Color = Color(1, 1, 1, 0.75)
 
 @onready var shapes: Control = $Shapes
-@onready var player_marker: Label = $PlayerMarker
+@onready var player_marker: Control = $PlayerMarker
 
 @export var rotate_player_marker: bool = true
 
@@ -18,10 +18,10 @@ func update_player_location(player_rotation: Vector3, player_position: Vector3) 
 	shapes.position = minimap_size/2 - Vector2(player_position.x, player_position.z)
 	
 	if rotate_player_marker:
-		player_marker.rotation = -player_rotation.y - PI/2
+		player_marker.rotation = -player_rotation.y
 		shapes.rotation = 0
 	else:
-		player_marker.rotation = - PI/2
+		player_marker.rotation = 0
 		shapes.rotation = player_rotation.y
 		shapes.pivot_offset = Vector2(player_position.x, player_position.z)
 
