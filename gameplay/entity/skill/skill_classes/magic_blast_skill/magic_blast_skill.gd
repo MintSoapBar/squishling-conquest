@@ -313,7 +313,7 @@ func get_aimbot_target_position(params: Dictionary) -> Vector3:
 	if target_entity:
 		var origin: Vector3 = params.origin
 		var speed: float = base_projectile_speed * MagicStats.stats[data.magic].speed
-		var target_origin: Vector3 = target_entity.position
+		var target_origin: Vector3 = target_entity.get_aim_target_position()
 		var target_velocity: Vector3 = target_entity.estimated_velocity
 		return intersect_projectile(origin, speed, target_origin, target_velocity)
 	else:

@@ -381,6 +381,10 @@ func is_alive() -> bool:
 	return status.cur_health > 0
 
 
+func get_aim_target_position() -> Vector3:
+	return global_position + Vector3(0, 0.5, 0)
+
+
 @rpc("any_peer", "call_local")
 func request_damage(amount: float, attributes: Dictionary[String, bool] = {}) -> void:
 	status.damage.rpc(amount, attributes)
@@ -388,25 +392,6 @@ func request_damage(amount: float, attributes: Dictionary[String, bool] = {}) ->
 
 func damage(amount: float, attributes: Dictionary[String, bool] = {}) -> void:
 	request_damage.rpc_id(get_multiplayer_authority(), amount, attributes)
-
-
-func on_damaged(amount: float, attributes: Dictionary):
-	data.cur_health = status.cur_health
-	
-	var indicator = Status.create_hit_indicator(-amount, attributes)
-	entities_folder.add_child(indicator)
-	indicator.global_position = position
-	
-	if status.cur_health <= 0:
-		kill()
-
-
-func on_healed(amount: float, attributes: Dictionary):
-	data.cur_health = status.cur_health
-	
-	var indicator = Status.create_hit_indicator(amount, attributes)
-	entities_folder.add_child(indicator)
-	indicator.global_position = position
 
 
 func kill():
@@ -441,3 +426,22 @@ func kill():
 	
 	if not network or is_multiplayer_authority():
 		destroy.rpc()
+
+
+func on_damaged(amount: float, attributes: Dictionary):
+	data.cur_health = status.cur_health
+	
+	var indicator = Status.create_hit_indicator(-amount, attributes)
+	entities_folder.add_child(indicator)
+	indicator.global_position = position
+	
+	if status.cur_health <= 0:
+		kill()
+
+
+func on_healed(amount: float, attributes: Dictionary):
+	data.cur_health = status.cur_health
+	
+	var indicator = Status.create_hit_indicator(amount, attributes)
+	entities_folder.add_child(indicator)
+	indicator.global_position = position

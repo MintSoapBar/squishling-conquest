@@ -17,6 +17,7 @@ var wall: Node3D
 var wall_collider: StaticBody3D
 var wall_collider_shape: CollisionShape3D
 
+
 func initialize(door_room: Room) -> void:
 	room = door_room
 	

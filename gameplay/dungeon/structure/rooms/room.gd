@@ -4,6 +4,7 @@ extends Structure
 
 const DOOR_WIDTH: int = 2
 
+var entrance_separation = 0
 var visited: bool = false
 
 

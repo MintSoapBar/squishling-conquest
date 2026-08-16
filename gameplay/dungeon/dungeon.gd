@@ -25,7 +25,8 @@ func generate(dungeon_seed: int = 0, room_count: int = 12) -> void:
 	for entity_id in Entity.current_entities:
 		var entity = Entity.current_entities[entity_id]
 		if entity is Player:
-			entity.global_position = Vector3(0, 0, 0)
+			var player := entity as Player
+			player.global_position = Vector3(0, 0, 0)
 		else:
 			entities_to_destroy.append(entity)
 	for entity in entities_to_destroy:
@@ -66,14 +67,16 @@ func generate(dungeon_seed: int = 0, room_count: int = 12) -> void:
 			print("No more doors left to attach to")
 			break
 		
-		var attached_door_index = randi_range(0, doors.size() - 1)
+		@warning_ignore("integer_division")
+		var attached_door_index = max(randi_range(0, doors.size()/3), 0)
 		var attached_door: Door = doors[attached_door_index]
 		
 		# remove attached door from array
-		if doors.back() == attached_door:
-			doors.pop_back()
-		else:
-			doors[attached_door_index] = doors.pop_back()
+		doors.remove_at(attached_door_index)
+		#if doors.back() == attached_door:
+			#doors.pop_back()
+		#else:
+			#doors[attached_door_index] = doors.pop_back()
 		
 		var corridor_length = randi_range(4, 10)
 		var new_corridor: Corridor = generate_corridor(corridor_length)
@@ -90,12 +93,17 @@ func generate(dungeon_seed: int = 0, room_count: int = 12) -> void:
 		var new_doors = new_room.attachment_points.duplicate()
 		new_doors.erase(attaching_door)
 		doors.append_array(new_doors)
+		
+		new_room.entrance_separation = attached_door.room.entrance_separation + 1
 	
 	
 	var enemy_room_doors: Array[Door] = []
+	var sort_doors_by_entrance_separation = func(a: Door, b: Door):
+		return a.room.entrance_separation < b.room.entrance_separation
 	for door in doors:
 		if door.room is EnemyRoom:
 			enemy_room_doors.append(door)
+	enemy_room_doors.sort_custom(sort_doors_by_entrance_separation)
 	
 	var exit_corridor_length = randi_range(8, 10)
 	var exit_corridor: Corridor = generate_corridor(exit_corridor_length)
@@ -105,13 +113,7 @@ func generate(dungeon_seed: int = 0, room_count: int = 12) -> void:
 	
 	var success := false
 	while enemy_room_doors.size() > 0:
-		var attached_door_index = randi_range(0, enemy_room_doors.size() - 1)
-		var exit_room_attached_door = enemy_room_doors[attached_door_index]
-		
-		if attached_door_index == enemy_room_doors.size() - 1:
-			enemy_room_doors.pop_back()
-		else:
-			enemy_room_doors[attached_door_index] = enemy_room_doors.pop_back()
+		var exit_room_attached_door = enemy_room_doors.pop_back()
 		
 		success = attach_room(exit_room_attached_door, exit_corridor, exit_room_attaching_door, exit_room)
 		
