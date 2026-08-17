@@ -14,7 +14,8 @@ func trigger() -> void:
 	visited = true
 	set_doors_open(false)
 	
-	for i in range(max(1, get_interior_floor_area() / 100)):
+	#for i in range(max(1, get_interior_floor_area() / 100)):
+	for i in 1:
 		var data = BiomeEnemies.pick_enemy_data(biome, world, level)
 		data.position = get_random_floor_position()
 		var mob = Entity.create_entity(data)

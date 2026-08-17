@@ -16,9 +16,12 @@ var biome: String = "cellar"
 var world: int = 1
 var level: int = 1
 
+var loading: bool = false
 
 func generate(dungeon_seed: = 0, room_count: = 12, _biome := "cellar", _world := 1, _level := 1) -> void:
 	assert(room_count > 0, "Room count must be above 0")
+	
+	loading = true
 	
 	if dungeon_seed == 0:
 		seed(Time.get_ticks_msec())
@@ -75,7 +78,7 @@ func generate(dungeon_seed: = 0, room_count: = 12, _biome := "cellar", _world :=
 		room_id += 1
 		
 		if doors.size() == 0:
-			print("No more doors left to attach to")
+			push_error("No more doors left to attach to")
 			break
 		
 		@warning_ignore("integer_division")
@@ -134,6 +137,7 @@ func generate(dungeon_seed: = 0, room_count: = 12, _biome := "cellar", _world :=
 	
 	exit_room.player_entered_gate.connect(player_entered_exit_gate.emit)
 	
+	loading = false
 	loaded.emit()
 
 

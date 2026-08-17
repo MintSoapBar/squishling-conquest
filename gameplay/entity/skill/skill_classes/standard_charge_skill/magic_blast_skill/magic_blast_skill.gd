@@ -151,10 +151,10 @@ func stop_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
+	data.charge = params.charge
+	
 	var speed_multiplier = get_magic_skill_speed_multiplier(params)
 	var size_multiplier = get_magic_skill_size_multiplier(params)
-	
-	data.charge = params.charge
 	
 	var origin: Vector3 = params.origin
 	var direction: Vector3 = (params.target_position - origin).normalized()
@@ -196,6 +196,11 @@ func stop_replicated(params: Dictionary):
 	# projectile still exists is checked inside this function
 	explode_projectile_replicated(origin + 
 		direction * base_projectile_speed * speed_multiplier * max_projectile_lifetime)
+
+
+func cancel():
+	if not data.get("projectile"):
+		queue_free()
 
 
 @rpc("authority", "call_local")

@@ -63,6 +63,27 @@ func continue_server(params: Dictionary):
 	call_replicated(continue_replicated, params)
 
 
-func cancel():
-	if action.poll_stop:
-		queue_free()
+func get_magic_skill_damage_multiplier(params: Dictionary = {}) -> float:
+	var stats := MagicStats.stats[data.magic]
+	# checks in data because some stop_replicated stores it there 
+	# (eg. magic blasts's stop_replicated stores it for explode_projectile)
+	var charge = params.get("charge", data.get("charge", 1))
+	var damage_multiplier = stats.damage * SkillCharge.get_damage_multiplier(charge)
+	damage_multiplier *= data.get("damage_multiplier", 1)
+	return damage_multiplier
+
+
+func get_magic_skill_speed_multiplier(params: Dictionary = {}) -> float:
+	var stats := MagicStats.stats[data.magic]
+	var charge = params.get("charge", data.get("charge", 1))
+	var speed_multiplier = stats.speed * SkillCharge.get_speed_multiplier(charge)
+	speed_multiplier *= data.get("speed_multiplier", 1)
+	return speed_multiplier
+
+
+func get_magic_skill_size_multiplier(params: Dictionary = {}) -> float:
+	var stats := MagicStats.stats[data.magic]
+	var charge = params.get("charge", data.get("charge", 1))
+	var size_multiplier = stats.size * SkillCharge.get_size_multiplier(charge)
+	size_multiplier *= data.get("size_multiplier", 1)
+	return size_multiplier

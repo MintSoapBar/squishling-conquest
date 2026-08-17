@@ -9,6 +9,7 @@ const HOME = preload("uid://d2ru382ltbalf")
 
 var home: Home
 
+var world: int = 1
 var level: int = 1
 
 func _ready() -> void:
@@ -24,10 +25,10 @@ func _ready() -> void:
 	Player.create_player()
 	
 	home.player_entered_dungeon_gate.connect(on_dungeon_gate_player_enter, CONNECT_ONE_SHOT)
-	Entity.entities_folder.local_player_changed.connect(try_regenerate)
+	Entity.entities_folder.local_player_changed.connect(try_generate)
 	dungeon.player_entered_exit_gate.connect(func(_player: Player):
 		level = level % 3 + 1
-		regenerate())
+		generate_dungeon())
 
 
 func _process(_delta: float) -> void:
@@ -43,23 +44,33 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		var key_event := event as InputEventKey
 		if key_event.keycode == KEY_BACKSPACE and key_event.is_pressed():
-			if is_instance_valid(home):
-				home.queue_free()
-			regenerate()
+			generate_dungeon()
+			get_viewport().set_input_as_handled()
+		if key_event.keycode >= KEY_KP_0 and key_event.keycode <= KEY_KP_9 and key_event.is_pressed():
+			var num: int = key_event.keycode - KEY_KP_0
+			if key_event.ctrl_pressed:
+				world = num
+			else:
+				level = num
+			generate_dungeon()
 			get_viewport().set_input_as_handled()
 
 
-func regenerate():
-	await dungeon.generate(Time.get_ticks_msec(), 1, "cellar", 1, level)
+func generate_dungeon():
+	if is_instance_valid(home):
+		home.queue_free()
+	
+	while dungeon.loading:
+		await dungeon.loaded
+	await dungeon.generate(Time.get_ticks_msec(), 1, "cellar", world, level)
 	minimap.load_dungeon(dungeon)
 	minimap.visible = true
 
 
-func try_regenerate(plr):
+func try_generate(plr):
 	if plr:
-		regenerate()
+		generate_dungeon()
 
 
 func on_dungeon_gate_player_enter(_player: Player):
-	regenerate()
-	home.queue_free()
+	generate_dungeon()

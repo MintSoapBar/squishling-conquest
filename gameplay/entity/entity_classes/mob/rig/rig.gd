@@ -22,37 +22,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	super(delta)
 	
-	
-	if not can_move_network():
+	if not can_move():
 		return
-	if is_alive():
-		tick_target_attack()
-
-
-func tick_target_attack():
-	update_target()
 	
-	if is_instance_valid(target):
+	update_target()
+	if target:
 		movement_target_position = target.global_position
-		
-		var cur_time = GameTime.get_unpaused_elapsed_time()
-		if cur_time >= next_fire:
-			if equipped_tool.locking_action:
-				if equipped_tool.locking_action.poll_continue:
-					equipped_tool.locking_action.stop_action({target_entity = target})
-				
-				next_fire = cur_time + randf_range(fire_interval_min, fire_interval_max)
-			else:
-				var chosen_key = equipped_tool.tool_actions.keys().pick_random()
-				assert(chosen_key, "No tool actions in rig's tool")
-				
-				equipped_tool.tool_actions[chosen_key].start_action({target_entity = target})
-				
-				var charge_time_range := charge_time_max - charge_time_min
-				next_fire = cur_time + charge_time_min + randf() ** 2 * charge_time_range
-		else:
-			if equipped_tool.locking_action and equipped_tool.locking_action.poll_continue:
-				equipped_tool.locking_action.continue_action({target_entity = target})
-	else:
-		if equipped_tool.locking_action and equipped_tool.locking_action.active:
-			equipped_tool.locking_action.cancel_action()
+		step_attack()
