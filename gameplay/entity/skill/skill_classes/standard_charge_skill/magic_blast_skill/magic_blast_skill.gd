@@ -1,5 +1,5 @@
 class_name MagicBlastSkill
-extends Skill
+extends StandardChargeSkill
 
 const max_projectile_lifetime: float = 2
 const base_projectile_speed: float = 20
@@ -14,89 +14,18 @@ func initialize() -> void:
 	endlag = 0.2
 
 
-func start_local(params: Dictionary):
-	if not check_skill_valid():
-		return
-	
-	action.active = true
-	action.poll_continue = true
-	action.poll_stop = true
-	tool.lock(action)
-	
-	params.origin = tool.get_action_origin()
-	params.charge = 0
-	data.start_time = GameTime.get_unpaused_elapsed_time()
-	data.team = tool_user.team
-	action.startup_end_time = data.start_time + get_startup()
-
-
-func continue_local(params: Dictionary):
-	if not check_skill_valid():
-		return
-	
-	var time := GameTime.get_unpaused_elapsed_time()
-	var charge_time: float = time - data.start_time - get_startup()
-	
-	params.origin = tool.get_action_origin()
-	params.charge = clamp(charge_time/SkillCharge.MAX_CHARGE_TIME, 0, 1)
-
-
-func stop_local(params: Dictionary):
-	if not check_skill_valid():
-		return
-	
-	var time := GameTime.get_unpaused_elapsed_time()
-	var charge_time: float = time - data.start_time - get_startup()
-	
-	action.poll_continue = false
-	action.poll_stop = false
-	
-	params.origin = tool.get_action_origin()
-	params.charge = clamp(charge_time/SkillCharge.MAX_CHARGE_TIME, 0, 1)
-	
-	await get_tree().create_timer(get_endlag()).timeout
-	
-	if is_instance_valid(tool) and action.active:
-		action.active = false
-		tool.unlock()
-
-
-func start_server(params: Dictionary):
-	if not check_skill_valid():
-		return
-	
-	call_replicated(start_replicated, params)
-
-
-func continue_server(params: Dictionary):
-	if not check_skill_valid():
-		return
-	
-	call_replicated(continue_replicated, params)
-
-
 func stop_server(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
 	call_replicated(stop_replicated, params)
 	
-	var stats := MagicStats.stats[data.magic]
-	var damage_multiplier = stats.damage * lerp(1.0, SkillCharge.DAMAGE_MULTIPLIER, params.charge)
-	var speed_multiplier = stats.speed * lerp(1.0, SkillCharge.SPEED_MULTIPLIER, params.charge)
-	var size_multiplier = stats.size * lerp(1.0, SkillCharge.SIZE_MULTIPLIER, params.charge)
+	var damage_multiplier = get_magic_skill_damage_multiplier(params)
+	var speed_multiplier = get_magic_skill_speed_multiplier(params)
+	var size_multiplier = get_magic_skill_size_multiplier(params)
 	
 	var origin: Vector3 = params.origin
 	var direction: Vector3 = (params.target_position - params.origin).normalized()
-	
-	var excluded_rids := []
-	var update_excluded_rids := func():
-		excluded_rids.clear()
-		for entity_id: String in Entity.current_entities:
-			var entity = Entity.current_entities[entity_id]
-			if entity == tool_user or not Entity.can_teams_damage(data.team, entity.team):
-				excluded_rids.append(entity)
-	update_excluded_rids.call()
 	
 	var start_time: float = GameTime.get_unpaused_elapsed_time()
 	
@@ -106,7 +35,7 @@ func stop_server(params: Dictionary):
 	projectile_query_shape.radius = base_projectile_radius * size_multiplier
 	var projectile_query_params := PhysicsShapeQueryParameters3D.new()
 	projectile_query_params.shape = projectile_query_shape
-	projectile_query_params.exclude = excluded_rids
+	projectile_query_params.exclude = get_excluded_rids()
 	
 	var last_projectile_position: Vector3 = origin
 	
@@ -122,8 +51,7 @@ func stop_server(params: Dictionary):
 		
 		projectile_query_params.motion = projectile_position - last_projectile_position
 		projectile_query_params.transform = Transform3D(Basis.IDENTITY, last_projectile_position)
-		update_excluded_rids.call()
-		projectile_query_params.exclude = excluded_rids
+		projectile_query_params.exclude = get_excluded_rids()
 		
 		# stationary cast in case it starts the frame inside a target
 		if space_state.intersect_shape(projectile_query_params, 1).size() > 0:
@@ -161,8 +89,7 @@ func stop_server(params: Dictionary):
 	var explosion_query_params := PhysicsShapeQueryParameters3D.new()
 	explosion_query_params.shape = explosion_query_shape
 	explosion_query_params.transform = Transform3D(Basis.IDENTITY, explode_position)
-	update_excluded_rids.call()
-	explosion_query_params.exclude = excluded_rids
+	explosion_query_params.exclude = get_excluded_rids()
 	
 	for result in space_state.intersect_shape(explosion_query_params):
 		var hit_body = result.collider
@@ -216,8 +143,7 @@ func continue_replicated(params: Dictionary):
 		projectile.position = preview_pos
 		projectile.basis = Basis.looking_at(target_delta)
 		
-		var stats := MagicStats.stats[data.magic]
-		var size_multiplier = stats.size * SkillCharge.get_size_multiplier(params.charge)
+		var size_multiplier = get_magic_skill_size_multiplier(params)
 		projectile.set_radius(base_projectile_radius * size_multiplier)
 
 
@@ -225,9 +151,8 @@ func stop_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var stats := MagicStats.stats[data.magic]
-	var speed_multiplier = stats.speed * SkillCharge.get_speed_multiplier(params.charge)
-	var size_multiplier = stats.size * SkillCharge.get_size_multiplier(params.charge)
+	var speed_multiplier = get_magic_skill_speed_multiplier(params)
+	var size_multiplier = get_magic_skill_size_multiplier(params)
 	
 	data.charge = params.charge
 	
@@ -286,8 +211,7 @@ func explode_projectile_replicated(explode_position: Vector3):
 	
 	data.projectile = null
 	
-	var stats := MagicStats.stats[data.magic]
-	var size_multiplier = stats.size * lerp(1.0, SkillCharge.SIZE_MULTIPLIER, data.charge)
+	var size_multiplier = get_magic_skill_size_multiplier()
 	
 	var explosion_radius = base_explosion_radius * size_multiplier
 	
@@ -301,11 +225,6 @@ func explode_projectile_replicated(explode_position: Vector3):
 	
 	explosion.fade_out.call_deferred()
 	explosion.tree_exited.connect(queue_free)
-
-
-func cancel():
-	if not data.get("projectile"):
-		queue_free()
 
 
 func get_aimbot_target_position(params: Dictionary) -> Vector3:

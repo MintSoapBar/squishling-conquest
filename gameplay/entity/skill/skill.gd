@@ -139,6 +139,39 @@ func get_aimbot_target_position(_params: Dictionary):
 	pass
 
 
+func get_excluded_rids() -> Array[RID]:
+	var excluded_rids: Array[RID] = []
+	for entity_id: String in Entity.current_entities:
+		var entity = Entity.current_entities[entity_id]
+		if entity == tool_user or not Entity.can_teams_damage(team, entity.team):
+			excluded_rids.append(entity.get_rid())
+	return excluded_rids
+
+
+func get_magic_skill_damage_multiplier(params: Dictionary = {}) -> float:
+	var stats := MagicStats.stats[data.magic]
+	var charge = params.get("charge", data.get("charge", 1))
+	var damage_multiplier = stats.damage * SkillCharge.get_damage_multiplier(charge)
+	damage_multiplier *= data.get("damage_multiplier", 1)
+	return damage_multiplier
+
+
+func get_magic_skill_speed_multiplier(params: Dictionary = {}) -> float:
+	var stats := MagicStats.stats[data.magic]
+	var charge = params.get("charge", data.get("charge", 1))
+	var speed_multiplier = stats.speed * SkillCharge.get_speed_multiplier(charge)
+	speed_multiplier *= data.get("speed_multiplier", 1)
+	return speed_multiplier
+
+
+func get_magic_skill_size_multiplier(params: Dictionary = {}) -> float:
+	var stats := MagicStats.stats[data.magic]
+	var charge = params.get("charge", data.get("charge", 1))
+	var size_multiplier = stats.size * SkillCharge.get_size_multiplier(charge)
+	size_multiplier *= data.get("size_multiplier", 1)
+	return size_multiplier
+
+
 func intersect_projectile(projectile_origin: Vector3, projectile_speed: float,
 	target_origin: Vector3, target_velocity: Vector3, max_time: float = INF) -> Vector3:
 	

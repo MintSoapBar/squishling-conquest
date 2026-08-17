@@ -113,7 +113,6 @@ func start_action_server(params: Dictionary = {}):
 	else:
 		cur_skill.peers[0] = true
 	
-	data.skill = cur_skill
 	cur_skill.start_server(params)
 
 
