@@ -212,7 +212,7 @@ func continue_replicated(params: Dictionary):
 		circle.basis = Basis.looking_at(target_delta, circle.basis.y)
 		circle.scale = Vector3.ONE * 2 * base_projectile_radius * 1.5 * charge_size_multiplier
 	else:
-		var projectile: MagicProjectileVFX = data.projectile
+		var projectile: MagicProjectileVFX = data.charge_projectile
 		projectile.position = preview_pos
 		projectile.basis = Basis.looking_at(target_delta)
 		

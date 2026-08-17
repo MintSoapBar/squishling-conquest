@@ -9,6 +9,11 @@ var area: Area3D
 var interior_area: Area3D
 var attachment_points: Array[Node3D] = []
 
+var biome: String = &"cellar"
+var world: int = 1
+var level: int = 1
+
+
 var area_leeway_margin = 2 * ProjectSettings.get_setting(
 	"physics/jolt_physics_3d/collisions/collision_margin_fraction")
 var interior_area_margin: float = 1

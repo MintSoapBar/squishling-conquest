@@ -1,9 +1,0 @@
-[gd_scene format=3 uid="uid://b4xtrxi2ww0m7"]
-
-[ext_resource type="Script" uid="uid://c51y2al8r2tk0" path="res://gameplay/entity/entity_classes/mob/living_mushroom/living_mushroom.gd" id="1_111jw"]
-[ext_resource type="PackedScene" uid="uid://dr48dbdaruerl" path="res://gameplay/entity/sprites/living_mushroom_sprite/living_mushroom_sprite.tscn" id="2_sfjmm"]
-
-[node name="LivingMushroom" type="CharacterBody3D" unique_id=582498067]
-script = ExtResource("1_111jw")
-
-[node name="LivingMushroomSprite" parent="." unique_id=902926490 instance=ExtResource("2_sfjmm")]

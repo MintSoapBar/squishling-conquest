@@ -29,3 +29,4 @@ script = ExtResource("3_h5o24")
 [node name="Dungeon" parent="." unique_id=1171770167 instance=ExtResource("6_fn3g3")]
 
 [node name="Minimap" parent="." unique_id=987131916 instance=ExtResource("7_sc4t8")]
+visible = false

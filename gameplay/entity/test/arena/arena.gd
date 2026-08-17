@@ -3,7 +3,7 @@ extends Node
 @export var max_enemies: int = 5
 @export var size_x: float = 50
 @export var size_z: float = 50
-@export var enemies_list: Array[String] = ["rig", "living_mushroom"]
+@export var enemies_list: Array[String] = ["rig"]
 
 var enemies: Dictionary[String, Entity] = {}
 

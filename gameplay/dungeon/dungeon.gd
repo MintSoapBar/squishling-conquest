@@ -12,14 +12,22 @@ const BOX_ROOM = preload("uid://cm1xc38vhcbjo")
 var structures: Array[Structure] = []
 var rooms: Array[Room] = []
 
+var biome: String = "cellar"
+var world: int = 1
+var level: int = 1
 
-func generate(dungeon_seed: int = 0, room_count: int = 12) -> void:
+
+func generate(dungeon_seed: = 0, room_count: = 12, _biome := "cellar", _world := 1, _level := 1) -> void:
 	assert(room_count > 0, "Room count must be above 0")
 	
 	if dungeon_seed == 0:
 		seed(Time.get_ticks_msec())
 	else:
 		seed(dungeon_seed)
+	
+	biome = _biome
+	world = _world
+	level = _level
 	
 	var entities_to_destroy: Array[Entity] = []
 	for entity_id in Entity.current_entities:
@@ -52,6 +60,9 @@ func generate(dungeon_seed: int = 0, room_count: int = 12) -> void:
 	entrance_room.initialize()
 	entrance_room.set_doors_state(Door.DoorState.BLOCKED)
 	entrance_room.visited = true
+	entrance_room.biome = biome
+	entrance_room.world = world
+	entrance_room.level = level
 	rooms.append(entrance_room)
 	structures.append(entrance_room)
 	#doors.append_array(entrance_room.attachment_points)
@@ -162,16 +173,19 @@ func attach_room(attached_door: Door, new_corridor: Corridor, attaching_door: Do
 	return true
 
 
-func generate_corridor(length: int) -> Corridor:
+func generate_corridor(length: int, _biome := biome, _world := world, _level := level) -> Corridor:
 	var new_corridor: Corridor = CORRIDOR.instantiate()
 	new_corridor.initialize()
 	new_corridor.length = length
+	new_corridor.biome = _biome
+	new_corridor.world = _world
+	new_corridor.level = _level
 	new_corridor.update_corridor()
 	
 	return new_corridor
 
 
-func generate_box_room() -> BoxRoom:
+func generate_box_room(_biome := biome, _world := world, _level := level) -> BoxRoom:
 	var new_room_size = Vector3i(randi_range(3, 8) * 4, randi_range(6, 12), randi_range(3, 8) * 4)
 	var new_door_positions: Array[int] = [
 		randi_range(1, new_room_size.x - 5),
@@ -184,6 +198,9 @@ func generate_box_room() -> BoxRoom:
 	new_room.initialize()
 	new_room.room_size = new_room_size
 	new_room.door_positions = new_door_positions
+	new_room.biome = _biome
+	new_room.world = _world
+	new_room.level = _level
 	new_room.update_room()
 	
 	return new_room

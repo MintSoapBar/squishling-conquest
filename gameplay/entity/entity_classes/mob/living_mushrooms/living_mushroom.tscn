@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b4xtrxi2ww0m7"]
+
+[ext_resource type="Script" uid="uid://b18x25owbaqqu" path="res://gameplay/entity/entity_classes/mob/living_mushrooms/living_mushroom.gd" id="1_dyijh"]
+[ext_resource type="PackedScene" uid="uid://dr48dbdaruerl" path="res://gameplay/entity/sprites/living_mushroom_sprite/living_mushroom_sprite.tscn" id="1_wpfua"]
+
+[node name="LivingMushroom" type="CharacterBody3D" unique_id=582498067]
+script = ExtResource("1_dyijh")
+
+[node name="LivingMushroomSprite" parent="." unique_id=902926490 instance=ExtResource("1_wpfua")]
+cap_color = Color(0.91, 0, 0, 1)

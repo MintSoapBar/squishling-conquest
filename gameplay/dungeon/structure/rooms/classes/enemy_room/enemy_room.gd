@@ -15,10 +15,9 @@ func trigger() -> void:
 	set_doors_open(false)
 	
 	for i in range(max(1, get_interior_floor_area() / 100)):
-		var mob = Entity.create_entity({
-			entity_name = ["rig", "living_mushroom"].pick_random(),
-			position = get_random_floor_position(),
-		})
+		var data = BiomeEnemies.pick_enemy_data(biome, world, level)
+		data.position = get_random_floor_position()
+		var mob = Entity.create_entity(data)
 		mobs[str(mob)] = mob
 		mob.died.connect(func():
 			mobs.erase(str(mob))

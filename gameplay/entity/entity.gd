@@ -381,6 +381,10 @@ func is_alive() -> bool:
 	return status.cur_health > 0
 
 
+func can_move() -> bool:
+	return can_move_network() and is_alive()
+
+
 func get_aim_target_position() -> Vector3:
 	return global_position + Vector3(0, 0.5, 0)
 

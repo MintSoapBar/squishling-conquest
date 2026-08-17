@@ -6,6 +6,7 @@ const visited_color: Color = Color(1, 1, 1, 0.75)
 
 @onready var shapes: Control = $Shapes
 @onready var player_marker: Control = $PlayerMarker
+@onready var level_label: Label = $LevelLabel
 
 @export var rotate_player_marker: bool = true
 
@@ -30,7 +31,9 @@ func set_structure_visited(structure: Structure):
 	structure_rects[structure].color = visited_color
 
 
-func load_dungeon_shapes(dungeon: Dungeon):
+func load_dungeon(dungeon: Dungeon):
+	level_label.text = "%d-%d" % [dungeon.world, dungeon.level]
+	
 	for child in shapes.get_children():
 		child.queue_free()
 	

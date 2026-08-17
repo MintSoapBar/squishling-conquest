@@ -9,6 +9,7 @@ const HOME = preload("uid://d2ru382ltbalf")
 
 var home: Home
 
+var level: int = 1
 
 func _ready() -> void:
 	Entity.initialize_registry()
@@ -25,6 +26,7 @@ func _ready() -> void:
 	home.player_entered_dungeon_gate.connect(on_dungeon_gate_player_enter, CONNECT_ONE_SHOT)
 	Entity.entities_folder.local_player_changed.connect(try_regenerate)
 	dungeon.player_entered_exit_gate.connect(func(_player: Player):
+		level = level % 3 + 1
 		regenerate())
 
 
@@ -48,8 +50,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func regenerate():
-	await dungeon.generate()
-	minimap.load_dungeon_shapes(dungeon)
+	await dungeon.generate(Time.get_ticks_msec(), 1, "cellar", 1, level)
+	minimap.load_dungeon(dungeon)
+	minimap.visible = true
 
 
 func try_regenerate(plr):

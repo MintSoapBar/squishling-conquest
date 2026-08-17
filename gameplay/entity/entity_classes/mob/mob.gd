@@ -12,6 +12,18 @@ var controls: Dictionary[String, Goal] = {}
 var target: Entity
 var movement_target_position: Vector3 = Vector3(0, 0, 0)
 
+var initial_attack_delay_min: float = 2
+var initial_attack_delay_max: float = 5
+var attack_interval_min: float = 3
+var attack_interval_max: float = 5
+var attack_charge_time_min: float = 0.5
+var attack_charge_time_max: float = 1
+var next_attack_skill_key: String = ""
+var current_attack_action: ToolSkillAction = null
+
+var next_attack_time: float = GameTime.get_unpaused_elapsed_time() + (
+	randf_range(initial_attack_delay_min, initial_attack_delay_max))
+
 
 func initialize(_data: Dictionary) -> void:
 	var stat_block: MobStatBlock = MobStats.stats[_data.entity_name]
@@ -49,11 +61,44 @@ func _physics_process(delta: float) -> void:
 	data.position = global_position
 
 
+func step_attack():
+	var cur_time = GameTime.get_unpaused_elapsed_time()
+	if not current_attack_action:
+		if cur_time >= next_attack_time:
+			var chosen_key = next_attack_skill_key
+			if not chosen_key or chosen_key.is_empty():
+				chosen_key = equipped_tool.tool_actions.keys().pick_random()
+			
+			if chosen_key and not chosen_key.is_empty():
+				current_attack_action = equipped_tool.tool_actions[chosen_key]
+				current_attack_action.start_action({target_entity = target})
+				
+				var charge_time: float = max(
+					randf_range(attack_charge_time_min, attack_charge_time_max),
+					current_attack_action.cur_skill.get_startup(),
+				)
+				
+				await get_tree().create_timer(charge_time).timeout
+				update_target()
+				
+				if target:
+					if current_attack_action.poll_stop:
+						var endlag = current_attack_action.cur_skill.get_endlag()
+						current_attack_action.stop_action({target_entity = target})
+						await get_tree().create_timer(endlag).timeout
+				else:
+					current_attack_action.cancel_action()
+				current_attack_action = null
+			
+			next_attack_time = cur_time + randf_range(attack_interval_min, attack_interval_max)
+	else:
+		if current_attack_action.poll_continue and target:
+			current_attack_action.continue_action({target_entity = target})
+
+
 func update_target():
 	if not is_instance_valid(target) or not target.is_alive():
 		target = null
-	
-	if not target:
 		target = find_target()
 
 
