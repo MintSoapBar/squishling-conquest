@@ -1,6 +1,9 @@
 extends CollisionShape3D
 
 
+@export var automatic_reparent: bool = true
+
+
 static func find_parent_of_type(node: Node, type: Variant) -> Node:
 	var current = node.get_parent()
 
@@ -14,7 +17,8 @@ static func find_parent_of_type(node: Node, type: Variant) -> Node:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	reparent_to_collision_object_3d.call_deferred()
+	if automatic_reparent:
+		reparent_to_collision_object_3d.call_deferred()
 
 
 func reparent_to_collision_object_3d() -> void:

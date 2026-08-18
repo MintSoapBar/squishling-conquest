@@ -4,6 +4,9 @@ extends Mob
 func _ready() -> void:
 	super()
 	
+	attack_charge_time_min = 0.5
+	attack_charge_time_max = 0.5
+	
 	inventory.add_stack(Stack.new("living_mushroom_tool", 1))
 	equip_tool(0)
 	

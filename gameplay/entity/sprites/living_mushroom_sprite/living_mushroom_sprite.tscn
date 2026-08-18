@@ -1,18 +1,18 @@
 [gd_scene format=3 uid="uid://dr48dbdaruerl"]
 
 [ext_resource type="Script" uid="uid://c784chnlgifum" path="res://gameplay/entity/sprites/living_mushroom_sprite/living_mushroom_sprite.gd" id="1_jvuhx"]
-[ext_resource type="ArrayMesh" uid="uid://fsjphjqvu0md" path="res://gameplay/entity/sprites/living_mushroom_sprite/living_mushroom.mesh" id="2_6rmim"]
+[ext_resource type="PackedScene" uid="uid://ct0l4gnub6ktd" path="res://gameplay/entity/sprites/living_mushroom_sprite/mushroom_body.tscn" id="2_8cvtl"]
 [ext_resource type="PackedScene" uid="uid://bso3hjhrkti3d" path="res://gameplay/status/status_bar/status_bar_billboard.tscn" id="3_ajriw"]
 [ext_resource type="Script" uid="uid://1l7ir3xeydvc" path="res://gameplay/entity/sprites/nested_collision_shape_3d.gd" id="4_ve0t6"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rp1uq"]
-albedo_color = Color(0.9647059, 0.8862745, 0.627451, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_il7kq"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8cvtl"]
 albedo_color = Color(0.7607843, 0, 0, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k7nnc"]
-albedo_color = Color(0.68, 0.5029734, 0.19720002, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_82l37"]
+albedo_color = Color(0.6784314, 0.5019608, 0.19607843, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rt6j8"]
+albedo_color = Color(0.9647059, 0.8862745, 0.627451, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dyerp"]
 albedo_color = Color(0, 0, 0, 1)
@@ -29,36 +29,39 @@ albedo_color = Color(0, 0, 0, 1)
 metallic = 0.9
 metallic_specular = 1.0
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_8cvtl"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ru2os"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_551ov"]
-radius = 0.35888672
-height = 1.0937195
+radius = 0.35
+height = 1.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ksm3a"]
-height = 0.17500001
-radius = 0.69091797
+height = 0.23076923
+radius = 0.72
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_0uebs"]
-height = 0.15
-radius = 0.45898438
+height = 0.17948718
+radius = 0.48
 
 [node name="LivingMushroomSprite" type="Node3D" unique_id=902926490]
 script = ExtResource("1_jvuhx")
 
 [node name="Model" type="Node3D" parent="." unique_id=808506220]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 
-[node name="Body" type="MeshInstance3D" parent="Model" unique_id=1714120653]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
-mesh = ExtResource("2_6rmim")
-surface_material_override/0 = SubResource("StandardMaterial3D_rp1uq")
-surface_material_override/1 = SubResource("StandardMaterial3D_il7kq")
-surface_material_override/2 = SubResource("StandardMaterial3D_k7nnc")
+[node name="MushroomBody" parent="Model" unique_id=2130145621 instance=ExtResource("2_8cvtl")]
+
+[node name="Cap" parent="Model/MushroomBody" index="0" unique_id=120659535]
+transform = Transform3D(0.32, 0, 0, 0, 0.3846154, 0, 0, 0, 0.32, 0, 1, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_8cvtl")
+surface_material_override/1 = SubResource("StandardMaterial3D_82l37")
+
+[node name="Stalk" parent="Model/MushroomBody" index="1" unique_id=2116779701]
+transform = Transform3D(0.3043478, 0, 0, 0, 0.33333334, 0, 0, 0, 0.3043478, 0, 0, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_rt6j8")
 
 [node name="Face" type="Marker3D" parent="Model" unique_id=528518289]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.29999998)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.3)
 
 [node name="LeftEye" type="MeshInstance3D" parent="Model/Face" unique_id=927548374]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.05, 0.02)
@@ -74,19 +77,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35000002, 0.4, 0)
 
 [node name="StatusBarBillboard" parent="." unique_id=954147360 instance=ExtResource("3_ajriw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1999999, 0)
-texture = SubResource("ViewportTexture_8cvtl")
+texture = SubResource("ViewportTexture_ru2os")
 
 [node name="StalkCollider" type="CollisionShape3D" parent="." unique_id=1218737846]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56444395, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CapsuleShape3D_551ov")
 script = ExtResource("4_ve0t6")
 
 [node name="CapCollider1" type="CollisionShape3D" parent="." unique_id=1850432546]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.825, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88461536, 0)
 shape = SubResource("CylinderShape3D_ksm3a")
 script = ExtResource("4_ve0t6")
 
 [node name="CapCollider2" type="CollisionShape3D" parent="." unique_id=1851954184]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0897436, 0)
 shape = SubResource("CylinderShape3D_0uebs")
 script = ExtResource("4_ve0t6")
+
+[editable path="Model/MushroomBody"]

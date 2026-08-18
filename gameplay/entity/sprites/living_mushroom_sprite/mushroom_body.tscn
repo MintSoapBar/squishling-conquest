@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://ct0l4gnub6ktd"]
+
+[ext_resource type="PackedScene" uid="uid://b5pmtklh0jfmm" path="res://gameplay/entity/sprites/living_mushroom_sprite/mushroom.glb" id="1_b3bjk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8cvtl"]
+albedo_color = Color(0.7607843, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rt6j8"]
+albedo_color = Color(0.6784314, 0.5019608, 0.19607843, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b3bjk"]
+albedo_color = Color(0.9647059, 0.8862745, 0.627451, 1)
+
+[node name="MushroomBody" unique_id=2130145621 instance=ExtResource("1_b3bjk")]
+
+[node name="Cap" parent="." index="0" unique_id=1068839940]
+surface_material_override/0 = SubResource("StandardMaterial3D_8cvtl")
+surface_material_override/1 = SubResource("StandardMaterial3D_rt6j8")
+
+[node name="Stalk" parent="." index="1" unique_id=1688860892]
+surface_material_override/0 = SubResource("StandardMaterial3D_b3bjk")
