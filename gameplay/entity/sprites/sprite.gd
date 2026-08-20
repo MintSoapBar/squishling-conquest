@@ -7,6 +7,7 @@ var model: Node3D
 
 var tool: Tool
 
+@onready var status_bar_billboard: StatusBarBillboard = $StatusBarBillboard
 
 @rpc("any_peer", "call_local")
 func equip_tool(new_tool):

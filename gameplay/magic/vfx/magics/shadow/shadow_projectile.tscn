@@ -24,8 +24,8 @@ stencil_flags = 2
 material = SubResource("StandardMaterial3D_bu0fc")
 
 [sub_resource type="Curve" id="Curve_vvjaf"]
-_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(0.68461543, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="SphereMesh" id="SphereMesh_551ov"]
 radius = 0.3
@@ -37,7 +37,7 @@ vertex_color_use_as_albedo = true
 albedo_color = Color(0, 0, 0, 1)
 
 [node name="Projectile" type="Node3D" unique_id=263683715]
-transform = Transform3D(0.989306, -0.14590147, 0, 0.14590147, 0.989306, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.98930603, -0.14590147, 0, 0.14590147, 0.98930603, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_7ubfu")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1549591953]

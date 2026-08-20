@@ -1,6 +1,5 @@
 extends Sprite
 
-@onready var status_bar_billboard: StatusBarBillboard = $StatusBarBillboard
 @onready var body: SquishlingSpriteBody = $Model/Body
 @onready var hand: Marker3D = $Hand
 @onready var shield: Node3D = $Model/Body/Shield

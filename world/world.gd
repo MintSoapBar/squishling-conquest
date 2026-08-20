@@ -62,7 +62,7 @@ func generate_dungeon():
 	
 	while dungeon.loading:
 		await dungeon.loaded
-	await dungeon.generate(Time.get_ticks_msec(), 1, "cellar", world, level)
+	await dungeon.generate(Time.get_ticks_msec(), 12, "cellar", world, level)
 	minimap.load_dungeon(dungeon)
 	minimap.visible = true
 

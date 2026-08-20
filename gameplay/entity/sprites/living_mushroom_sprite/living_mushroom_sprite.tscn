@@ -32,15 +32,15 @@ metallic_specular = 1.0
 [sub_resource type="ViewportTexture" id="ViewportTexture_ru2os"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_551ov"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a021a"]
 radius = 0.35
 height = 1.0
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_ksm3a"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8tqd6"]
 height = 0.23076923
 radius = 0.72
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_0uebs"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_p1um4"]
 height = 0.17948718
 radius = 0.48
 
@@ -76,22 +76,25 @@ surface_material_override/0 = SubResource("StandardMaterial3D_50vk3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35000002, 0.4, 0)
 
 [node name="StatusBarBillboard" parent="." unique_id=954147360 instance=ExtResource("3_ajriw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1999999, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 texture = SubResource("ViewportTexture_ru2os")
 
 [node name="StalkCollider" type="CollisionShape3D" parent="." unique_id=1218737846]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-shape = SubResource("CapsuleShape3D_551ov")
+shape = SubResource("CapsuleShape3D_a021a")
 script = ExtResource("4_ve0t6")
+automatic_reparent = false
 
 [node name="CapCollider1" type="CollisionShape3D" parent="." unique_id=1850432546]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88461536, 0)
-shape = SubResource("CylinderShape3D_ksm3a")
+shape = SubResource("CylinderShape3D_8tqd6")
 script = ExtResource("4_ve0t6")
+automatic_reparent = false
 
 [node name="CapCollider2" type="CollisionShape3D" parent="." unique_id=1851954184]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0897436, 0)
-shape = SubResource("CylinderShape3D_0uebs")
+shape = SubResource("CylinderShape3D_p1um4")
 script = ExtResource("4_ve0t6")
+automatic_reparent = false
 
 [editable path="Model/MushroomBody"]

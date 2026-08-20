@@ -7,6 +7,8 @@ func _ready() -> void:
 	attack_charge_time_min = 0.5
 	attack_charge_time_max = 0.5
 	
+	next_attack_time = GameTime.get_unpaused_elapsed_time() + randf_range(3, 5)
+	
 	inventory.add_stack(Stack.new("living_mushroom_tool", 1))
 	equip_tool(0)
 	

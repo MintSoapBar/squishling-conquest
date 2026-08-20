@@ -190,7 +190,7 @@ func generate_corridor(length: int, _biome := biome, _world := world, _level := 
 
 
 func generate_box_room(_biome := biome, _world := world, _level := level) -> BoxRoom:
-	var new_room_size = Vector3i(randi_range(3, 8) * 4, randi_range(6, 12), randi_range(3, 8) * 4)
+	var new_room_size = Vector3i(randi_range(4, 8) * 4, randi_range(6, 12), randi_range(4, 8) * 4)
 	var new_door_positions: Array[int] = [
 		randi_range(1, new_room_size.x - 5),
 		randi_range(1, new_room_size.x - 5),

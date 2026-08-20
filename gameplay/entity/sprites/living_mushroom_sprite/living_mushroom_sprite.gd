@@ -54,9 +54,9 @@ var cap_connection_height: float = cap_height * (modeled_cap_connection_height /
 var stalk_material: StandardMaterial3D
 var cap_material: StandardMaterial3D
 var gills_material: StandardMaterial3D
-@onready var stalk_collider: CollisionShape3D = $StalkCollider
-@onready var cap_collider_1: CollisionShape3D = $CapCollider1
-@onready var cap_collider_2: CollisionShape3D = $CapCollider2
+@onready var stalk_collider: NestedCollisionShape3D = $StalkCollider
+@onready var cap_collider_1: NestedCollisionShape3D = $CapCollider1
+@onready var cap_collider_2: NestedCollisionShape3D = $CapCollider2
 var stalk_collider_shape: CapsuleShape3D
 var cap_collider_1_shape: CylinderShape3D
 var cap_collider_2_shape: CylinderShape3D
@@ -76,11 +76,16 @@ func _ready() -> void:
 	stalk_collider.shape = stalk_collider_shape
 	cap_collider_1.shape = cap_collider_1_shape
 	cap_collider_2.shape = cap_collider_2_shape
+	
+	stalk_collider.reparent_to_collision_object_3d.call_deferred()
+	cap_collider_1.reparent_to_collision_object_3d.call_deferred()
+	cap_collider_2.reparent_to_collision_object_3d.call_deferred()
 
 
 func update_stalk_height():
 	stalk.scale.y = stalk_height/modeled_stalk_height
 	cap.position.y = stalk_height
+	update_status_bar_billboard()
 	update_stalk_collider()
 	update_cap_colliders()
 
@@ -94,6 +99,7 @@ func update_stalk_radius():
 
 func update_cap_height():
 	cap.scale.y = cap_height/modeled_cap_height
+	update_status_bar_billboard()
 	update_cap_colliders()
 
 
@@ -108,6 +114,10 @@ func update_stalk_collider():
 	stalk_collider.position.y = stalk_height/2
 	stalk_collider_shape.height = stalk_height
 	stalk_collider_shape.radius = stalk_radius
+
+
+func update_status_bar_billboard():
+	status_bar_billboard.position.y = stalk_height + cap_height
 
 
 func update_cap_colliders():

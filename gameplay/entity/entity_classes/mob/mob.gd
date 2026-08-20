@@ -12,8 +12,6 @@ var controls: Dictionary[String, Goal] = {}
 var target: Entity
 var movement_target_position: Vector3 = Vector3(0, 0, 0)
 
-var initial_attack_delay_min: float = 2
-var initial_attack_delay_max: float = 5
 var attack_interval_min: float = 3
 var attack_interval_max: float = 5
 var attack_charge_time_min: float = 0.5
@@ -22,7 +20,7 @@ var next_attack_skill_key: String = ""
 var current_attack_action: ToolSkillAction = null
 
 var next_attack_time: float = GameTime.get_unpaused_elapsed_time() + (
-	randf_range(initial_attack_delay_min, initial_attack_delay_max))
+	randf_range(2, 5))
 
 
 func initialize(_data: Dictionary) -> void:

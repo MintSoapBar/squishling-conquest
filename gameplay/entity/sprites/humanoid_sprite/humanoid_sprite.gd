@@ -1,7 +1,6 @@
 class_name HumanoidSprite
 extends Sprite
 
-@onready var status_bar_billboard: StatusBarBillboard = $StatusBarBillboard
 @onready var body: MeshInstance3D = $Model/Body
 
 func _ready():

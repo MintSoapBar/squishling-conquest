@@ -1,5 +1,5 @@
+class_name NestedCollisionShape3D
 extends CollisionShape3D
-
 
 @export var automatic_reparent: bool = true
 
