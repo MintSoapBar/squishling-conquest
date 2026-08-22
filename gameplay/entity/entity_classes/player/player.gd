@@ -35,17 +35,17 @@ var parry_window: float = 0.1
 
 var can_unequip: bool = false
 
-static func create_player(peer_id_: int = 1) -> Player:
-	var data_ = {
+static func create_player(peer_id_: int = 1, _data := {}) -> Player:
+	_data.merge({
 		entity_name = "player",
 		entity_id = PLAYER_ENTITY_ID_PREFIX + str(peer_id_),
 		peer_id = peer_id_,
-		max_health = 100,
-		max_shield = 100,
-		shield_enabled = true,
-	}
+	})
 	
-	var new_player: Player = create_entity(data_)
+	var new_player: Player = create_entity(_data)
+	
+	if not network or network and peer_id_ == network.multiplayer.get_unique_id():
+		local_player = new_player
 	
 	return new_player
 
@@ -105,16 +105,18 @@ static func set_orbital_camera(camera):
 
 
 func initialize(_data: Dictionary) -> void:
-	sprite = entities_folder.player_sprite.instantiate() as Sprite
-	add_child(sprite)
+	team = Team.PLAYER
+	_data.max_health = 100
+	_data.max_shield = 100
+	_data.shield_enabled = true
+	if not _data.get("position"):
+		_data.position = Vector3(0, 0.35, 0)
 	
 	peer_id = _data.get("peer_id")
 	body_color = _data.get_or_add("body_color", Color(randf(), randf(), randf()))
 	
-	team = Team.PLAYER
-	
-	if not _data.get("position"):
-		_data.position = Vector3(0, 0.35, 0)
+	sprite = entities_folder.player_sprite.instantiate() as Sprite
+	add_child(sprite)
 	
 	super(_data)
 	

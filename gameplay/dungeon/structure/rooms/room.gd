@@ -16,12 +16,12 @@ func initialize() -> void:
 		attachment_points.append(door)
 
 
-func set_doors_state(state: Door.DoorState):
+func set_doors_state(new_doors_state: Door.DoorState):
 	for door: Door in attachment_points:
-		door.set_state(state)
+		door.set_state(new_doors_state)
 
 
 func set_doors_open(open: bool):
 	for door: Door in attachment_points:
 		if door.state != Door.DoorState.BLOCKED:
-			door.set_state(Door.DoorState.OPEN if open else Door.DoorState.CLOSED)
+			door.set_state.rpc(Door.DoorState.OPEN if open else Door.DoorState.CLOSED)

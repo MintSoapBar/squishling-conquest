@@ -3,6 +3,6 @@ extends Control
 
 func _ready() -> void:
 	if OS.has_feature("mobile"):
-		pass
+		visible = true
 	else:
 		queue_free()

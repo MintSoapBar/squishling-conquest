@@ -12,6 +12,7 @@ const visited_color: Color = Color(1, 1, 1, 0.75)
 
 var minimap_size: Vector2 = size
 
+var dungeon: Dungeon
 var structure_rects: Dictionary[Structure, ColorRect] = {}
 
 
@@ -27,11 +28,19 @@ func update_player_location(player_rotation: Vector3, player_position: Vector3) 
 		shapes.pivot_offset = Vector2(player_position.x, player_position.z)
 
 
-func set_structure_visited(structure: Structure):
-	structure_rects[structure].color = visited_color
+func set_structure_state(structure: Structure, state: Structure.StructureState):
+	if state != Structure.StructureState.UNEXPLORED:
+		structure_rects[structure].color = visited_color
 
 
-func load_dungeon(dungeon: Dungeon):
+func set_dungeon(new_dungeon: Dungeon):
+	dungeon = new_dungeon
+	
+	dungeon.loading_start.connect(hide)
+	dungeon.loaded.connect(load_dungeon)
+
+
+func load_dungeon():
 	level_label.text = "%d-%d" % [dungeon.world, dungeon.level]
 	
 	for child in shapes.get_children():
@@ -57,5 +66,7 @@ func load_dungeon(dungeon: Dungeon):
 			shapes.add_child(rect)
 			structure_rects[structure] = rect
 			
-			structure.player_entered_interior_area.connect(func(_param):
-				set_structure_visited(structure))
+			structure.state_changed.connect(func(new_state):
+				set_structure_state(structure, new_state))
+	
+	show()

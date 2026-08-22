@@ -11,7 +11,8 @@ func initialize() -> void:
 
 
 func trigger() -> void:
-	visited = true
+	set_state.rpc(StructureState.ACTIVE)
+	
 	set_doors_open(false)
 	
 	for i in range(max(1, get_interior_floor_area() / 100)):
@@ -24,6 +25,7 @@ func trigger() -> void:
 			mobs.erase(str(mob))
 			if mobs.size() <= 0:
 				set_doors_open(true)
+				set_state.rpc(StructureState.EXPLORED)
 		)
 
 
@@ -33,6 +35,8 @@ func connect_area_body_entered():
 
 func on_interior_area_body_entered(body: Node3D):
 	if body is Player:
-		if not visited:
-			trigger()
 		player_entered_interior_area.emit(body)
+		
+		if Dungeon.is_server():
+			if state == StructureState.UNEXPLORED:
+				trigger()

@@ -1,6 +1,7 @@
 class_name Dungeon
 extends Node3D
 
+signal loading_start
 signal loaded
 signal player_entered_exit_gate(player: Player)
 
@@ -9,53 +10,48 @@ const ENTRANCE_ROOM = preload("uid://bk7tfm8cm78ju")
 const EXIT_ROOM = preload("uid://b866e31dkc26r")
 const BOX_ROOM = preload("uid://cm1xc38vhcbjo")
 
+static var network
+
 var structures: Array[Structure] = []
 var rooms: Array[Room] = []
+var entities: Dictionary[String, Entity] = {}
 
+var dungeon_seed: int = 0
+var room_count: int = 12
 var biome: String = "cellar"
 var world: int = 1
 var level: int = 1
 
 var loading: bool = false
 
-func generate(dungeon_seed: = 0, room_count: = 12, _biome := "cellar", _world := 1, _level := 1) -> void:
+
+static func set_network(_network):
+	network = _network
+
+static func is_server() -> bool:
+	return (not network 
+		or not network.is_multiplayer_connected() or network.multiplayer.get_unique_id() == 1)
+
+
+@rpc("authority", "call_local")
+func generate(_dungeon_seed := dungeon_seed, _room_count := room_count, 
+	_biome := biome, _world := world, _level := level) -> void:
+	
 	assert(room_count > 0, "Room count must be above 0")
 	
 	loading = true
+	loading_start.emit()
 	
-	if dungeon_seed == 0:
-		seed(Time.get_ticks_msec())
-	else:
-		seed(dungeon_seed)
-	
+	dungeon_seed = _dungeon_seed
+	seed(dungeon_seed)
+	room_count = _room_count
 	biome = _biome
 	world = _world
 	level = _level
 	
-	var entities_to_destroy: Array[Entity] = []
-	for entity_id in Entity.current_entities:
-		var entity = Entity.current_entities[entity_id]
-		if entity is Player:
-			var player := entity as Player
-			player.global_position = Vector3(0, 0, 0)
-		else:
-			entities_to_destroy.append(entity)
-	for entity in entities_to_destroy:
-		entity.destroy()
-	
-	for child in get_children():
-		child.queue_free()
-	
-	rooms.clear()
-	structures.clear()
-	
-	await get_tree().physics_frame
-	await get_tree().physics_frame
-	await get_tree().physics_frame
+	await clear_dungeon()
 	
 	##
-	
-	Entity.create_entity({entity_name = "dummy", position = Vector3(6, 0, -6)})
 	
 	var doors: Array[Door] = []
 	
@@ -139,6 +135,66 @@ func generate(dungeon_seed: = 0, room_count: = 12, _biome := "cellar", _world :=
 	
 	loading = false
 	loaded.emit()
+
+
+func clear_dungeon_entities():
+	for entity_id in entities:
+		entities[entity_id].destroy()
+
+
+func clear_dungeon():
+	for child in get_children():
+		child.queue_free()
+	
+	rooms.clear()
+	structures.clear()
+	
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+
+
+func get_dungeon_progress() -> Dictionary:
+	var progress := {}
+	
+	var structure_data = []
+	progress.structure_data = structure_data
+	for structure in structures:
+		structure_data.append(structure.get_data())
+	
+	return progress
+
+
+func load_dungeon_progress(progress: Dictionary):
+	var structure_data = progress.get("structure_data", [])
+	
+	for structure_index in structure_data.size():
+		structures[structure_index].load_data(structure_data[structure_index])
+
+
+@rpc("authority", "call_local")
+func set_dungeon_seed(new_seed: int):
+	dungeon_seed = new_seed
+
+
+@rpc("authority", "call_local")
+func set_room_count(new_room_count: int):
+	room_count = new_room_count
+
+
+@rpc("authority", "call_local")
+func set_biome(new_biome: String):
+	biome = new_biome
+
+
+@rpc("authority", "call_local")
+func set_world(new_world: int):
+	world = new_world
+
+
+@rpc("authority", "call_local")
+func set_level(new_level: int):
+	level = new_level
 
 
 func attach_room(attached_door: Door, new_corridor: Corridor, attaching_door: Door, new_room: Room) -> bool:

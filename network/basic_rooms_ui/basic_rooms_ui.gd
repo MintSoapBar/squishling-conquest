@@ -1,3 +1,4 @@
+class_name BasicRoomsUi
 extends Control
 
 
@@ -11,7 +12,7 @@ var client: Client
 
 
 func _ready() -> void:
-	assert(network, "Network node must be set for basic rooms ui")
+	assert(network, "Network node must be set via properties for basic rooms ui")
 	
 	server = network.server
 	client = network.client
@@ -87,13 +88,13 @@ func _on_server_address_text_changed() -> void:
 		server_address_box.release_focus()
 
 
-func clean_server_address_text() -> void:
-	server_address_box.text = server_address_box.text.strip_edges().remove_chars(" \t\n\r")
-
-
 func _on_port_text_changed() -> void:
 	if port_box.text_box.contains("\n"):
 		port_box.release_focus()
+
+
+func clean_server_address_text() -> void:
+	server_address_box.text = server_address_box.text.strip_edges().remove_chars(" \t\n\r")
 
 
 func clean_port_text() -> void:

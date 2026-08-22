@@ -84,27 +84,6 @@ static func set_folder(entities_folder_: EntitiesFolder):
 
 static func set_network(network_):
 	network = network_
-	
-	# server
-	network.server.room_opened.connect(func():
-		Player.local_player = Player.create_player(1)
-	)
-	network.server.room_closing.connect(clear_entities)
-	
-	network.server.peer_connected.connect(func(peer_id: int):
-		for entity in current_entities.values():
-			entities_folder.create_entity.rpc_id(peer_id, entity.data)
-		var new_plr = Player.create_player(peer_id)
-		entities_folder.create_entity.rpc(new_plr.data)
-	)
-	network.server.peer_disconnected.connect(func(peer_id: int):
-		Player.destroy_player(peer_id)
-	)
-	
-	
-	# client
-	network.client.room_left.connect(clear_entities)
-	network.client.room_closed.connect(clear_entities)
 
 
 static func initialize_registry():
@@ -175,6 +154,7 @@ static func create_entity(data_: Dictionary) -> Entity:
 	assert(entity_registry.size() > 0, "Initialize entity registry before creating any entities")
 	
 	var new_entity = entities_folder.create_entity(data_)
+	Entity.entities_folder.create_entity.rpc(new_entity.data)
 	#debug_prints("Entity created", data_, new_entity)
 	
 	return new_entity

@@ -41,8 +41,6 @@ func create_enemy():
 	})
 	enemies[str(new_enemy)] = new_enemy
 	
-	Entity.entities_folder.create_entity.rpc(new_enemy.data)
-	
 	new_enemy.died.connect(func():
 		enemies.erase(str(new_enemy))
 		create_enemy()

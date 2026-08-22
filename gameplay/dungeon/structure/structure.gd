@@ -4,12 +4,17 @@ extends Node3D
 
 signal player_entered_area(player: Player)
 signal player_entered_interior_area(player: Player)
+signal state_changed(new_state: StructureState)
+
+enum StructureState {UNEXPLORED, ACTIVE, EXPLORED}
 
 var area: Area3D
 var interior_area: Area3D
 var attachment_points: Array[Node3D] = []
 
-var biome: String = &"cellar"
+var state: StructureState = StructureState.UNEXPLORED
+
+var biome: String = "cellar"
 var world: int = 1
 var level: int = 1
 
@@ -86,6 +91,16 @@ func initialize() -> void:
 	initialized = true
 
 
+func get_data() -> Dictionary:
+	var data = {}
+	data.state = state
+	return data
+
+
+func load_data(structure_data := {}):
+	set_state(structure_data.get("state", StructureState.UNEXPLORED))
+
+
 func on_area_body_entered(body: Node3D):
 	if body is Player:
 		player_entered_area.emit(body)
@@ -94,6 +109,9 @@ func on_area_body_entered(body: Node3D):
 func on_interior_area_body_entered(body: Node3D):
 	if body is Player:
 		player_entered_interior_area.emit(body)
+		
+		if Dungeon.is_server():
+			set_state.rpc(StructureState.EXPLORED)
 
 
 func get_area_query_params() -> Array[PhysicsShapeQueryParameters3D]:
@@ -114,6 +132,12 @@ func get_area_query_params() -> Array[PhysicsShapeQueryParameters3D]:
 		arr.push_back(params)
 	
 	return arr
+
+
+@rpc("authority", "call_local")
+func set_state(new_state: StructureState):
+	state = new_state
+	state_changed.emit(state)
 
 
 func is_colliding(space_state: PhysicsDirectSpaceState3D, _transform: Transform3D = transform):

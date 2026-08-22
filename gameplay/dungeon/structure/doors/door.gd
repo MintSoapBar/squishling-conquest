@@ -29,6 +29,7 @@ func initialize(door_room: Room) -> void:
 	wall_collider_shape = $Wall/Collider/CollisionShape3D
 
 
+@rpc("authority", "call_local")
 func set_state(val: DoorState):
 	state = val
 	

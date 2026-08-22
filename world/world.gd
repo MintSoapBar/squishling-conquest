@@ -1,34 +1,96 @@
 extends Node3D
 
+enum GameState {HOME, DUNGEON}
+
 const HOME = preload("uid://d2ru382ltbalf")
 
+@onready var network: Network = $Network
+@onready var basic_rooms_ui: BasicRoomsUi = $BasicRoomsUi
 @onready var entities_folder: EntitiesFolder = $EntitiesFolder
 @onready var core_3d_interface: Node = $Core3DInterface
 @onready var dungeon: Dungeon = $Dungeon
 @onready var minimap: DungeonMinimap = $Minimap
 
-var home: Home
+var game_state: GameState = GameState.HOME
 
-var world: int = 1
-var level: int = 1
+var home: Home
 
 func _ready() -> void:
 	Entity.initialize_registry()
 	Entity.set_folder(entities_folder)
+	Entity.set_network(network)
 	Tool.initialize_registry()
 	Skill.initialize_registry()
+	Dungeon.set_network(network)
 	core_3d_interface.initialize()
+	minimap.set_dungeon(dungeon)
 	
 	home = HOME.instantiate()
 	add_child(home)
 	
 	Player.create_player()
 	
-	home.player_entered_dungeon_gate.connect(on_dungeon_gate_player_enter, CONNECT_ONE_SHOT)
-	Entity.entities_folder.local_player_changed.connect(try_generate)
+	Entity.create_entity({entity_name = "dummy", position = Vector3(6, 0, -6)})
+	
+	
+	home.player_entered_dungeon_gate.connect(func(_player: Player):
+		if is_server():
+			generate_dungeon_server()
+	)
 	dungeon.player_entered_exit_gate.connect(func(_player: Player):
-		level = level % 3 + 1
-		generate_dungeon())
+		if is_server():
+			dungeon.set_level.rpc(dungeon.level % 3 + 1)
+			generate_dungeon_server()
+	)
+	
+	
+	# server
+	network.server.room_opened.connect(func():
+		pass
+	)
+	network.server.room_closing.connect(func():
+		pass
+	)
+	
+	network.server.peer_connected.connect(func(peer_id: int):
+		for entity in Entity.current_entities.values():
+			entities_folder.create_entity.rpc_id(peer_id, entity.data)
+		
+		var new_player_data = {}
+		if Player.local_player:
+			new_player_data.position = (
+				Player.local_player.position 
+				+ Vector3(randf()/5, 0, randf()/5)
+			)
+		Player.create_player(peer_id, new_player_data)
+		
+		if game_state == GameState.HOME:
+			return_home.rpc_id(peer_id)
+		elif game_state == GameState.DUNGEON:
+			load_dungeon.rpc_id(peer_id, 
+				dungeon.dungeon_seed, dungeon.room_count,
+				dungeon.biome, dungeon.world, dungeon.level,
+				dungeon.get_dungeon_progress()
+			)
+	)
+	network.server.peer_disconnected.connect(func(peer_id: int):
+		Player.destroy_player(peer_id)
+	)
+	
+	
+	# client
+	network.client.room_joining.connect(func():
+		Entity.clear_entities()
+	)
+	network.client.room_joined.connect(func():
+		pass
+	)
+	network.client.room_left.connect(func():
+		return_home()
+	)
+	network.client.room_closed.connect(func():
+		return_home()
+	)
 
 
 func _process(_delta: float) -> void:
@@ -37,40 +99,79 @@ func _process(_delta: float) -> void:
 		minimap.update_player_location(camera.global_rotation, Player.local_player.position)
 
 
+func is_server() -> bool:
+	return not network or not network.is_multiplayer_connected() or multiplayer.get_unique_id() == 1
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_echo():
+		return
+	if not is_server():
 		return
 	
 	if event is InputEventKey:
 		var key_event := event as InputEventKey
 		if key_event.keycode == KEY_BACKSPACE and key_event.is_pressed():
-			generate_dungeon()
+			generate_dungeon_server()
 			get_viewport().set_input_as_handled()
-		if key_event.keycode >= KEY_KP_0 and key_event.keycode <= KEY_KP_9 and key_event.is_pressed():
+		elif (key_event.keycode >= KEY_KP_0 and key_event.keycode <= KEY_KP_9 
+			and key_event.is_pressed()):
+			
 			var num: int = key_event.keycode - KEY_KP_0
 			if key_event.ctrl_pressed:
-				world = num
+				dungeon.set_world.rpc(num)
 			else:
-				level = num
-			generate_dungeon()
+				dungeon.set_level.rpc(num)
+			generate_dungeon_server()
 			get_viewport().set_input_as_handled()
+		elif key_event.keycode == KEY_DELETE and key_event.is_pressed():
+			Entity.clear_entities()
 
 
+func generate_dungeon_server():
+	dungeon.set_dungeon_seed.rpc(int(Time.get_unix_time_from_system() * 1000))
+	generate_dungeon.rpc()
+
+
+@rpc("authority", "call_local")
 func generate_dungeon():
+	game_state = GameState.DUNGEON
+	
 	if is_instance_valid(home):
 		home.queue_free()
 	
 	while dungeon.loading:
 		await dungeon.loaded
-	await dungeon.generate(Time.get_ticks_msec(), 12, "cellar", world, level)
-	minimap.load_dungeon(dungeon)
-	minimap.visible = true
+	await dungeon.generate()
+	
+	if Player.local_player:
+		Player.local_player.position = Vector3.ZERO
 
 
-func try_generate(plr):
-	if plr:
-		generate_dungeon()
+@rpc("authority", "call_local")
+func load_dungeon(dungeon_seed, room_count, biome, world, level, progress):
+	game_state = GameState.DUNGEON
+	
+	if is_instance_valid(home):
+		home.queue_free()
+	
+	while dungeon.loading:
+		await dungeon.loaded
+	
+	await dungeon.generate(
+		dungeon_seed, room_count,
+		biome, world, level)
+	dungeon.load_dungeon_progress(progress)
 
 
-func on_dungeon_gate_player_enter(_player: Player):
-	generate_dungeon()
+@rpc("authority", "call_local")
+func return_home():
+	game_state = GameState.HOME
+	
+	dungeon.clear_dungeon()
+	
+	if is_instance_valid(home):
+		return
+	
+	home = HOME.instantiate()
+	add_child(home)

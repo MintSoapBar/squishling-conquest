@@ -102,6 +102,7 @@ func update_target():
 
 func find_target() -> Entity:
 	var closest_target_dist: float = INF
+	var closest_target: Entity = null
 	
 	for potential_target_id in current_entities:
 		var potential_target: Entity = current_entities.get(potential_target_id)
@@ -113,6 +114,6 @@ func find_target() -> Entity:
 		
 		var target_dist = (potential_target.global_position - global_position).length()
 		if target_dist < closest_target_dist:
-			return potential_target
+			closest_target = potential_target
 	
-	return null
+	return closest_target

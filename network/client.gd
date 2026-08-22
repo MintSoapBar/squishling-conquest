@@ -1,6 +1,7 @@
 class_name Client
 extends Node
 
+signal room_joining()
 signal room_joined()
 signal room_left()
 signal room_closed()
@@ -85,6 +86,8 @@ func join_room(ip: String, port: int = server.game_port):
 		await server.close_room()
 	if peer:
 		await leave_room()
+	
+	room_joining.emit()
 	
 	network.transitioning = true
 	connecting = true

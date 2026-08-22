@@ -93,9 +93,9 @@ func _process(delta: float):
 	# stretch direction
 	
 	var dot_last_stretch_dir_accel = smooth_acceleration.normalized().dot(smooth_stretch_direction)
-	if dot_last_stretch_dir_accel < -0.93:
+	if dot_last_stretch_dir_accel < -0.93 or dot_last_stretch_dir_accel > 0.99:
 		smooth_stretch_direction = smooth_acceleration.normalized()
-	elif dot_last_stretch_dir_accel < 1:
+	elif dot_last_stretch_dir_accel < 0.999:
 		smooth_stretch_direction = smooth_stretch_direction.normalized().slerp( 
 			smooth_acceleration.normalized(), 0.05)
 	
