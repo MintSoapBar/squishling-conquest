@@ -5,6 +5,7 @@
 [ext_resource type="Material" uid="uid://dma2tn1xu8v5v" path="res://assets/materials/steel_dark/steel_dark.tres" id="3_0d15h"]
 [ext_resource type="Texture2D" uid="uid://lwlej0bdm7c4" path="res://assets/materials/stone_brick_dark/stone_brick_dark.png" id="3_ow17a"]
 [ext_resource type="Material" uid="uid://bawq71im7o3t3" path="res://assets/materials/coal_burning/coal_burning.tres" id="5_bo642"]
+[ext_resource type="Material" uid="uid://b6ylij3bcyxc3" path="res://assets/materials/coal_cold/coal_cold.tres" id="7_1nnty"]
 [ext_resource type="Texture2D" uid="uid://crp3i4dsis1vn" path="res://assets/textures/generic/particle_generic_1.png" id="7_nalbo"]
 [ext_resource type="Material" uid="uid://dwfe34y12bb5i" path="res://assets/materials/coal_glowing/coal_glowing.tres" id="8_ej0dq"]
 
@@ -138,7 +139,7 @@ surface_material_override/0 = ExtResource("8_ej0dq")
 [node name="Short2" type="MeshInstance3D" parent="Logs" index="3" unique_id=149570817]
 transform = Transform3D(0.99507236, -0.084687024, 0.05156944, 0.08428282, 0.9963919, 0.009966954, -0.052227452, -0.0055714203, 0.9986198, 0, 0.050000004, -0.18188357)
 mesh = SubResource("BoxMesh_1o6en")
-surface_material_override/0 = ExtResource("8_ej0dq")
+surface_material_override/0 = ExtResource("7_1nnty")
 
 [node name="FireParticles" type="CPUParticles3D" parent="." index="5" unique_id=471213953]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18932721, 0.5)

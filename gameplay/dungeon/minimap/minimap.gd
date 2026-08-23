@@ -38,6 +38,7 @@ func set_dungeon(new_dungeon: Dungeon):
 	
 	dungeon.loading_start.connect(hide)
 	dungeon.loaded.connect(load_dungeon)
+	dungeon.cleared.connect(hide)
 
 
 func load_dungeon():

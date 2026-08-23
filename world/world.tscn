@@ -18,7 +18,9 @@ script = ExtResource("1_4717r")
 [node name="Network" parent="." unique_id=970467472 instance=ExtResource("2_ov2xu")]
 
 [node name="BasicRoomsUi" parent="." unique_id=984085998 node_paths=PackedStringArray("network") instance=ExtResource("10_fyhu2")]
-offset_left = -346.0
+visible = false
+offset_left = -546.0
+offset_right = -208.0
 offset_bottom = 148.0
 network = NodePath("../Network")
 

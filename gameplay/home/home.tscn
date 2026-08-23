@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cly1eufgj4kh2" path="res://gameplay/dungeon/structure/gate/gate.tscn" id="2_qoc0j"]
 [ext_resource type="Material" uid="uid://b675c8l5sn4j1" path="res://assets/materials/stone_brick_dark/stone_brick_dark.tres" id="3_out16"]
 [ext_resource type="PackedScene" uid="uid://cds2d4aewn2ix" path="res://gameplay/home/living_room/fireplace/fireplace.tscn" id="4_jxm0r"]
+[ext_resource type="Texture2D" uid="uid://b6drulnriya5l" path="res://assets/materials/wool/wool.png" id="5_out16"]
 [ext_resource type="PackedScene" uid="uid://11fwy7pmyeda" path="res://world/world_environment.tscn" id="5_qoc0j"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dqqhb"]
@@ -66,6 +67,15 @@ size = Vector3(2, 3, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p2iis"]
 size = Vector3(2, 3, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jxm0r"]
+size = Vector3(4, 0.125, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_twlli"]
+albedo_color = Color(0.78, 0.054599993, 0.054599993, 1)
+albedo_texture = ExtResource("5_out16")
+uv1_triplanar = true
+texture_filter = 0
 
 [node name="Home" type="Node3D" unique_id=1987011588]
 script = ExtResource("1_umf75")
@@ -191,5 +201,10 @@ shape = SubResource("BoxShape3D_p2iis")
 
 [node name="Fireplace" parent="LivingRoom" unique_id=448609357 instance=ExtResource("4_jxm0r")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -8)
+
+[node name="Rug" type="MeshInstance3D" parent="LivingRoom" unique_id=1163595146]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.75)
+mesh = SubResource("BoxMesh_jxm0r")
+surface_material_override/0 = SubResource("StandardMaterial3D_twlli")
 
 [node name="WorldEnvironment" parent="." unique_id=1058104962 instance=ExtResource("5_qoc0j")]

@@ -3,6 +3,7 @@ extends Node3D
 
 signal loading_start
 signal loaded
+signal cleared
 signal player_entered_exit_gate(player: Player)
 
 const CORRIDOR = preload("uid://drm1iw4x7b3gp")
@@ -148,6 +149,8 @@ func clear_dungeon():
 	
 	rooms.clear()
 	structures.clear()
+	
+	cleared.emit()
 	
 	await get_tree().physics_frame
 	await get_tree().physics_frame

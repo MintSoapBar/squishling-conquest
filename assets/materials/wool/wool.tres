@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b5wgtbotb406x"]
+
+[ext_resource type="Texture2D" uid="uid://b6drulnriya5l" path="res://assets/materials/wool/wool.png" id="1_cwv75"]
+
+[resource]
+albedo_texture = ExtResource("1_cwv75")
+uv1_triplanar = true
+texture_filter = 0

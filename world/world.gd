@@ -15,6 +15,7 @@ var game_state: GameState = GameState.HOME
 
 var home: Home
 
+
 func _ready() -> void:
 	Entity.initialize_registry()
 	Entity.set_folder(entities_folder)
@@ -30,7 +31,7 @@ func _ready() -> void:
 	
 	Player.create_player()
 	
-	Entity.create_entity({entity_name = "dummy", position = Vector3(6, 0, -6)})
+	Entity.create_entity({entity_name = "dummy", position = Vector3(6, 0, 6)})
 	
 	
 	home.player_entered_dungeon_gate.connect(func(_player: Player):
@@ -42,6 +43,15 @@ func _ready() -> void:
 			dungeon.set_level.rpc(dungeon.level % 3 + 1)
 			generate_dungeon_server()
 	)
+	
+	
+	var update_minimap_offset = func():
+		if minimap.visible:
+			basic_rooms_ui.offset_right = -208
+		else:
+			basic_rooms_ui.offset_right = -8
+	minimap.visibility_changed.connect(update_minimap_offset)
+	update_minimap_offset.call()
 	
 	
 	# server
@@ -106,6 +116,12 @@ func is_server() -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_echo():
 		return
+	
+	if event is InputEventKey:
+		var key_event := event as InputEventKey
+		if key_event.keycode == KEY_M and key_event.is_pressed():
+			basic_rooms_ui.visible = not basic_rooms_ui.visible
+	
 	if not is_server():
 		return
 	
