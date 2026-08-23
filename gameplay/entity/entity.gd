@@ -330,8 +330,8 @@ func _to_string():
 	return entity_id
 
 
-# Checks hotbar at stack_index
-# Input -1 for unequip
+## Checks hotbar at stack_index [br]
+## Input -1 for unequip
 @rpc("any_peer", "call_local")
 func equip_tool(stack_index: int) -> void:
 	var hotbar_stacks = inventory.groups.hotbar.stacks

@@ -1,5 +1,7 @@
 extends Node3D
 
+signal game_state_changed(new_game_state: GameState)
+
 enum GameState {HOME, DUNGEON}
 
 const HOME = preload("uid://d2ru382ltbalf")
@@ -44,6 +46,9 @@ func _ready() -> void:
 			generate_dungeon_server()
 	)
 	
+	
+	entities_folder.local_player_changed.connect(on_local_player_changed)
+	game_state_changed.connect(on_game_state_changed)
 	
 	var update_minimap_offset = func():
 		if minimap.visible:
@@ -121,19 +126,26 @@ func _unhandled_input(event: InputEvent) -> void:
 		var key_event := event as InputEventKey
 		if key_event.keycode == KEY_M and key_event.is_pressed():
 			basic_rooms_ui.visible = not basic_rooms_ui.visible
+		elif key_event.keycode == KEY_BACKSPACE and key_event.is_pressed():
+			if Player.local_player:
+				Player.local_player.request_damage(9999)
+			get_viewport().set_input_as_handled()
 	
 	if not is_server():
 		return
 	
 	if event is InputEventKey:
 		var key_event := event as InputEventKey
-		if key_event.keycode == KEY_BACKSPACE and key_event.is_pressed():
-			generate_dungeon_server()
-			get_viewport().set_input_as_handled()
-		elif (key_event.keycode >= KEY_KP_0 and key_event.keycode <= KEY_KP_9 
+		if (key_event.keycode >= KEY_KP_0 and key_event.keycode <= KEY_KP_9 
 			and key_event.is_pressed()):
 			
 			var num: int = key_event.keycode - KEY_KP_0
+			
+			if num == 0:
+				return_home.rpc()
+				get_viewport().set_input_as_handled()
+				return
+			
 			if key_event.ctrl_pressed:
 				dungeon.set_world.rpc(num)
 			else:
@@ -151,7 +163,7 @@ func generate_dungeon_server():
 
 @rpc("authority", "call_local")
 func generate_dungeon():
-	game_state = GameState.DUNGEON
+	set_game_state(GameState.DUNGEON)
 	
 	if is_instance_valid(home):
 		home.queue_free()
@@ -166,7 +178,7 @@ func generate_dungeon():
 
 @rpc("authority", "call_local")
 func load_dungeon(dungeon_seed, room_count, biome, world, level, progress):
-	game_state = GameState.DUNGEON
+	set_game_state(GameState.DUNGEON)
 	
 	if is_instance_valid(home):
 		home.queue_free()
@@ -182,7 +194,7 @@ func load_dungeon(dungeon_seed, room_count, biome, world, level, progress):
 
 @rpc("authority", "call_local")
 func return_home():
-	game_state = GameState.HOME
+	set_game_state(GameState.HOME)
 	
 	dungeon.clear_dungeon()
 	
@@ -191,3 +203,22 @@ func return_home():
 	
 	home = HOME.instantiate()
 	add_child(home)
+
+
+func set_game_state(new_state: GameState):
+	game_state = new_state
+	game_state_changed.emit(new_state)
+
+
+func on_local_player_changed(player: Player):
+	if is_instance_valid(player):
+		player.can_unequip = game_state == GameState.HOME
+		if not player.can_unequip:
+			player.equip_tool(0)
+
+
+func on_game_state_changed(_new_game_state: GameState):
+	if is_instance_valid(Player.local_player):
+		Player.local_player.can_unequip = game_state == GameState.HOME
+		if not Player.local_player.can_unequip:
+			Player.local_player.equip_tool(0)

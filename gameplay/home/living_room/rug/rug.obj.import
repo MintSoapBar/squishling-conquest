@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://sitd8tt7ronq"
+path="res://.godot/imported/rug.obj-4d5a67e3e472954bb99bf5c37d61049f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/rug.obj-4d5a67e3e472954bb99bf5c37d61049f.mesh"]
+
+source_file="res://gameplay/home/living_room/rug/rug.obj"
+dest_files=["res://.godot/imported/rug.obj-4d5a67e3e472954bb99bf5c37d61049f.mesh", "res://.godot/imported/rug.obj-4d5a67e3e472954bb99bf5c37d61049f.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c1ucsl1nx0spp"]
+
+[ext_resource type="ArrayMesh" uid="uid://sitd8tt7ronq" path="res://gameplay/home/living_room/rug/rug.obj" id="1_8y0lx"]
+[ext_resource type="Shader" uid="uid://b1bnvtkn8qkv5" path="res://gameplay/home/living_room/rug/rug.gdshader" id="1_rq2xw"]
+[ext_resource type="Texture2D" uid="uid://b6drulnriya5l" path="res://assets/materials/wool/wool.png" id="2_rrcbg"]
+[ext_resource type="Texture2D" uid="uid://dgfxmqrqu3ht3" path="res://gameplay/home/living_room/rug/rug_texture.png" id="4_8y0lx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_twlli"]
+render_priority = 0
+shader = ExtResource("1_rq2xw")
+shader_parameter/base_texture = ExtResource("2_rrcbg")
+shader_parameter/base_tint_color = Color(0.65, 0.34948334, 0.17549998, 1)
+shader_parameter/tint_texture = ExtResource("4_8y0lx")
+
+[node name="Rug" type="Node3D" unique_id=2116845545]
+
+[node name="Rug" type="MeshInstance3D" parent="." unique_id=487636778]
+mesh = ExtResource("1_8y0lx")
+surface_material_override/0 = SubResource("ShaderMaterial_twlli")

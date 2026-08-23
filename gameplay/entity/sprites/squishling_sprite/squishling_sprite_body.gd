@@ -80,6 +80,8 @@ func _process(delta: float):
 	target_acceleration *= 0.9
 	target_acceleration += acceleration
 	smooth_acceleration = lerp(smooth_acceleration, target_acceleration, 0.1)
+	if smooth_acceleration.length_squared() < 0.001:
+		smooth_acceleration = Vector3(0, 0.001, 0)
 	
 	target_velocity *= 0.9
 	target_velocity += velocity
@@ -95,9 +97,9 @@ func _process(delta: float):
 	var dot_last_stretch_dir_accel = smooth_acceleration.normalized().dot(smooth_stretch_direction)
 	if dot_last_stretch_dir_accel < -0.93 or dot_last_stretch_dir_accel > 0.99:
 		smooth_stretch_direction = smooth_acceleration.normalized()
-	elif dot_last_stretch_dir_accel < 0.999:
+	else:
 		smooth_stretch_direction = smooth_stretch_direction.normalized().slerp( 
-			smooth_acceleration.normalized(), 0.05)
+			smooth_acceleration.normalized(), 0.05).normalized()
 	
 	# stretch raw
 	

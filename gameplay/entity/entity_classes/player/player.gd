@@ -33,7 +33,9 @@ var block_key_down: bool = false
 var block_start_time: float = 0
 var parry_window: float = 0.1
 
-var can_unequip: bool = false
+var can_unequip: bool = true:
+	set(val):
+		can_unequip = val
 
 static func create_player(peer_id_: int = 1, _data := {}) -> Player:
 	_data.merge({
@@ -114,6 +116,7 @@ func initialize(_data: Dictionary) -> void:
 	
 	peer_id = _data.get("peer_id")
 	body_color = _data.get_or_add("body_color", Color(randf(), randf(), randf()))
+	#body_color = _data.get_or_add("body_color", Color(0, 1, 0))
 	
 	sprite = entities_folder.player_sprite.instantiate() as Sprite
 	add_child(sprite)
@@ -313,9 +316,9 @@ func kill():
 
 func equip_tool(stack_index: int) -> void:
 	var stacks = inventory.groups.hotbar.stacks
-	if stack_index < 0 or stack_index >= stacks.size():
-		return
-	if not stacks.get(stack_index):
+	if equipped_tool_stack_index == stack_index or stack_index < 0 or stack_index >= stacks.size():
+		stack_index = -1
+	if (stack_index == -1 or not stacks.get(stack_index)) and not can_unequip:
 		return
 	
 	equipped_tool_stack_index = stack_index
