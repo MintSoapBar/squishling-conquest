@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://coebeytlwcbyk"]
+
+[ext_resource type="Shader" uid="uid://b1bnvtkn8qkv5" path="res://gameplay/home/living_room/rug/rug.gdshader" id="1_4m54w"]
+[ext_resource type="Texture2D" uid="uid://b6drulnriya5l" path="res://assets/materials/wool/wool.png" id="2_oxy2f"]
+[ext_resource type="Texture2D" uid="uid://dgfxmqrqu3ht3" path="res://gameplay/home/living_room/rug/rug_texture.png" id="3_4rtsd"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_4m54w")
+shader_parameter/base_texture = ExtResource("2_oxy2f")
+shader_parameter/base_tint_color = Color(1, 0, 0, 1)
+shader_parameter/tint_texture = ExtResource("3_4rtsd")

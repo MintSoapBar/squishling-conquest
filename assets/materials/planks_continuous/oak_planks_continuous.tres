@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bxxkhca5timlv"]
+
+[ext_resource type="Texture2D" uid="uid://boltdot6yxd1a" path="res://assets/materials/planks_continuous/planks_continuous.png" id="1_vgrtu"]
+
+[resource]
+albedo_color = Color(0.54, 0.4158, 0.2916, 1)
+albedo_texture = ExtResource("1_vgrtu")
+uv1_triplanar = true
+texture_filter = 0

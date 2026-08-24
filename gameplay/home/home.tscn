@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://bhv7n3vq30nre" path="res://gameplay/home/home.gd" id="1_umf75"]
 [ext_resource type="PackedScene" uid="uid://cly1eufgj4kh2" path="res://gameplay/dungeon/structure/gate/gate.tscn" id="2_qoc0j"]
 [ext_resource type="Material" uid="uid://b675c8l5sn4j1" path="res://assets/materials/stone_brick_dark/stone_brick_dark.tres" id="3_out16"]
+[ext_resource type="Material" uid="uid://cr8jnp43ai68q" path="res://assets/materials/dirt/dirt.tres" id="3_ta2ax"]
 [ext_resource type="PackedScene" uid="uid://cds2d4aewn2ix" path="res://gameplay/home/living_room/fireplace/fireplace.tscn" id="4_jxm0r"]
 [ext_resource type="PackedScene" uid="uid://c1ucsl1nx0spp" path="res://gameplay/home/living_room/rug/rug.tscn" id="5_jxm0r"]
 [ext_resource type="PackedScene" uid="uid://11fwy7pmyeda" path="res://world/world_environment.tscn" id="5_qoc0j"]
+[ext_resource type="PackedScene" uid="uid://t1bwtlrpnsd8" path="res://gameplay/props/crate/crate.tscn" id="6_twlli"]
 [ext_resource type="PackedScene" uid="uid://cr2n6guuqdh76" path="res://gameplay/home/living_room/cat_bed/cat_bed.tscn" id="7_jxm0r"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dqqhb"]
@@ -85,7 +87,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LivingRoom/Structure/Floor" unique_id=730601412]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 mesh = SubResource("BoxMesh_dqqhb")
-surface_material_override/0 = ExtResource("3_out16")
+surface_material_override/0 = ExtResource("3_ta2ax")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="LivingRoom/Structure/Floor" unique_id=49276531]
 
@@ -191,13 +193,90 @@ surface_material_override/0 = ExtResource("3_out16")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LivingRoom/Structure/Back/Top/StaticBody3D" unique_id=1908392884]
 shape = SubResource("BoxShape3D_p2iis")
 
+[node name="Crates" type="Node3D" parent="LivingRoom" unique_id=647772751]
+
+[node name="Crate" parent="LivingRoom/Crates" unique_id=1057286349 instance=ExtResource("6_twlli")]
+transform = Transform3D(0.9916596, 0, -0.1288847, 0, 1, 0, 0.1288847, 0, 0.9916596, 3.5228384, 1, -3.9939554)
+
+[node name="Crate2" parent="LivingRoom/Crates" unique_id=2106545044 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.73205006, 0, -0.681251, 0, 1, 0, 0.681251, 0, -0.73205006, 2.0766213, 1, -1.8595018)
+
+[node name="Crate3" parent="LivingRoom/Crates" unique_id=1326422157 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.37474263, 0, -0.92712915, 0, 1, 0, 0.92712915, 0, -0.37474263, 2.603715, 2.75, -2.78891)
+size = Vector3(1.5, 1.5, 1.5)
+
+[node name="Crate16" parent="LivingRoom/Crates" unique_id=1597211303 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.77024376, 0, -0.6377501, 0, 1, 0, 0.6377501, 0, -0.77024376, -3.8379579, 2.75, -5.380053)
+size = Vector3(1.5, 1.5, 1.5)
+
+[node name="Crate21" parent="LivingRoom/Crates" unique_id=2046186837 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.9550213, 0, 0.29653776, 0, 1, 0, -0.29653776, 0, -0.9550213, -5.683069, 0.75, -6.4210563)
+size = Vector3(1.5, 1.5, 1.5)
+
+[node name="Crate5" parent="LivingRoom/Crates" unique_id=1176986072 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.0154576, 0, -0.9998806, 0, 1, 0, 0.9998806, 0, -0.0154576, -1.1933291, 0.75, -1.2361012)
+size = Vector3(1.5, 1.5, 1.5)
+
+[node name="Crate18" parent="LivingRoom/Crates" unique_id=1712546632 instance=ExtResource("6_twlli")]
+transform = Transform3D(0.7434133, 0, -0.6688324, 0, 1, 0, 0.6688324, 0, 0.7434133, 1.1125474, 0.75, 0.12530279)
+size = Vector3(1.5, 1.5, 1.5)
+
+[node name="Crate6" parent="LivingRoom/Crates" unique_id=1623366468 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.67613304, 0, -0.7367796, 0, 1, 0, 0.7367796, 0, -0.67613304, -1.1933291, 2, -1.2361012)
+size = Vector3(1, 1, 1)
+
+[node name="Crate11" parent="LivingRoom/Crates" unique_id=979324915 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.67613304, 0, -0.7367796, 0, 1, 0, 0.7367796, 0, -0.67613304, 0.321, 0.5, -1.2360001)
+size = Vector3(1, 1, 1)
+
+[node name="Crate12" parent="LivingRoom/Crates" unique_id=1341862666 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.8538018, 0, -0.52059823, 0, 1, 0, 0.52059823, 0, -0.8538018, 0.321, 1.5, -1.3159652)
+size = Vector3(1, 1, 1)
+
+[node name="Crate19" parent="LivingRoom/Crates" unique_id=933122916 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.9222824, 0, -0.3865167, 0, 1, 0, 0.3865167, 0, -0.9222824, 0.9543216, 2.5, -1.5109999)
+size = Vector3(1, 1, 1)
+
+[node name="Crate7" parent="LivingRoom/Crates" unique_id=1230040114 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.13029215, 0, -0.9914757, 0, 1, 0, 0.9914757, 0, -0.13029215, -3.3361044, 0.5, -4.996001)
+size = Vector3(1, 1, 1)
+
+[node name="Crate15" parent="LivingRoom/Crates" unique_id=365425417 instance=ExtResource("6_twlli")]
+transform = Transform3D(0.9913806, 0, -0.13101432, 0, 1, 0, 0.13101432, 0, 0.9913806, -4.4490137, 0.5, -5.1278605)
+size = Vector3(1, 1, 1)
+
+[node name="Crate8" parent="LivingRoom/Crates" unique_id=1391912946 instance=ExtResource("6_twlli")]
+transform = Transform3D(0.96330994, 0, -0.26839286, 0, 1, 0, 0.26839286, 0, 0.96330994, -4.2364426, 0.5, -3.878918)
+size = Vector3(1, 1, 1)
+
+[node name="Crate9" parent="LivingRoom/Crates" unique_id=1331470670 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.24532843, 0, 0.9694402, 0, 1, 0, -0.9694402, 0, -0.24532843, -3.9743123, 1.5, -4.06176)
+size = Vector3(1, 1, 1)
+
+[node name="Crate14" parent="LivingRoom/Crates" unique_id=594695743 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.057146564, 0, 0.9983659, 0, 1, 0, -0.9983659, 0, -0.057146564, -3.9743123, 1.5, -5.1828127)
+size = Vector3(1, 1, 1)
+
+[node name="Crate13" parent="LivingRoom/Crates" unique_id=1953589189 instance=ExtResource("6_twlli")]
+transform = Transform3D(-0.48466837, 0, 0.8746982, 0, 1, 0, -0.8746982, 0, -0.48466837, -3.6475637, 2.5, -3.5766928)
+size = Vector3(1, 1, 1)
+
+[node name="Crate4" parent="LivingRoom/Crates" unique_id=913216492 instance=ExtResource("6_twlli")]
+transform = Transform3D(0.98389494, 0, -0.1787479, 0, 1, 0, 0.1787479, 0, 0.98389494, -3.3435838, 1, -6.728238)
+
+[node name="Crate10" parent="LivingRoom/Crates" unique_id=1346996915 instance=ExtResource("6_twlli")]
+transform = Transform3D(0.7710173, 0, 0.6368142, 0, 1, 0, -0.6368142, 0, 0.7710173, -3.3435838, 1, -2.3151295)
+
+[node name="Crate20" parent="LivingRoom/Crates" unique_id=913277787 instance=ExtResource("6_twlli")]
+transform = Transform3D(0.987102, 0, 0.16009305, 0, 1, 0, -0.16009305, 0, 0.987102, -5.9752398, 1, -2.8515534)
+
 [node name="Fireplace" parent="LivingRoom" unique_id=448609357 instance=ExtResource("4_jxm0r")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -8)
 
 [node name="Rug" parent="LivingRoom" unique_id=487636778 instance=ExtResource("5_jxm0r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.75)
 
-[node name="WorldEnvironment" parent="." unique_id=1058104962 instance=ExtResource("5_qoc0j")]
+[node name="CatBed" parent="LivingRoom" unique_id=593017942 instance=ExtResource("7_jxm0r")]
+transform = Transform3D(0.92295843, 0, -0.38489884, 0, 1, 0, 0.38489884, 0, 0.92295843, -1.4702617, 0.22831558, -3.629306)
 
-[node name="CatBed" parent="." unique_id=593017942 instance=ExtResource("7_jxm0r")]
-transform = Transform3D(-0.9229584, 0, 0.38489893, 0, 1, 0, -0.38489893, 0, -0.9229584, -1.4702617, 0.22831558, -3.629306)
+[node name="WorldEnvironment" parent="." unique_id=1058104962 instance=ExtResource("5_qoc0j")]

@@ -241,6 +241,7 @@ func initialize(_data: Dictionary) -> void:
 	# load position data
 	
 	position = data.get_or_add("position", Vector3.ZERO)
+	rotation = data.get_or_add("rotation", Vector3.ZERO)
 	
 	# set up sprite
 	

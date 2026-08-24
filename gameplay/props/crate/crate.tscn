@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://t1bwtlrpnsd8"]
+
+[ext_resource type="Script" uid="uid://ka74mnayxylc" path="res://gameplay/props/crate/crate.gd" id="1_hcgvo"]
+[ext_resource type="Material" uid="uid://bxxkhca5timlv" path="res://assets/materials/planks_continuous/oak_planks_continuous.tres" id="1_teat7"]
+[ext_resource type="Material" uid="uid://bm2a3fpa2ocm3" path="res://assets/materials/planks_continuous/dark_oak_planks_continuous.tres" id="2_hcgvo"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1o6en"]
+size = Vector3(1.75, 1.75, 1.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_idv2b"]
+size = Vector3(2, 0.25, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_uaim1"]
+size = Vector3(0.25, 0.25, 1.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tewkx"]
+size = Vector3(0.25, 1.5, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jwumf"]
+size = Vector3(0.25, 2.4, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hcgvo"]
+size = Vector3(2, 2, 2)
+
+[node name="Crate" type="Node3D" unique_id=1057286349]
+script = ExtResource("1_hcgvo")
+
+[node name="Model" type="Node3D" parent="." unique_id=1281167970]
+
+[node name="Body" type="MeshInstance3D" parent="Model" unique_id=24352744]
+mesh = SubResource("BoxMesh_1o6en")
+surface_material_override/0 = ExtResource("1_teat7")
+
+[node name="Beams" type="Node3D" parent="Model" unique_id=175132960]
+
+[node name="Top" type="Node3D" parent="Model/Beams" unique_id=1673940475]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
+
+[node name="BeamFront" type="MeshInstance3D" parent="Model/Beams/Top" unique_id=822481903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.875)
+mesh = SubResource("BoxMesh_idv2b")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="BeamBack" type="MeshInstance3D" parent="Model/Beams/Top" unique_id=995779962]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.875)
+mesh = SubResource("BoxMesh_idv2b")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="BeamRight" type="MeshInstance3D" parent="Model/Beams/Top" unique_id=2071935543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.875, 0, 0)
+mesh = SubResource("BoxMesh_uaim1")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="BeamLeft" type="MeshInstance3D" parent="Model/Beams/Top" unique_id=1143640584]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.875, 0, 0)
+mesh = SubResource("BoxMesh_uaim1")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="Bottom" type="Node3D" parent="Model/Beams" unique_id=1662350369]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.875, 0)
+
+[node name="BeamFront" type="MeshInstance3D" parent="Model/Beams/Bottom" unique_id=334056830]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.875)
+mesh = SubResource("BoxMesh_idv2b")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="BeamBack" type="MeshInstance3D" parent="Model/Beams/Bottom" unique_id=1184952824]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.875)
+mesh = SubResource("BoxMesh_idv2b")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="BeamRight" type="MeshInstance3D" parent="Model/Beams/Bottom" unique_id=1996280495]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.875, 0, 0)
+mesh = SubResource("BoxMesh_uaim1")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="BeamLeft" type="MeshInstance3D" parent="Model/Beams/Bottom" unique_id=1488090488]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.875, 0, 0)
+mesh = SubResource("BoxMesh_uaim1")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="Sides" type="Node3D" parent="Model/Beams" unique_id=2137532096]
+
+[node name="FrontLeft" type="MeshInstance3D" parent="Model/Beams/Sides" unique_id=1244273131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.875, 0, -0.875)
+mesh = SubResource("BoxMesh_tewkx")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="FrontRight" type="MeshInstance3D" parent="Model/Beams/Sides" unique_id=1171455177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.875, 0, -0.875)
+mesh = SubResource("BoxMesh_tewkx")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="BackLeft" type="MeshInstance3D" parent="Model/Beams/Sides" unique_id=154765960]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.875, 0, 0.875)
+mesh = SubResource("BoxMesh_tewkx")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="BackRight" type="MeshInstance3D" parent="Model/Beams/Sides" unique_id=388250656]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.875, 0, 0.875)
+mesh = SubResource("BoxMesh_tewkx")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="Diagonals" type="Node3D" parent="Model/Beams" unique_id=831140743]
+
+[node name="Right" type="MeshInstance3D" parent="Model/Beams/Diagonals" unique_id=1194883483]
+transform = Transform3D(1, 0, 0, 0, -0.7071068, 0.7071067, 0, -0.7071067, -0.7071068, 0.825, 0, 0)
+mesh = SubResource("BoxMesh_jwumf")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="Left" type="MeshInstance3D" parent="Model/Beams/Diagonals" unique_id=201577268]
+transform = Transform3D(1, -2.5605539e-08, 6.181724e-08, -2.5605537e-08, 0.7071067, 0.70710677, -6.181723e-08, -0.70710677, 0.7071067, -0.825, 0, 0)
+mesh = SubResource("BoxMesh_jwumf")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="Front" type="MeshInstance3D" parent="Model/Beams/Diagonals" unique_id=318902102]
+transform = Transform3D(4.371139e-08, 0.70710665, -0.7071069, -5.5977273e-15, -0.7071069, -0.70710665, -1, 3.090862e-08, -3.090862e-08, 1.5763155e-15, 3.6061895e-08, -0.825)
+mesh = SubResource("BoxMesh_jwumf")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="Back" type="MeshInstance3D" parent="Model/Beams/Diagonals" unique_id=863465369]
+transform = Transform3D(5.463399e-15, 0.7071068, 0.7071067, 4.371139e-08, 0.7071067, -0.7071068, -1, 3.090862e-08, -3.090862e-08, -1.5763155e-15, -3.6061895e-08, 0.825)
+mesh = SubResource("BoxMesh_jwumf")
+surface_material_override/0 = ExtResource("2_hcgvo")
+
+[node name="Collider" type="StaticBody3D" parent="." unique_id=1418961276]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Collider" unique_id=2143363273]
+shape = SubResource("BoxShape3D_hcgvo")

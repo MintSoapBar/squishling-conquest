@@ -31,7 +31,11 @@ func _ready() -> void:
 	home = HOME.instantiate()
 	add_child(home)
 	
-	Player.create_player()
+	var spawn_point: Transform3D = home.get_spawn_point()
+	Player.create_player(1, {
+		position = spawn_point.origin,
+		rotation = spawn_point.basis.get_euler(),
+	})
 	
 	Entity.create_entity({entity_name = "dummy", position = Vector3(6, 0, 6)})
 	

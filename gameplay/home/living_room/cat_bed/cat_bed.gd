@@ -1,4 +1,5 @@
 @tool
+class_name CatBed
 extends Node3D
 
 
