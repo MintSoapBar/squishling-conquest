@@ -12,14 +12,12 @@ signal camera_temp_lock_changed(bool)
 @export var min_distance: float = 0.0
 @export var max_distance: float = 2048.0
 @export var sensitivity: float = 0.003
+@export var position_lerp_alpha: float = 0.3
 @export var camera_third_person_offset: Vector3 = Vector3(0, 0, 0)
-var cur_cam_offset: Vector3 = Vector3.ZERO
-var cam_offset_lerp_alpha: float = 0.3
 
 @export_category("Zoom")
 @export var min_zoom_step: float = 1
 @export var zoom_in_step_ratio: float = 0.25
-@export var zoom_lerp_alpha: float = 0.3
 @export var zoom_lerp_min_dist: float = 0.05
 
 @export_category("Poppercam")
@@ -57,9 +55,11 @@ var cur_distance: float = 3
 			camera_temp_locked = false
 @export var camera_locked := false
 @export var camera_temp_locked := false
+var cur_pos := Vector3.ZERO
 var first_person_active := false
 var mouse_move_delta := Vector2.ZERO
 var temp_lock_start_mouse_pos := Vector2.ZERO
+
 func get_mouse_pos() -> Vector2:
 	if OS.has_feature("mobile"):
 		return get_viewport().get_visible_rect().size/2
@@ -196,30 +196,26 @@ func update_transform() -> void:
 	var translated = transform.origin != cur_focus
 	transform = Transform3D(cur_basis, cur_focus)
 	
-	var dist_delta = target_distance - cur_distance
-	var dist_abs_delta = abs(dist_delta)
-	if dist_abs_delta <= zoom_lerp_min_dist:
-		cur_distance = target_distance
-	else:
-		var dist_change = max(
-			dist_abs_delta * zoom_lerp_alpha, 
-			zoom_lerp_min_dist
-		)
-		cur_distance += dist_change * sign(dist_delta)
+	var cam_offset := camera_third_person_offset if not first_person_active else Vector3.ZERO
 	
-	var target_cam_offset = camera_third_person_offset if not first_person_active else Vector3.ZERO
-	cur_cam_offset = lerp(cur_cam_offset, target_cam_offset, cam_offset_lerp_alpha)
+	#cur_distance = lerp(cur_distance, target_distance, position_lerp_alpha)
+	var target_pos := cam_offset + Vector3(0, 0, target_distance)
+	cur_pos = cur_pos.lerp(
+		target_pos, 
+		position_lerp_alpha
+	)
 	
 	sight_raycast.position = Vector3.ZERO
-	sight_raycast.target_position = cur_cam_offset + Vector3(0, 0, cur_distance)
+	sight_raycast.target_position = cur_pos
 	sight_raycast.force_update_transform()
 	sight_raycast.force_raycast_update()
 	
-	var sight_raycast_distance = get_raycast_target_distance(sight_raycast)
-	if sight_raycast_distance < cur_distance:
-		cur_distance = sight_raycast_distance
+	if sight_raycast.is_colliding():
+		cur_pos = sight_raycast.global_transform.inverse() * sight_raycast.get_collision_point()
 	
-	var popped_pos = get_raycast_target_point(sight_raycast, -popper_cam_offset) - global_position
+	var popped_pos = cur_pos
+	if not first_person_active:
+		popped_pos -= target_pos.normalized() * popper_cam_offset
 	
 	if translated or camera_3d.position != popped_pos:
 		camera_3d.position = popped_pos
