@@ -86,12 +86,12 @@ func stop_local(_params: Dictionary) -> void:
 	pass
 
 
-func start_server(_params: Dictionary) -> void:
-	pass
-func continue_server(_params: Dictionary) -> void:
-	pass
-func stop_server(_params: Dictionary) -> void:
-	pass
+#func start_server(_params: Dictionary) -> void:
+	#pass
+#func continue_server(_params: Dictionary) -> void:
+	#pass
+#func stop_server(_params: Dictionary) -> void:
+	#pass
 
 
 @rpc("authority", "call_local")
@@ -148,28 +148,18 @@ func get_excluded_rids() -> Array[RID]:
 	return excluded_rids
 
 
-func get_magic_skill_damage_multiplier(params: Dictionary = {}) -> float:
-	var stats := MagicStats.stats[data.magic]
+func get_skill_stat_multiplier(stat: String, params: Dictionary = {}) -> float:
+	var stat_multiplier: float = data.get(stat + "_multiplier", 1)
+	
 	var charge = params.get("charge", data.get("charge", 1))
-	var damage_multiplier = stats.damage * SkillCharge.get_damage_multiplier(charge)
-	damage_multiplier *= data.get("damage_multiplier", 1)
-	return damage_multiplier
-
-
-func get_magic_skill_speed_multiplier(params: Dictionary = {}) -> float:
-	var stats := MagicStats.stats[data.magic]
-	var charge = params.get("charge", data.get("charge", 1))
-	var speed_multiplier = stats.speed * SkillCharge.get_speed_multiplier(charge)
-	speed_multiplier *= data.get("speed_multiplier", 1)
-	return speed_multiplier
-
-
-func get_magic_skill_size_multiplier(params: Dictionary = {}) -> float:
-	var stats := MagicStats.stats[data.magic]
-	var charge = params.get("charge", data.get("charge", 1))
-	var size_multiplier = stats.size * SkillCharge.get_size_multiplier(charge)
-	size_multiplier *= data.get("size_multiplier", 1)
-	return size_multiplier
+	stat_multiplier *= SkillCharge.get_stat_multiplier(stat, charge)
+	
+	var magic = data.get("magic")
+	if magic:
+		var magic_stats := MagicStats.stats[magic]
+		stat_multiplier *= magic_stats[stat]
+	
+	return stat_multiplier
 
 
 func intersect_projectile(projectile_origin: Vector3, projectile_speed: float,

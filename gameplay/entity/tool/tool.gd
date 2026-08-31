@@ -150,33 +150,33 @@ func _physics_process(_delta: float) -> void:
 			action.continue_action({target_position = get_target_pos()})
 
 
-@rpc("any_peer", "call_local")
-func request_tool_action_call(call_type: ToolAction.ToolActionCallType,
-	action_key: String, params: Dictionary = {}):
-	
-	var peer := multiplayer.get_unique_id()
-	var sender := multiplayer.get_remote_sender_id()
-	var origin_peer := tool_user.get_multiplayer_authority()
-	
-	if sender != origin_peer and peer != (1 if Entity.server_authority_enabled() else origin_peer):
-		assert(false, str(sender) + " tried to request tool action for origin peer "
-			+ str(origin_peer) + " to peer") 
-	
-	var action: ToolAction = tool_actions.get(action_key)
-	if not action:
-		push_warning("No action found for key ", action_key, 
-			" in tool actions ", str(tool_actions))
-		return
-	
-	match call_type:
-		ToolAction.ToolActionCallType.START:
-			action.start_action_server(params)
-		ToolAction.ToolActionCallType.CONTINUE:
-			action.continue_action_server(params)
-		ToolAction.ToolActionCallType.STOP:
-			action.stop_action_server(params)
-		ToolAction.ToolActionCallType.CANCEL:
-			action.cancel_action_server()
+#@rpc("any_peer", "call_local")
+#func request_tool_action_call(call_type: ToolAction.ToolActionCallType,
+	#action_key: String, params: Dictionary = {}):
+	#
+	#var peer := multiplayer.get_unique_id()
+	#var sender := multiplayer.get_remote_sender_id()
+	#var origin_peer := tool_user.get_multiplayer_authority()
+	#
+	#if sender != origin_peer and peer != (1 if Entity.server_authority_enabled() else origin_peer):
+		#assert(false, str(sender) + " tried to request tool action for origin peer "
+			#+ str(origin_peer) + " to peer") 
+	#
+	#var action: ToolAction = tool_actions.get(action_key)
+	#if not action:
+		#push_warning("No action found for key ", action_key, 
+			#" in tool actions ", str(tool_actions))
+		#return
+	#
+	#match call_type:
+		#ToolAction.ToolActionCallType.START:
+			#action.start_action_server(params)
+		#ToolAction.ToolActionCallType.CONTINUE:
+			#action.continue_action_server(params)
+		#ToolAction.ToolActionCallType.STOP:
+			#action.stop_action_server(params)
+		#ToolAction.ToolActionCallType.CANCEL:
+			#action.cancel_action_server()
 
 
 func bind_action(action_key: String, action: ToolAction):

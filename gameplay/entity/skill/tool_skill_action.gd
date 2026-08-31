@@ -17,27 +17,27 @@ func start_action(params: Dictionary = {}):
 	
 	var skill_data = data.duplicate()
 	
-	cur_skill = Entity.entities_folder.create_skill(
+	var skill_id = -1
+	while (skill_id == -1 
+		or Skill.current_skills.get(Skill.get_string(peer, skill_id))):
+		skill_id = randi()
+	
+	var args = [
 		action_name, 
 		peer, 
-		-1, 
+		skill_id, 
 		tool.get_path(), 
 		action_key,
 		skill_data,
-	)
+	]
+	
+	cur_skill = Entity.entities_folder.create_skill.callv(args)
+	Entity.entities_folder.create_skill.rpc.callv(args)
+	
+	for peer_id in tool.multiplayer.get_peers():
+		cur_skill.peers[peer_id] = true
 	
 	cur_skill.start_local(params)
-	if params.get("target_position") == null:
-		params.target_position = cur_skill.get_aimbot_target_position(params)
-	
-	params.skill_id = cur_skill.skill_id
-	
-	var authority: int = 1 if Entity.server_authority_enabled() else peer
-	
-	tool.request_tool_action_call.rpc_id(authority, 
-		ToolAction.ToolActionCallType.START, 
-		action_key, 
-		params)
 
 
 func continue_action(params: Dictionary = {}) -> void:
@@ -47,16 +47,6 @@ func continue_action(params: Dictionary = {}) -> void:
 	super(params)
 	
 	cur_skill.continue_local(params)
-	if not params.get("target_position"):
-		params.target_position = cur_skill.get_aimbot_target_position(params)
-	
-	var authority: int = (1 if Entity.server_authority_enabled() 
-		else tool_user.get_multiplayer_authority())
-	
-	tool.request_tool_action_call.rpc_id(authority, 
-		ToolAction.ToolActionCallType.CONTINUE, 
-		action_key, 
-		params)
 
 
 func stop_action(params: Dictionary = {}) -> void:
@@ -72,60 +62,6 @@ func stop_action(params: Dictionary = {}) -> void:
 	super(params)
 	
 	cur_skill.stop_local(params)
-	if not params.get("target_position"):
-		params.target_position = cur_skill.get_aimbot_target_position(params)
-	
-	var authority: int = (1 if Entity.server_authority_enabled() 
-		else tool_user.get_multiplayer_authority())
-	
-	tool.request_tool_action_call.rpc_id(authority, 
-		ToolAction.ToolActionCallType.STOP, 
-		action_key, 
-		params)
-
-
-func start_action_server(params: Dictionary = {}):
-	super(params)
-	
-	var network_origin: int = tool_user.get_multiplayer_authority()
-	var authority: int = 1 if Entity.server_authority_enabled() else network_origin
-	
-	var skill_data = data.duplicate()
-	
-	var args = [
-		action_name, 
-		network_origin, 
-		params.skill_id, 
-		tool.get_path(), 
-		action_key,
-		skill_data,
-	]
-	
-	cur_skill = Entity.entities_folder.create_skill.callv(args)
-	
-	if Entity.network:
-		cur_skill.peers[tool.multiplayer.get_unique_id()] = true
-		for peer_id in tool.multiplayer.get_peers():
-			cur_skill.peers[peer_id] = true
-			if peer_id == authority or peer_id == network_origin:
-				continue
-			Entity.entities_folder.create_skill_rpc.rpc_id.bindv(args).call(peer_id)
-	else:
-		cur_skill.peers[0] = true
-	
-	cur_skill.start_server(params)
-
-
-func continue_action_server(params: Dictionary = {}) -> void:
-	super(params)
-	
-	cur_skill.continue_server(params)
-
-
-func stop_action_server(params: Dictionary = {}) -> void:
-	super(params)
-	
-	cur_skill.stop_server(params)
 
 
 func cancel_action() -> void:

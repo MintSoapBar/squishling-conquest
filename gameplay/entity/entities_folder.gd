@@ -28,25 +28,26 @@ func create_entity(data: Dictionary):
 	return entity
 
 
-@rpc("any_peer", "call_local")
-func create_skill_rpc(
-	skill_name: String, 
-	network_origin: int, skill_id: int, 
-	tool_path: NodePath, action_key: String,
-	data := {},
-	team: Entity.Team = Entity.Team.NULL, player_peer_id: int = -1):
-	
-	if not Entity.check_is_authority(-1, network_origin):
-		return
-	
-	create_skill(
-		skill_name, 
-		network_origin, skill_id, 
-		tool_path, action_key,
-		data,
-		team, player_peer_id
-	)
+#@rpc("any_peer", "call_local")
+#func create_skill_rpc(
+	#skill_name: String, 
+	#network_origin: int, skill_id: int, 
+	#tool_path: NodePath, action_key: String,
+	#data := {},
+	#team: Entity.Team = Entity.Team.NULL, player_peer_id: int = -1):
+	#
+	#if not Entity.check_is_authority(-1, network_origin):
+		#return
+	#
+	#create_skill(
+		#skill_name, 
+		#network_origin, skill_id, 
+		#tool_path, action_key,
+		#data,
+		#team, player_peer_id
+	#)
 
+@rpc("any_peer", "call_remote")
 func create_skill(
 	skill_name: String, 
 	network_origin: int, skill_id: int, 
@@ -54,18 +55,12 @@ func create_skill(
 	data := {},
 	team: Entity.Team = Entity.Team.NULL, player_peer_id: int = -1):
 	
-	var authority: int = 1 if Entity.server_authority_enabled() else network_origin
-	
 	assert(Skill.skill_registry.size() > 0, "Initialize skill registry before creating any skills")
 	
 	# the server user is firing off a skill, a "local" skill already exists
 	var existing_skill = Skill.current_skills.get(Skill.get_string(network_origin, skill_id))
 	if existing_skill != null:
 		return existing_skill
-	
-	while (skill_id == -1 
-		or Skill.current_skills.get(Skill.get_string(network_origin, skill_id))):
-		skill_id = randi()
 	
 	var new_node = Node3D.new()
 	new_node.set_script(Skill.skill_registry[skill_name])
@@ -93,7 +88,7 @@ func create_skill(
 	
 	Skill.current_skills[str(new_skill)] = new_skill
 	new_skill.name = str(new_skill)
-	new_skill.set_multiplayer_authority(authority)
+	new_skill.set_multiplayer_authority(network_origin)
 	new_skill.initialize()
 	add_child(new_skill)
 	

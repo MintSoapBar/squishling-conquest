@@ -49,14 +49,6 @@ func stop_action(_params: Dictionary = {}) -> void:
 	pass
 
 
-func start_action_server(_params: Dictionary = {}):
-	pass
-func continue_action_server(_params: Dictionary = {}):
-	pass
-func stop_action_server(_params: Dictionary = {}):
-	pass
-
-
 func cancel_action() -> void:
 	active = false
 	poll_continue = false

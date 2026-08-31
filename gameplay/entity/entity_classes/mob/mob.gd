@@ -34,7 +34,7 @@ func initialize(_data: Dictionary) -> void:
 
 var facing_direction = Vector3.MODEL_FRONT
 func _physics_process(delta: float) -> void:
-	if not can_move_network():
+	if not is_network_authority():
 		return
 	
 	if is_on_floor():

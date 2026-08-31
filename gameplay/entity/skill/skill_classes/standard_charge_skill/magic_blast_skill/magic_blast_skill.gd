@@ -14,15 +14,18 @@ func initialize() -> void:
 	endlag = 0.2
 
 
-func stop_server(params: Dictionary):
+#func stop_server(params: Dictionary):
+func stop_local(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
+	super(params)
+	
 	call_replicated(stop_replicated, params)
 	
-	var damage_multiplier = get_magic_skill_damage_multiplier(params)
-	var speed_multiplier = get_magic_skill_speed_multiplier(params)
-	var size_multiplier = get_magic_skill_size_multiplier(params)
+	var damage_multiplier = get_skill_stat_multiplier("damage", params)
+	var speed_multiplier = get_skill_stat_multiplier("speed", params)
+	var size_multiplier = get_skill_stat_multiplier("size", params)
 	
 	var origin: Vector3 = params.origin
 	var direction: Vector3 = (params.target_position - params.origin).normalized()
@@ -132,7 +135,7 @@ func continue_replicated(params: Dictionary):
 	
 	var preview_pos: Vector3 = params.origin
 	var target_delta: Vector3 = params.target_position - preview_pos
-	var charge_size_multiplier: float = SkillCharge.get_size_multiplier(params.charge)
+	var charge_size_multiplier: float = SkillCharge.get_stat_multiplier("size", params.charge)
 	if not data.get("hide_circle"):
 		var circle: Node3D = data.magic_circle
 		circle.position = preview_pos
@@ -143,7 +146,7 @@ func continue_replicated(params: Dictionary):
 		projectile.position = preview_pos
 		projectile.basis = Basis.looking_at(target_delta)
 		
-		var size_multiplier = get_magic_skill_size_multiplier(params)
+		var size_multiplier = get_skill_stat_multiplier("size", params)
 		projectile.set_radius(base_projectile_radius * size_multiplier)
 
 
@@ -153,8 +156,8 @@ func stop_replicated(params: Dictionary):
 	
 	data.charge = params.charge
 	
-	var speed_multiplier = get_magic_skill_speed_multiplier(params)
-	var size_multiplier = get_magic_skill_size_multiplier(params)
+	var speed_multiplier = get_skill_stat_multiplier("speed", params)
+	var size_multiplier = get_skill_stat_multiplier("size", params)
 	
 	var origin: Vector3 = params.origin
 	var direction: Vector3 = (params.target_position - origin).normalized()
@@ -216,7 +219,7 @@ func explode_projectile_replicated(explode_position: Vector3):
 	
 	data.projectile = null
 	
-	var size_multiplier = get_magic_skill_size_multiplier()
+	var size_multiplier = get_skill_stat_multiplier("size")
 	
 	var explosion_radius = base_explosion_radius * size_multiplier
 	

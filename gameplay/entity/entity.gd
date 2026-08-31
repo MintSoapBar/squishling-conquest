@@ -37,33 +37,6 @@ var last_positions: Array[Array]
 var estimated_velocity: Vector3
 var velocity_estimate_frame_buffer: int = 2
 
-static func server_authority_enabled():
-	return network and network.server_authority
-
-
-## [code]sender[/code] is set to multiplayer.get_remote_sender_id() if equal to -1
-static func check_is_authority(sender: int = -1, authority_peer: int = -1) -> bool:
-	if sender == -1:
-		sender = entities_folder.multiplayer.get_remote_sender_id()
-	
-	if sender == 0:
-		return true
-	
-	var peer: int = entities_folder.multiplayer.get_unique_id()
-	
-	if server_authority_enabled():
-		if sender != 1:
-			assert(false, 
-				str(sender) + " tried to send request despite server authority to " + str(peer))
-			return false
-	else:
-		if sender != 1 and sender != authority_peer:
-			assert(false, 
-				str(sender) + " tried to send request for the authority peer, " 
-				+ str(authority_peer) + " to " + str(peer))
-			return false
-	return true
-
 
 static func set_debug_printer(printer):
 	debug_printer = printer
@@ -311,10 +284,6 @@ func _process(delta: float) -> void:
 
 @rpc("any_peer", "call_local")
 func destroy():
-	if not check_is_authority(-1, get_multiplayer_authority()):
-		return
-	
-	
 	if equipped_tool:
 		for action_key in equipped_tool.tool_actions:
 			var action = equipped_tool.tool_actions[action_key]
@@ -350,7 +319,7 @@ func set_sprite():
 			sprite = child
 
 
-func can_move_network() -> bool:
+func is_network_authority() -> bool:
 	if network and not network.is_multiplayer_connected():
 		return false
 	if network and not is_multiplayer_authority():
@@ -363,7 +332,7 @@ func is_alive() -> bool:
 
 
 func can_move() -> bool:
-	return can_move_network() and is_alive()
+	return is_network_authority() and is_alive()
 
 
 func get_aim_target_position() -> Vector3:
@@ -409,7 +378,7 @@ func kill():
 	
 	await get_tree().create_timer(CORPSE_LIFETIME).timeout
 	
-	if not network or is_multiplayer_authority():
+	if is_network_authority():
 		destroy.rpc()
 
 

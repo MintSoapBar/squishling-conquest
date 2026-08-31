@@ -151,7 +151,6 @@ func _ready() -> void:
 	if sprite.set_body_color:
 		sprite.set_body_color(body_color)
 	inventory.add_stack(Stack.new("magic_staff", 1))
-	equip_tool(0)
 
 
 func event_is_action(event: InputEvent, action: String):
@@ -186,7 +185,7 @@ func _unhandled_input(event: InputEvent):
 		return
 	if not is_alive():
 		return
-	if not can_move_network():
+	if not is_network_authority():
 		return
 	
 	if event_is_action_or_input(event, "sprint", KEY_CTRL):
@@ -227,7 +226,7 @@ func _unhandled_input(event: InputEvent):
 
 
 func _physics_process(delta: float) -> void:
-	if not can_move_network():
+	if not is_network_authority():
 		return
 	
 	var move_speed: float = sprint_speed if sprinting else walk_speed
