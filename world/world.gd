@@ -28,17 +28,7 @@ func _ready() -> void:
 	core_3d_interface.initialize()
 	minimap.set_dungeon(dungeon)
 	
-	home = HOME.instantiate()
-	add_child(home)
-	
-	var spawn_point: Transform3D = home.get_spawn_point()
-	Player.create_player(1, {
-		position = spawn_point.origin,
-		rotation = spawn_point.basis.get_euler(),
-	})
-	
-	Entity.create_entity({entity_name = "dummy", position = Vector3(6, 0, 6)})
-	
+	load_home()
 	
 	home.player_entered_dungeon_gate.connect(func(_player: Player):
 		if is_server():
@@ -84,7 +74,7 @@ func _ready() -> void:
 		Player.create_player(peer_id, new_player_data)
 		
 		if game_state == GameState.HOME:
-			return_home.rpc_id(peer_id)
+			load_home.rpc_id(peer_id)
 		elif game_state == GameState.DUNGEON:
 			load_dungeon.rpc_id(peer_id, 
 				dungeon.dungeon_seed, dungeon.room_count,
@@ -105,11 +95,14 @@ func _ready() -> void:
 		pass
 	)
 	network.client.room_left.connect(func():
-		return_home()
+		load_home()
 	)
 	network.client.room_closed.connect(func():
-		return_home()
+		load_home()
 	)
+	
+	Player.create_player(1)
+	Entity.create_entity({entity_name = "dummy", position = Vector3(6, 0, 6)})
 
 
 func _process(_delta: float) -> void:
@@ -146,7 +139,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			var num: int = key_event.keycode - KEY_KP_0
 			
 			if num == 0:
-				return_home.rpc()
+				load_home.rpc()
 				get_viewport().set_input_as_handled()
 				return
 			
@@ -167,8 +160,6 @@ func generate_dungeon_server():
 
 @rpc("authority", "call_local")
 func generate_dungeon():
-	set_game_state(GameState.DUNGEON)
-	
 	if is_instance_valid(home):
 		home.queue_free()
 	
@@ -176,14 +167,11 @@ func generate_dungeon():
 		await dungeon.loaded
 	await dungeon.generate()
 	
-	if Player.local_player:
-		Player.local_player.position = Vector3.ZERO
+	set_game_state(GameState.DUNGEON)
 
 
 @rpc("authority", "call_local")
 func load_dungeon(dungeon_seed, room_count, biome, world, level, progress):
-	set_game_state(GameState.DUNGEON)
-	
 	if is_instance_valid(home):
 		home.queue_free()
 	
@@ -194,19 +182,21 @@ func load_dungeon(dungeon_seed, room_count, biome, world, level, progress):
 		dungeon_seed, room_count,
 		biome, world, level)
 	dungeon.load_dungeon_progress(progress)
+	
+	set_game_state(GameState.DUNGEON)
 
 
 @rpc("authority", "call_local")
-func return_home():
-	set_game_state(GameState.HOME)
-	
+func load_home():
 	dungeon.clear_dungeon()
 	
 	if is_instance_valid(home):
-		return
+		home.queue_free()
 	
 	home = HOME.instantiate()
 	add_child(home)
+	
+	set_game_state(GameState.HOME)
 
 
 func set_game_state(new_state: GameState):
@@ -219,10 +209,23 @@ func on_local_player_changed(player: Player):
 		player.can_unequip = game_state == GameState.HOME
 		if not player.can_unequip:
 			player.equip_tool(0)
+		
+		move_player_to_spawn(player)
 
 
 func on_game_state_changed(_new_game_state: GameState):
-	if is_instance_valid(Player.local_player):
-		Player.local_player.can_unequip = game_state == GameState.HOME
-		if not Player.local_player.can_unequip:
-			Player.local_player.equip_tool(0)
+	var player := Player.local_player
+	if is_instance_valid(player):
+		player.can_unequip = game_state == GameState.HOME
+		if not player.can_unequip:
+			player.equip_tool(0)
+		
+		move_player_to_spawn(player)
+
+
+func move_player_to_spawn(player: Player):
+	if game_state == GameState.HOME:
+		player.transform = home.get_spawn_point()
+		player.last_direction = -player.basis.z
+	elif game_state == GameState.DUNGEON:
+		player.position = Vector3.ZERO

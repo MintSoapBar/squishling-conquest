@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://3alq0uoc7w73" path="res://assets/materials/dirt/dirt.png" id="1_28n8j"]
 
 [resource]
-albedo_color = Color(0.42, 0.28581, 0.121800005, 1)
+albedo_color = Color(0.4, 0.28340003, 0.18800001, 1)
 albedo_texture = ExtResource("1_28n8j")
 uv1_scale = Vector3(0.25, 0.25, 0.25)
 uv1_triplanar = true

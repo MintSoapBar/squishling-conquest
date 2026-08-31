@@ -43,7 +43,6 @@ signal camera_temp_lock_changed(bool)
 
 @export_category("Camera State")
 @export var target_distance: float = 3
-var cur_distance: float = 3
 @export var orientation_x: float = -PI/32
 @export var orientation_y: float = 0.0
 
@@ -90,7 +89,9 @@ func _ready() -> void:
 		camera_locked = true
 		sensitivity *= 0.75
 	
-	focused_node = focused_node # force an update
+	if focused_node:
+		sight_raycast.add_exception(focused_node)
+	
 	update_transform()
 	update_mouse_lock()
 	
