@@ -3,9 +3,6 @@ extends Sprite
 
 @onready var body: MeshInstance3D = $Model/Body
 
-func _ready():
-	model = $Model
-
 
 @rpc("authority", "call_local")
 func set_body_color(color := Color(1, 0, 1)):

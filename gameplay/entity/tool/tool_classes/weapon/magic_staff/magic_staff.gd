@@ -32,6 +32,10 @@ func _ready():
 	ToolSkillAction.new("magic_blast_skill", 
 	"skill_7", self, tool_user, 
 	{"magic" = "poison"})
+	
+	
+	ToolSkillAction.new("slash_skill", 
+	"skill_8", self, tool_user)
 
 
 func get_action_origin() -> Vector3:

@@ -62,6 +62,8 @@ var cap_collider_1_shape: CylinderShape3D
 var cap_collider_2_shape: CylinderShape3D
 
 func _ready() -> void:
+	super()
+	
 	stalk_material = stalk.get_surface_override_material(0).duplicate()
 	cap_material = cap.get_surface_override_material(0).duplicate()
 	gills_material = cap.get_surface_override_material(1).duplicate()

@@ -6,8 +6,8 @@ static var skill_registry: Dictionary[String, GDScript] = {}
 
 static var current_skills: Dictionary[String, Skill] = {}
 
-static var startup: float = 0.2
-static var endlag: float = 0.2
+static var base_startup: float = 0.2
+static var base_endlag: float = 0.2
 
 var network_origin: int
 var skill_id: int
@@ -79,19 +79,32 @@ func check_skill_valid() -> bool:
 
 
 func start_local(_params: Dictionary) -> void:
-	pass
+	#params.tool_origin = tool.get_action_origin()
+	#params.tool_user_origin = tool.tool_user.sprite.get_chest_origin()
+	
+	data.start_time = GameTime.get_unpaused_elapsed_time()
+	data.team = tool_user.team
+	
+	#if not params.get("target_position"):
+		#params.target_position = get_aimbot_target_position(params)
+
+
 func continue_local(_params: Dictionary) -> void:
 	pass
+	#params.tool_origin = tool.get_action_origin()
+	#params.tool_user_origin = tool.tool_user.sprite.get_chest_origin()
+	#
+	#if not params.get("target_position"):
+		#params.target_position = get_aimbot_target_position(params)
+
+
 func stop_local(_params: Dictionary) -> void:
 	pass
-
-
-#func start_server(_params: Dictionary) -> void:
-	#pass
-#func continue_server(_params: Dictionary) -> void:
-	#pass
-#func stop_server(_params: Dictionary) -> void:
-	#pass
+	#params.tool_origin = tool.get_action_origin()
+	#params.tool_user_origin = tool.tool_user.sprite.get_chest_origin()
+	#
+	#if not params.get("target_position"):
+		#params.target_position = get_aimbot_target_position(params)
 
 
 @rpc("authority", "call_local")
@@ -108,9 +121,6 @@ func continue_replicated(_params: Dictionary) -> void:
 @rpc("authority", "call_local")
 func stop_replicated(_params: Dictionary) -> void:
 	pass
-@rpc("authority", "call_local")
-func cancel_replicated() -> void:
-	pass
 
 
 static func get_string(_network_origin: int, _skill_id: int) -> String:
@@ -126,13 +136,11 @@ func _exit_tree() -> void:
 
 
 func get_startup():
-	var stats := MagicStats.stats[data.magic]
-	return startup / stats.speed
+	return base_startup / get_skill_stat_multiplier("speed")
 
 
 func get_endlag():
-	var stats := MagicStats.stats[data.magic]
-	return endlag / stats.speed
+	return base_endlag / get_skill_stat_multiplier("speed")
 
 
 func get_aimbot_target_position(_params: Dictionary):
@@ -150,8 +158,7 @@ func get_excluded_rids() -> Array[RID]:
 
 func get_skill_stat_multiplier(stat: String, params: Dictionary = {}) -> float:
 	var stat_multiplier: float = data.get(stat + "_multiplier", 1)
-	
-	var charge = params.get("charge", data.get("charge", 1))
+	var charge = params.get("charge", data.get("charge", 0))
 	stat_multiplier *= SkillCharge.get_stat_multiplier(stat, charge)
 	
 	var magic = data.get("magic")

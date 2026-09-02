@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://bberykleim54g"]
+
+[ext_resource type="AudioStream" uid="uid://b7t4rwtyy3upr" path="res://gameplay/effects/magic/vfx/magics/air/wind_howling.mp3" id="1_qejh7"]
+[ext_resource type="Texture2D" uid="uid://crp3i4dsis1vn" path="res://assets/textures/generic/particle_generic_1.png" id="3_8rjjc"]
+[ext_resource type="Gradient" uid="uid://byqwmp5w8225y" path="res://gameplay/effects/magic/vfx/magics/air/air_particle_gradient.tres" id="3_qejh7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bu0fc"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("3_8rjjc")
+texture_filter = 0
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+stencil_flags = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_nyons"]
+material = SubResource("StandardMaterial3D_bu0fc")
+
+[sub_resource type="Curve" id="Curve_vvjaf"]
+_data = [Vector2(0, 0.15), 0.0, 0.3134378, 0, 0, Vector2(1, 1), 1.6287345, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+metadata/_snap_count = 20
+
+[node name="Projectile" type="Node3D" unique_id=263683715]
+transform = Transform3D(-0.074115716, -0.99725187, 0, 0.99725187, -0.074115716, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1549591953]
+stream = ExtResource("1_qejh7")
+volume_db = 7.0
+unit_size = 5.0
+autoplay = true
+
+[node name="Particles3D" type="CPUParticles3D" parent="." unique_id=248770659]
+amount = 12
+lifetime_randomness = 0.5
+mesh = SubResource("QuadMesh_nyons")
+direction = Vector3(0, 0, -1)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -3.0
+linear_accel_max = -3.0
+angle_max = 720.0
+scale_amount_min = 4.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_vvjaf")
+color_ramp = ExtResource("3_qejh7")
+hue_variation_min = -1.0
+hue_variation_max = 1.0

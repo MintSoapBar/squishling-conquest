@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://b0gvwafqyqtu3"]
+
+[ext_resource type="Script" uid="uid://xtt6jt5j7loj" path="res://gameplay/effects/magic/vfx/magic_projectile_vfx.gd" id="1_i2p3k"]
+[ext_resource type="AudioStream" uid="uid://b2y451kep3s3x" path="res://gameplay/effects/magic/vfx/magics/fire/blowing.mp3" id="2_b7g1d"]
+[ext_resource type="Texture2D" uid="uid://crp3i4dsis1vn" path="res://assets/textures/generic/particle_generic_1.png" id="3_vadyd"]
+[ext_resource type="ArrayMesh" uid="uid://divvqu0jyptm8" path="res://gameplay/effects/magic/vfx/magics/earth/blast.obj" id="4_0cqhh"]
+[ext_resource type="Gradient" uid="uid://qs4ylgokanww" path="res://gameplay/effects/magic/vfx/magics/earth/earth_particle_gradient.tres" id="4_b7g1d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bu0fc"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("3_vadyd")
+texture_filter = 0
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+stencil_flags = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_nyons"]
+material = SubResource("StandardMaterial3D_bu0fc")
+
+[sub_resource type="Curve" id="Curve_vvjaf"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b7g1d"]
+shading_mode = 0
+albedo_color = Color(0.37254903, 0.3137255, 0.25882354, 1)
+
+[node name="Projectile" type="Node3D" unique_id=263683715]
+transform = Transform3D(-0.33126348, 0.94355017, 0, -0.94355017, -0.33126348, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1_i2p3k")
+rotation_speed = Vector3(0, 0, 0.6)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1549591953]
+stream = ExtResource("2_b7g1d")
+volume_db = 3.0
+unit_size = 5.0
+pitch_scale = 0.3
+autoplay = true
+
+[node name="Particles3D" type="CPUParticles3D" parent="." unique_id=248770659]
+amount = 10
+lifetime_randomness = 0.5
+mesh = SubResource("QuadMesh_nyons")
+spread = 180.0
+gravity = Vector3(0, -5, 0)
+initial_velocity_max = 0.1
+linear_accel_min = -3.0
+linear_accel_max = -3.0
+angle_max = 720.0
+scale_amount_min = 2.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_vvjaf")
+color_ramp = ExtResource("4_b7g1d")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1500041840]
+transform = Transform3D(-0.26290032, -0.19276041, 0.05125283, 0.07053826, -0.16917005, -0.27441913, 0.18656844, -0.20766541, 0.17597528, 0, 0, 0)
+cast_shadow = 0
+mesh = ExtResource("4_0cqhh")
+surface_material_override/0 = SubResource("StandardMaterial3D_b7g1d")

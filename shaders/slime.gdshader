@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode depth_prepass_alpha;
+render_mode depth_draw_always;
 
 uniform float normal_offset = 0.0;
 

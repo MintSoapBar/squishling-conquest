@@ -2,11 +2,31 @@
 class_name CrescentMesh
 extends MeshInstance3D
 
-@export var segments: int = 16:
+@export var test_update: bool = false:
 	set(val):
-		segments = val
+		test_update = val
+		if test_update and Engine.is_editor_hint() and is_node_ready():
+			update()
+		test_update = false
+
+@export_category("Dimensions")
+@export var radius: float = 1:
+	set(val):
+		radius = val
 		if Engine.is_editor_hint() and is_node_ready():
 			update()
+@export var depth: float = 0.1:
+	set(val):
+		depth = val
+		if Engine.is_editor_hint() and is_node_ready():
+			update()
+@export var depth_curve: Curve = Curve.new():
+	set(val):
+		depth_curve = val
+		if Engine.is_editor_hint() and is_node_ready():
+			update()
+
+@export_category("Fill")
 @export var end_angle: float = 2.0/3 * PI:
 	set(val):
 		end_angle = val
@@ -21,19 +41,16 @@ extends MeshInstance3D
 			end_angle = acos(end_position)
 			if Engine.is_editor_hint() and is_node_ready():
 				update()
-@export var depth: float = 0.1:
-	set(val):
-		depth = val
-		if Engine.is_editor_hint() and is_node_ready():
-			update()
-@export var depth_curve: Curve = Curve.new():
-	set(val):
-		depth_curve = val
-		if Engine.is_editor_hint() and is_node_ready():
-			update()
 @export var thickness: float = 0.3:
 	set(val):
 		thickness = val
+		if Engine.is_editor_hint() and is_node_ready():
+			update()
+
+@export_category("Meshing")
+@export var segments: int = 16:
+	set(val):
+		segments = val
 		if Engine.is_editor_hint() and is_node_ready():
 			update()
 
@@ -75,9 +92,6 @@ func update() -> void:
 			cutout_radius * sin(cur_angle)
 		))
 	
-	for i in verts.size():
-		verts[i] = verts[i].rotated(-PI/2)
-	
 	# triangulate
 	
 	var indices := Geometry2D.triangulate_polygon(
@@ -100,17 +114,19 @@ func update() -> void:
 	positions.resize(verts_num*2)
 	normals.resize(verts_num*2)
 	uvs.resize(verts_num*2)
-
+	
+	# convert polygon vertices to 3d vertices and populate ArrayMesh arrays
+	
 	for i in verts_num:
 		var vertex = verts[i]
 		
-		var curved_depth: float = depth * depth_curve.sample_baked(
-			(vertex.y + 1) / (1 - end_position))
+		var curved_depth: float = 0.5 * depth * depth_curve.sample_baked(
+			(1 - vertex.x) / (1 - end_position))
 		
-		positions[i] = Vector3(vertex.x, curved_depth, vertex.y)
+		positions[i] = Vector3(radius * vertex.x, radius * vertex.y, curved_depth)
 		normals[i] = Vector3(0, 1, 0)
 		
-		positions[i + verts_num] = Vector3(vertex.x, -curved_depth, vertex.y)
+		positions[i + verts_num] = Vector3(radius * vertex.x, radius * vertex.y, -curved_depth)
 		normals[i + verts_num] = Vector3(0, -1, 0)
 
 		uvs[i] = Vector2(

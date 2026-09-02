@@ -24,8 +24,8 @@ script = ExtResource("1_cruyp")
 [node name="Rod" type="MeshInstance3D" parent="Model" unique_id=410307284]
 mesh = SubResource("BoxMesh_ischu")
 
-[node name="Handle" type="MeshInstance3D" parent="Model" unique_id=2139875465]
+[node name="Grip" type="MeshInstance3D" parent="Model" unique_id=2139875465]
 mesh = SubResource("BoxMesh_q6f5e")
 
 [node name="Handle" type="Marker3D" parent="." unique_id=398848934]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.055, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 0, 0)

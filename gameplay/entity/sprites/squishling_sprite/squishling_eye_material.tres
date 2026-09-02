@@ -1,7 +1,8 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://eif3xukpgr8a"]
 
 [resource]
-transparency = 1
+transparency = 4
+depth_draw_mode = 1
 albedo_color = Color(0, 0, 0, 1)
 metallic = 0.9
 metallic_specular = 1.0

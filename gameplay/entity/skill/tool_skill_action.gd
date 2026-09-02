@@ -31,11 +31,11 @@ func start_action(params: Dictionary = {}):
 		skill_data,
 	]
 	
-	cur_skill = Entity.entities_folder.create_skill.callv(args)
-	Entity.entities_folder.create_skill.rpc.callv(args)
-	
 	for peer_id in tool.multiplayer.get_peers():
 		cur_skill.peers[peer_id] = true
+	
+	cur_skill = Entity.entities_folder.create_skill.callv(args)
+	Entity.entities_folder.create_skill.rpc.callv(args)
 	
 	cur_skill.start_local(params)
 

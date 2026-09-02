@@ -1,24 +1,24 @@
 extends Sprite
 
 @onready var body: SquishlingSpriteBody = $Model/Body
-@onready var hand: Marker3D = $Hand
 @onready var shield: Node3D = $Model/Body/Shield
 
-var hand_pos: Vector3
+var unstretched_default_hand_transform: Transform3D
 var status_billboard_pos: Vector3
 
 func _ready():
-	model = $Model
+	super()
 	
 	body.entity = entity
-	hand_pos = hand.position
+	unstretched_default_hand_transform = default_hand_transform
 	status_billboard_pos = status_bar_billboard.position
 	
 	body.stretched.connect(on_body_stretched)
 
 
 func on_body_stretched():
-	hand.position = body.position + body.get_deformed_vertex_pos(hand_pos)
+	default_hand_transform.origin = body.position + \
+		body.get_deformed_vertex_pos(unstretched_default_hand_transform.origin)
 	status_bar_billboard.position = body.get_deformed_vertex_pos(status_billboard_pos)
 
 

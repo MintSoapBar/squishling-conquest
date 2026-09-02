@@ -1,25 +1,53 @@
 class_name MagicBlastSkill
 extends StandardChargeSkill
 
+const base_damage: float = 30
+
 const max_projectile_lifetime: float = 2
 const base_projectile_speed: float = 20
 
 const base_projectile_radius := 0.2
 const base_explosion_radius := 0.5
 
-const base_damage: float = 30
 
 func initialize() -> void:
-	startup = 0.2
-	endlag = 0.2
+	base_startup = 0.2
+	base_endlag = 0.2
 
 
-#func stop_server(params: Dictionary):
+func start_local(params: Dictionary):
+	super(params)
+	
+	action.active = true
+	
+	params.tool_origin = tool.get_action_origin()
+	if not params.get("target_position"):
+		params.target_position = get_aimbot_target_position(params)
+	
+	tool.lock(action)
+	
+	call_replicated(start_replicated, params)
+
+
+func continue_local(params: Dictionary):
+	super(params)
+	
+	params.tool_origin = tool.get_action_origin()
+	if not params.get("target_position"):
+		params.target_position = get_aimbot_target_position(params)
+	
+	call_replicated(continue_replicated, params)
+
+
 func stop_local(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
 	super(params)
+	
+	params.tool_origin = tool.get_action_origin()
+	if not params.get("target_position"):
+		params.target_position = get_aimbot_target_position(params)
 	
 	call_replicated(stop_replicated, params)
 	
@@ -27,12 +55,12 @@ func stop_local(params: Dictionary):
 	var speed_multiplier = get_skill_stat_multiplier("speed", params)
 	var size_multiplier = get_skill_stat_multiplier("size", params)
 	
-	var origin: Vector3 = params.origin
-	var direction: Vector3 = (params.target_position - params.origin).normalized()
+	var origin: Vector3 = params.tool_origin
+	var direction: Vector3 = (params.target_position - params.tool_origin).normalized()
 	
 	var start_time: float = GameTime.get_unpaused_elapsed_time()
 	
-	var space_state := tool.get_world_3d().direct_space_state
+	var space_state := get_world_3d().direct_space_state
 	
 	var projectile_query_shape := SphereShape3D.new()
 	projectile_query_shape.radius = base_projectile_radius * size_multiplier
@@ -109,8 +137,8 @@ func start_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var preview_pos: Vector3 = params.origin
-	var preview_basis: Basis = Basis.looking_at(params.target_position - params.origin)
+	var preview_pos: Vector3 = params.tool_origin
+	var preview_basis: Basis = Basis.looking_at(params.target_position - params.tool_origin)
 	if not data.get("hide_circle"):
 		var circle: MagicCircle = MagicCircle.create_magic_circle(data.magic)
 		circle.position = preview_pos
@@ -133,7 +161,7 @@ func continue_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var preview_pos: Vector3 = params.origin
+	var preview_pos: Vector3 = params.tool_origin
 	var target_delta: Vector3 = params.target_position - preview_pos
 	var charge_size_multiplier: float = SkillCharge.get_stat_multiplier("size", params.charge)
 	if not data.get("hide_circle"):
@@ -159,7 +187,7 @@ func stop_replicated(params: Dictionary):
 	var speed_multiplier = get_skill_stat_multiplier("speed", params)
 	var size_multiplier = get_skill_stat_multiplier("size", params)
 	
-	var origin: Vector3 = params.origin
+	var origin: Vector3 = params.tool_origin
 	var direction: Vector3 = (params.target_position - origin).normalized()
 	
 	var circle: MagicCircle = data.get("magic_circle")
@@ -231,14 +259,14 @@ func explode_projectile_replicated(explode_position: Vector3):
 	explosion.position = explode_position
 	add_child(explosion)
 	
-	explosion.fade_out.call_deferred()
+	explosion.fade_out()
 	explosion.tree_exited.connect(queue_free)
 
 
 func get_aimbot_target_position(params: Dictionary) -> Vector3:
 	var target_entity: Entity = params.get("target_entity")
 	if target_entity:
-		var origin: Vector3 = params.origin
+		var origin: Vector3 = params.tool_origin
 		var speed: float = base_projectile_speed * MagicStats.stats[data.magic].speed
 		var target_origin: Vector3 = target_entity.get_aim_target_position()
 		var target_velocity: Vector3 = target_entity.estimated_velocity
