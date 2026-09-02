@@ -5,3 +5,6 @@
 *.lmbake
 *.exr
 icon*
+
+# Android phone Termux repository ignores
+.nomedia
