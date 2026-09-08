@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://byej78cqko6ww"]
+
+[ext_resource type="Script" uid="uid://bc6yu2ef0n4e2" path="res://gameplay/entity/tool/tool_classes/weapon/sword/sword.gd" id="1_nxo63"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ou1b"]
+albedo_color = Color(0.72, 0.72, 0.72, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ischu"]
+material = SubResource("StandardMaterial3D_3ou1b")
+size = Vector3(0.05, 0.8, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t26f3"]
+albedo_color = Color(0.19607843, 0.19607843, 0.19607843, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_q6f5e"]
+material = SubResource("StandardMaterial3D_t26f3")
+size = Vector3(0.1, 0.2, 0.1)
+
+[node name="Sword" type="Node3D" unique_id=1291293267]
+script = ExtResource("1_nxo63")
+
+[node name="Model" type="Node3D" parent="." unique_id=1975717745]
+
+[node name="Rod" type="MeshInstance3D" parent="Model" unique_id=410307284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_ischu")
+
+[node name="Grip" type="MeshInstance3D" parent="Model" unique_id=2139875465]
+mesh = SubResource("BoxMesh_q6f5e")
+
+[node name="Handle" type="Marker3D" parent="." unique_id=398848934]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 0, 0)

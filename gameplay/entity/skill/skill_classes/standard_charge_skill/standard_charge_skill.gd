@@ -1,6 +1,8 @@
 class_name StandardChargeSkill
 extends Skill
 
+var base_charge_startup: float = 0.3
+
 
 func start_local(params: Dictionary):
 	if not check_skill_valid():
@@ -45,4 +47,9 @@ func stop_local(params: Dictionary):
 	
 	if is_instance_valid(tool) and action.active:
 		action.active = false
-		tool.unlock()
+		if tool.locking_action == action:
+			tool.unlock()
+
+
+func get_charge_startup():
+	return base_charge_startup / get_skill_stat_multiplier("speed")

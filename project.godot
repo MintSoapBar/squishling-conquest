@@ -26,7 +26,6 @@ GameTime="*uid://gsna00qnaof"
 
 [display]
 
-window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
 [editor_plugins]

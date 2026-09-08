@@ -6,12 +6,14 @@ const SLASH_VFX = preload("uid://ccpvm0lk3khw0")
 const base_damage = 30
 const base_slash_radius: float = 1.5
 const base_slash_depth: float = 0.1
-const slash_half_angle = PI * 2/3
+const slash_half_angle: float = PI * 2/3
+
+const point_distance: float = 0.7
 
 
 func initialize() -> void:
-	base_startup = 0.3
-	base_endlag = 0.3
+	base_startup = 0.2
+	base_endlag = 0.1
 
 
 func start_local(params: Dictionary):
@@ -26,6 +28,9 @@ func start_local(params: Dictionary):
 	var size_multiplier = get_skill_stat_multiplier("size", params)
 	
 	await get_tree().create_timer(get_startup()).timeout
+	
+	if not is_skill_valid():
+		return
 	
 	var slash_position = tool_user.sprite.get_chest_origin()
 	var slash_rotation = tool_user.global_rotation
@@ -77,7 +82,8 @@ func start_local(params: Dictionary):
 	
 	if is_instance_valid(tool) and action.active:
 		action.active = false
-		tool.unlock()
+		if tool.locking_action == action:
+			tool.unlock()
 
 
 func start_replicated(_params: Dictionary) -> void:
@@ -86,7 +92,7 @@ func start_replicated(_params: Dictionary) -> void:
 	
 	tool_user.sprite.point_at(
 		initial_direction,
-		1.0,
+		point_distance,
 		initial_direction.cross(Vector3.UP)
 	)
 	
@@ -96,7 +102,7 @@ func start_replicated(_params: Dictionary) -> void:
 		-tool_user.basis.z, 
 		Vector3.UP, 
 		slash_half_angle, 
-		1, 
+		point_distance, 
 		get_startup() * 1/3,
 		get_endlag(),
 	)

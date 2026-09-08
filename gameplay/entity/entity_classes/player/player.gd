@@ -151,6 +151,7 @@ func _ready() -> void:
 	if sprite.set_body_color:
 		sprite.set_body_color(body_color)
 	inventory.add_stack(Stack.new("magic_staff", 1))
+	inventory.add_stack(Stack.new("sword", 1))
 
 
 func event_is_action(event: InputEvent, action: String):

@@ -4,15 +4,16 @@ extends StandardChargeSkill
 const base_damage: float = 30
 
 const max_projectile_lifetime: float = 2
-const base_projectile_speed: float = 20
+const base_projectile_speed: float = 15
 
 const base_projectile_radius := 0.2
 const base_explosion_radius := 0.5
 
 
 func initialize() -> void:
+	base_charge_startup = 0.3
 	base_startup = 0.2
-	base_endlag = 0.2
+	base_endlag = 0.3
 
 
 func start_local(params: Dictionary):
