@@ -28,12 +28,8 @@ func _ready() -> void:
 	core_3d_interface.initialize()
 	minimap.set_dungeon(dungeon)
 	
-	load_home()
+	#load_home()
 	
-	home.player_entered_dungeon_gate.connect(func(_player: Player):
-		if is_server():
-			generate_dungeon_server()
-	)
 	dungeon.player_entered_exit_gate.connect(func(_player: Player):
 		if is_server():
 			dungeon.set_level.rpc(dungeon.level % 3 + 1)
@@ -95,14 +91,17 @@ func _ready() -> void:
 		pass
 	)
 	network.client.room_left.connect(func():
-		load_home()
+		reset_world();
 	)
 	network.client.room_closed.connect(func():
-		load_home()
+		reset_world()
 	)
 	
-	Player.create_player(1)
-	Entity.create_entity({entity_name = "dummy", position = Vector3(6, 0, 6)})
+	reset_world()
+	
+	#while true:
+		#await get_tree().create_timer(5).timeout
+		#print(multiplayer.multiplayer_peer)
 
 
 func _process(_delta: float) -> void:
@@ -118,6 +117,12 @@ func is_server() -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_echo():
 		return
+	
+	if event is InputEventAction:
+		var action_event = event as InputEventAction
+		if action_event.is_action("reset_world"):
+			basic_rooms_ui._on_leave_button_pressed()
+			reset_world()
 	
 	if event is InputEventKey:
 		var key_event := event as InputEventKey
@@ -151,6 +156,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		elif key_event.keycode == KEY_DELETE and key_event.is_pressed():
 			Entity.clear_entities()
+
+
+func reset_world():
+	Entity.clear_entities()
+	load_home()
+	Player.create_player(1)
+	Entity.create_entity({entity_name = "dummy", position = Vector3(6, 0, 6)})
 
 
 func generate_dungeon_server():
@@ -195,6 +207,11 @@ func load_home():
 	
 	home = HOME.instantiate()
 	add_child(home)
+	
+	home.player_entered_dungeon_gate.connect(func(_player: Player):
+		if is_server():
+			generate_dungeon_server()
+	)
 	
 	set_game_state(GameState.HOME)
 

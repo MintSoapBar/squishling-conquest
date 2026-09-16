@@ -3,7 +3,8 @@
 [ext_resource type="Script" uid="uid://xtt6jt5j7loj" path="res://gameplay/effects/magic/vfx/magic_projectile_vfx.gd" id="1_3j024"]
 [ext_resource type="AudioStream" uid="uid://b2y451kep3s3x" path="res://gameplay/effects/magic/vfx/magics/fire/blowing.mp3" id="2_u6tlm"]
 [ext_resource type="Texture2D" uid="uid://crp3i4dsis1vn" path="res://assets/textures/generic/particle_generic_1.png" id="3_vhoxh"]
-[ext_resource type="Gradient" uid="uid://lavx1vvvx0dj" path="res://gameplay/effects/magic/vfx/magics/fire/fire_particle_gradient.tres" id="4_wxkj6"]
+[ext_resource type="Curve" uid="uid://cdh6m8phc5p36" path="res://gameplay/effects/magic/vfx/magics/fire/fire_particle_scale_curve.tres" id="4_w33kf"]
+[ext_resource type="Gradient" uid="uid://lavx1vvvx0dj" path="res://gameplay/effects/magic/vfx/magics/fire/fire_particle_color_ramp.tres" id="4_wxkj6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bu0fc"]
 transparency = 1
@@ -22,10 +23,6 @@ stencil_flags = 2
 
 [sub_resource type="QuadMesh" id="QuadMesh_nyons"]
 material = SubResource("StandardMaterial3D_bu0fc")
-
-[sub_resource type="Curve" id="Curve_vvjaf"]
-_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
 
 [node name="FireProjectile" type="Node3D" unique_id=263683715]
 script = ExtResource("1_3j024")
@@ -49,6 +46,6 @@ linear_accel_max = -3.0
 angle_max = 720.0
 scale_amount_min = 2.0
 scale_amount_max = 2.0
-scale_amount_curve = SubResource("Curve_vvjaf")
+scale_amount_curve = ExtResource("4_w33kf")
 color = Color(1, 0.43137255, 0, 1)
 color_ramp = ExtResource("4_wxkj6")

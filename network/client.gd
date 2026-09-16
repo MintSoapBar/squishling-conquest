@@ -9,7 +9,7 @@ signal peer_connected(peer_id: int)
 signal peer_disconnected(peer_id: int)
 
 var udp: PacketPeerUDP
-var peer: ENetMultiplayerPeer
+var peer: ENetMultiplayerPeer = null
 
 @onready var network: Network = $".."
 var server: Server
@@ -113,6 +113,7 @@ func leave_room():
 	network.transitioning = true
 	
 	peer.close()
+	#multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	multiplayer.multiplayer_peer = null
 	peer = null
 	

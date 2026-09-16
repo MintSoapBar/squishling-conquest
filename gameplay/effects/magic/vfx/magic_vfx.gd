@@ -7,12 +7,16 @@ const MODELED_EXPLOSION_RADIUS: float = 2.5
 enum AttackShape {SPHERE}
 
 
+@export var magic_vfx_data = {}
+
+
 static func get_magic_vfx_path(magic: String) -> String:
 	return (MagicVFX as GDScript).resource_path.replace("magic_vfx.gd", "magics/") + magic
 
 
 static func create_projectile_sphere(magic: String, radius: float) -> MagicVFX:
-	var projectile: Node3D = load(get_magic_vfx_path(magic) + "/%s_projectile.tscn" % magic).instantiate()
+	var projectile: Node3D = load(get_magic_vfx_path(magic) + \
+		"/%s_projectile.tscn" % magic).instantiate()
 	
 	if not projectile.get_script():
 		projectile.set_script(MagicProjectileVFX)

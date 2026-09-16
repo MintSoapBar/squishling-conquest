@@ -84,6 +84,7 @@ func close_room():
 		udp.close()
 		udp = null
 	
+	#multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	multiplayer.multiplayer_peer = null
 	
 	await get_tree().process_frame

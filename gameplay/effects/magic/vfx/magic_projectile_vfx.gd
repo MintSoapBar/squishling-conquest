@@ -2,6 +2,7 @@
 class_name MagicProjectileVFX
 extends MagicVFX
 
+
 @export_category("Test Animation")
 @export var test: bool = false:
 	set(val):

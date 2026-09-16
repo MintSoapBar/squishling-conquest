@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dbjnyphypvlw"]
 
-[ext_resource type="AudioStream" uid="uid://c2pm5vs11kt7r" path="res://assets/sounds/explosion/explosion_1.mp3" id="1_uofr0"]
+[ext_resource type="AudioStream" uid="uid://c2pm5vs11kt7r" path="res://gameplay/effects/magic/vfx/magics/fire/explosion.mp3" id="1_uofr0"]
+[ext_resource type="Curve" uid="uid://cdh6m8phc5p36" path="res://gameplay/effects/magic/vfx/magics/fire/fire_particle_scale_curve.tres" id="3_1lm86"]
 [ext_resource type="Texture2D" uid="uid://crp3i4dsis1vn" path="res://assets/textures/generic/particle_generic_1.png" id="4_p6nrg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bu0fc"]
@@ -20,10 +21,6 @@ stencil_flags = 2
 
 [sub_resource type="QuadMesh" id="QuadMesh_dwfr0"]
 material = SubResource("StandardMaterial3D_bu0fc")
-
-[sub_resource type="Curve" id="Curve_kxpqf"]
-_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_d86wh"]
 offsets = PackedFloat32Array(0, 0.1, 0.2, 0.4, 0.9)
@@ -57,5 +54,5 @@ linear_accel_max = -3.0
 angle_max = 720.0
 scale_amount_min = 8.0
 scale_amount_max = 8.0
-scale_amount_curve = SubResource("Curve_kxpqf")
+scale_amount_curve = ExtResource("3_1lm86")
 color_ramp = SubResource("Gradient_d86wh")
