@@ -18,6 +18,8 @@ func _ready() -> void:
 	client = network.client
 	
 	network.ip_found.connect(on_ip_found)
+	
+	port_box.placeholder_text = str(server.game_port)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -89,9 +91,8 @@ func _on_server_address_text_changed() -> void:
 
 
 func _on_port_text_changed() -> void:
-	if port_box.text_box.contains("\n"):
+	if port_box.text.contains("\n"):
 		port_box.release_focus()
-
 
 func clean_server_address_text() -> void:
 	server_address_box.text = server_address_box.text.strip_edges().remove_chars(" \t\n\r")

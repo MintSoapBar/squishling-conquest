@@ -8,8 +8,8 @@ signal peer_connected(peer_id: int)
 signal peer_disconnected(peer_id: int)
 
 
-const game_port := 20260
-const BROADCAST_PORT := 20261
+const game_port := 29290
+const BROADCAST_PORT := 29291
 const BROADCAST_INTERVAL := 1.0
 
 const MAX_PLAYERS := 10
@@ -61,37 +61,45 @@ func _process(delta):
 
 	broadcast_timer = 0.0
 
-	var msg = "GAME|" + get_lan_ip() + "|" + str(game_port)
+	#var msg = "GAME|" + get_lan_ip() + "|" + str(game_port)
+	var msg = "GAME|" + str(game_port)
 	var packet = msg.to_utf8_buffer()
 
-	var ip = "255.255.255.255"
-	udp.set_dest_address(ip, BROADCAST_PORT)
-	udp.put_packet(packet)
+	#var ip = "255.255.255.255"
+	#udp.set_dest_address(ip, BROADCAST_PORT)
+	#udp.put_packet(packet)
+	#
+	#debug_prints("put", msg, "in", ip, BROADCAST_PORT)
+	
+	for ip in ["255.255.255.255", "127.0.0.1"]:
+		udp.set_dest_address(ip, BROADCAST_PORT)
+		var err := udp.put_packet(packet)
+		if err != OK:
+			debug_prints("broadcast to", ip, "failed:", error_string(err))
 
 
 func close_room():
 	assert(hosting_room, "This player is not hosting a room")
 	
 	network.transitioning = true
+	hosting_room = false
 	
 	room_closing.emit()
 	
 	if peer:
 		peer.close()
-		peer = null
 	
 	if udp:
 		udp.close()
 		udp = null
 	
-	#multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
-	multiplayer.multiplayer_peer = null
+	peer = null
+	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	
 	await get_tree().process_frame
 	await get_tree().process_frame
 	
 	network.transitioning = false
-	hosting_room = false
 	
 	debug_prints("Room closed")
 
@@ -106,19 +114,25 @@ func host_room(port: int = game_port):
 	
 	network.transitioning = true
 	
-	peer = ENetMultiplayerPeer.new()
 	udp = PacketPeerUDP.new()
-
 	udp.set_broadcast_enabled(true)
 	
-	# start ENet server
+	peer = ENetMultiplayerPeer.new()
 	var err = peer.create_server(port, MAX_PLAYERS)
+	multiplayer.multiplayer_peer = peer
+	
 	if err != OK: 
 		debug_prints("Unable to host room. Error:", err, error_string(err))
-		close_room()
+		
+		peer.close()
+		udp.close()
+		
+		udp = null
+		peer = null
+		
+		multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+		
 		return
-	
-	multiplayer.multiplayer_peer = peer
 	
 	network.transitioning = false
 	hosting_room = true

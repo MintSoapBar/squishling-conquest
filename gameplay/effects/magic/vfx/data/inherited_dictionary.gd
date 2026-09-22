@@ -1,10 +1,10 @@
-class_name InheritedData
+class_name InheritedDictionary
 
-var parents: Array[InheritedData]
+var parents: Array[InheritedDictionary]
 var data: Dictionary
 
 
-func _init(_parents: Array[InheritedData] = [], _data: Dictionary = {}) -> void:
+func _init(_parents: Array[InheritedDictionary] = [], _data: Dictionary = {}) -> void:
 	parents = _parents
 	data = _data
 

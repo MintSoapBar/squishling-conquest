@@ -118,11 +118,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_echo():
 		return
 	
-	if event is InputEventAction:
-		var action_event = event as InputEventAction
-		if action_event.is_action("reset_world"):
+	if event.is_action("reset_world"):
+		if event.is_pressed():
 			basic_rooms_ui._on_leave_button_pressed()
 			reset_world()
+			return
 	
 	if event is InputEventKey:
 		var key_event := event as InputEventKey
@@ -154,8 +154,6 @@ func _unhandled_input(event: InputEvent) -> void:
 				dungeon.set_level.rpc(num)
 			generate_dungeon_server()
 			get_viewport().set_input_as_handled()
-		elif key_event.keycode == KEY_DELETE and key_event.is_pressed():
-			Entity.clear_entities()
 
 
 func reset_world():

@@ -68,24 +68,33 @@ func _process(_delta):
 	
 	if udp.get_available_packet_count() > 0:
 		var packet = udp.get_packet()
+		var ip = udp.get_packet_ip()
 		var msg = packet.get_string_from_utf8()
 		
 		if msg.begins_with("GAME|"):
 			var parts = msg.split("|")
-			var ip = parts[1]
-			var port = int(parts[2])
-
+			var port = int(parts[1])
 			debug_prints("Found host:", ip, port)
-			
 			stop_searching()
 			join_room(ip, port)
+			
+			#var parts = msg.split("|")
+			#var ip = parts[1]
+			#var port = int(parts[2])
+#
+			#debug_prints("Found host:", ip, port)
+			#
+			#stop_searching()
+			#join_room(ip, port)
 
 
 func join_room(ip: String, port: int = server.game_port):
 	if server.hosting_room:
 		await server.close_room()
-	if peer:
-		await leave_room()
+	#if peer:
+		#await leave_room()
+	
+	debug_prints("Joining room", ip, port)
 	
 	room_joining.emit()
 	
@@ -94,12 +103,14 @@ func join_room(ip: String, port: int = server.game_port):
 	
 	peer = ENetMultiplayerPeer.new()
 	var msg = peer.create_client(ip, port)
+	multiplayer.multiplayer_peer = peer
 	
-	if msg == 0:
-		multiplayer.multiplayer_peer = peer
-	else:
+	if msg != 0:
 		debug_prints("Unable to connect client. Check the server address. Error:", 
 			msg, error_string(msg))
+		
+		peer = null
+		multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	
 	
 	network.transitioning = false
@@ -113,9 +124,8 @@ func leave_room():
 	network.transitioning = true
 	
 	peer.close()
-	#multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
-	multiplayer.multiplayer_peer = null
 	peer = null
+	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	
 	network.transitioning = false
 	connecting = false
@@ -141,6 +151,8 @@ func stop_searching():
 func start_searching():
 	if server.hosting_room:
 		await server.close_room()
+	if in_room:
+		leave_room()
 	if searching:
 		await stop_searching()
 	
@@ -153,7 +165,7 @@ func start_searching():
 	searching = true
 	
 	if err == 0:
-		debug_prints("Searching for rooms")
+		debug_prints("Searching for rooms at port", server.BROADCAST_PORT)
 	else:
 		debug_prints("UDP bind error. Check your internet connection. Error:", error_string(err))
 		stop_searching()

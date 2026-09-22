@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://btmdt8ueoildk"]
 
 [ext_resource type="Script" uid="uid://br5pchhfpckbp" path="res://world/world.gd" id="1_4717r"]
+[ext_resource type="PackedScene" uid="uid://depmxpeis8ln5" path="res://debug_tools/debug_printers/viewport_printer/viewport_printer.tscn" id="2_mad0u"]
 [ext_resource type="PackedScene" uid="uid://u47nmj6fw4c2" path="res://network/network.tscn" id="2_ov2xu"]
 [ext_resource type="Script" uid="uid://t862dbw251ks" path="res://world/movement_interface.gd" id="3_h5o24"]
 [ext_resource type="PackedScene" uid="uid://c7jk6odqx723q" path="res://interface/core_3d/custom_cameras/orbital_camera/orbital_camera.tscn" id="3_mmdvd"]
@@ -15,7 +16,10 @@
 [node name="World" type="Node3D" unique_id=642953348]
 script = ExtResource("1_4717r")
 
-[node name="Network" parent="." unique_id=970467472 instance=ExtResource("2_ov2xu")]
+[node name="ViewportPrinter" parent="." unique_id=412789673 instance=ExtResource("2_mad0u")]
+
+[node name="Network" parent="." unique_id=970467472 node_paths=PackedStringArray("debug_printer") instance=ExtResource("2_ov2xu")]
+debug_printer = NodePath("../ViewportPrinter")
 
 [node name="BasicRoomsUi" parent="." unique_id=984085998 node_paths=PackedStringArray("network") instance=ExtResource("10_fyhu2")]
 offset_left = -546.0

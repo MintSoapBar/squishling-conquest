@@ -17,6 +17,7 @@ var transitioning: bool = false
 
 func debug_prints(...vals: Array) -> void:
 	if not debug_printer:
+		prints.callv(vals)
 		return
 	
 	(debug_printer.prints_ as Callable).callv(vals)
