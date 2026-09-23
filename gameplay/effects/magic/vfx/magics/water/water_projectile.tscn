@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://xtt6jt5j7loj" path="res://gameplay/effects/magic/vfx/magic_projectile_vfx.gd" id="1_3ohg8"]
 [ext_resource type="AudioStream" uid="uid://dpojk73fw5o4d" path="res://gameplay/effects/magic/vfx/magics/water/showerhead.mp3" id="2_q0hwq"]
 [ext_resource type="Texture2D" uid="uid://crp3i4dsis1vn" path="res://assets/textures/generic/particle_generic_1.png" id="3_cihf7"]
-[ext_resource type="Gradient" uid="uid://c2o2d7x405hyo" path="res://gameplay/effects/magic/vfx/magics/water/water_particle_gradient.tres" id="4_eyiip"]
+[ext_resource type="Gradient" uid="uid://c2o2d7x405hyo" path="res://gameplay/effects/magic/vfx/magics/water/water_particle_color_ramp.tres" id="4_eyiip"]
 [ext_resource type="Shader" uid="uid://d4nyyb8pv5fl4" path="res://shaders/slime.gdshader" id="5_q0hwq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bu0fc"]

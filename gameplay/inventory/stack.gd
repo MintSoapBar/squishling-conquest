@@ -11,7 +11,7 @@ func _init(_name: String, _size: int, _data: Dictionary = {}):
 	data = _data
 
 
-func is_same_as(o: Stack):
-	if name != o.name:
+func is_same_as(other_stack: Stack):
+	if name != other_stack.name:
 		return false
-	return data.recursive_equal(o.data, 99)
+	return data.recursive_equal(other_stack.data, 99)

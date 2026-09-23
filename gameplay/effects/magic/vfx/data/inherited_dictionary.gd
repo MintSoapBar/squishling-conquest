@@ -1,27 +1,39 @@
 class_name InheritedDictionary
 
-var parents: Array[InheritedDictionary]
-var data: Dictionary
+var _parents: Array[InheritedDictionary]
+var _dictionary: Dictionary
 
 
-func _init(_parents: Array[InheritedDictionary] = [], _data: Dictionary = {}) -> void:
-	parents = _parents
-	data = _data
+func _init(parents: Array[InheritedDictionary] = [], dictionary: Dictionary = {}) -> void:
+	_parents = parents
+	_dictionary = dictionary
 
 
-func _get(property: StringName) -> Variant:
-	var val = data.get(property)
+func add_parent(parent: InheritedDictionary):
+	_parents.append(parent)
+
+
+func get_value(key: StringName) -> Variant:
+	var val = _dictionary.get(key)
 	if val != null:
 		return val
 	
-	for parent in parents:
-		var parent_val = parent[property]
+	for parent in _parents:
+		var parent_val = parent.get_value(key)
 		if parent_val != null:
 			return parent_val
 	
 	return val
 
 
-func _set(property: StringName, value: Variant) -> bool:
-	data.set(property, value)
+func set_value(key: StringName, value: Variant) -> bool:
+	_dictionary.set(key, value)
 	return true
+
+
+func get_dictionary() -> Dictionary:
+	return _dictionary
+
+
+func replace_dictionary(new_dictionary: Dictionary) -> void:
+	_dictionary = new_dictionary
