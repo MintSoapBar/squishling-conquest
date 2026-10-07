@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://crp3i4dsis1vn" path="res://assets/textures/generic/particle_generic_1.png" id="3_a44h1"]
 [ext_resource type="Gradient" uid="uid://bp4hdhfycm4jp" path="res://gameplay/effects/magic/vfx/magics/light/light_particle_color_ramp.tres" id="4_hrj1v"]
 [ext_resource type="Curve" uid="uid://dl2qtokfl3ksm" path="res://gameplay/effects/magic/vfx/magics/light/light_particle_scale_curve.tres" id="4_kl6xt"]
+[ext_resource type="SphereMesh" uid="uid://b0q1odwydy1f3" path="res://gameplay/effects/magic/vfx/magics/light/light_projectile_mesh.tres" id="6_tycsw"]
+[ext_resource type="Material" uid="uid://cb4xjagqb7jla" path="res://gameplay/effects/magic/vfx/magics/light/light_projectile_material.tres" id="7_1ywh3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bu0fc"]
 transparency = 1
@@ -24,17 +26,8 @@ stencil_flags = 2
 [sub_resource type="QuadMesh" id="QuadMesh_nyons"]
 material = SubResource("StandardMaterial3D_bu0fc")
 
-[sub_resource type="SphereMesh" id="SphereMesh_551ov"]
-radius = 0.3
-height = 0.6
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j27o4"]
-shading_mode = 0
-vertex_color_use_as_albedo = true
-albedo_color = Color(1, 1, 0.19607843, 1)
-
 [node name="Projectile" type="Node3D" unique_id=263683715]
-transform = Transform3D(0.98930603, -0.14590146, 0, 0.14590146, 0.98930603, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.98930603, -0.14590144, 0, 0.14590144, 0.98930603, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_hrj1v")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1549591953]
@@ -61,5 +54,5 @@ hue_variation_max = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=614709597]
 cast_shadow = 0
-mesh = SubResource("SphereMesh_551ov")
-surface_material_override/0 = SubResource("StandardMaterial3D_j27o4")
+mesh = ExtResource("6_tycsw")
+surface_material_override/0 = ExtResource("7_1ywh3")

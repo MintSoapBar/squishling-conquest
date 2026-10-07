@@ -1,3 +1,6 @@
+# when a MagicVFXData is initialized with parents, will populate its data dictionary with
+# all the elements of its parents, but empty. 
+
 class_name MagicVFXData
 
 static var magics_vfx_path: String = (MagicVFXData as GDScript).resource_path \
@@ -55,6 +58,16 @@ static func _static_init() -> void:
 			scale_amount_curve = preload("uid://cdh6m8phc5p36"),
 			
 			color_ramp = null,
+		})
+	)
+	
+	base_magic_vfx_data.add_element_data(
+		"mesh", 
+		InheritedDictionary.new([], {
+			mesh = null,
+			material_override = null,
+			material_overlay = null,
+			cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_OFF,
 		})
 	)
 	
@@ -141,9 +154,13 @@ func _init(_parents: Array[MagicVFXData] = []) -> void:
 			cur_element.add_parent(parent.element_data[parent_element_name])
 
 
+func _to_string() -> String:
+	return str(parents) + "\n" + str(element_data)
+
+
 func add_element_data(element_name: String, new_element_data: InheritedDictionary):
 	element_data[element_name] = new_element_data
 
 
 func get_element_data(element_name: String) -> InheritedDictionary:
-	return element_data[element_name]
+	return element_data.get(element_name)

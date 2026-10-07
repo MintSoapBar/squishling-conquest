@@ -9,6 +9,10 @@ func _init(parents: Array[InheritedDictionary] = [], dictionary: Dictionary = {}
 	_dictionary = dictionary
 
 
+func _to_string() -> String:
+	return str(_dictionary)
+
+
 func add_parent(parent: InheritedDictionary):
 	_parents.append(parent)
 

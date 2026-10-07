@@ -19,14 +19,24 @@ static func create_basic_vfx(data: MagicVFXData) -> Node3D:
 	var vfx := Node3D.new()
 	
 	var audio := AudioStreamPlayer3D.new()
+	var audio_data := data.get_element_data("audio")
 	for property in MagicVFXData.base_magic_vfx_data.get_element_data("audio").get_dictionary():
-		audio.set(property, data.get_element_data("audio").get_value(property))
+		audio.set(property, audio_data.get_value(property))
 	vfx.add_child(audio)
 	
 	var particles := CPUParticles3D.new()
+	var particles_data := data.get_element_data("particles")
 	for property in MagicVFXData.base_magic_vfx_data.get_element_data("particles").get_dictionary():
-		particles.set(property, data.get_element_data("particles").get_value(property))
+		particles.set(property, particles_data.get_value(property))
 	vfx.add_child(particles)
+	
+	var mesh_data := data.get_element_data("mesh")
+	if mesh_data.get_value("mesh"):
+		var mesh_instance := MeshInstance3D.new()
+		mesh_instance.mesh = mesh_data.get_value("mesh")
+		for property in MagicVFXData.base_magic_vfx_data.get_element_data("mesh").get_dictionary():
+			mesh_instance.set(property, mesh_data.get_value(property))
+		vfx.add_child(mesh_instance)
 	
 	return vfx
 
@@ -82,7 +92,8 @@ func fade_out():
 			if audio.stream.loop:
 				var audio_fade_out_tween = create_tween()
 				audio_fade_out_tween.tween_property(audio, "volume_db", audio.volume_db - 30, 1)
-				audio_fade_out_tween.finished.connect(decrement_active_projectile_children, CONNECT_ONE_SHOT)
+				audio_fade_out_tween.finished.connect(
+					decrement_active_projectile_children, CONNECT_ONE_SHOT)
 			else:
 				audio.finished.connect(decrement_active_projectile_children, CONNECT_ONE_SHOT)
 		elif child is MeshInstance3D:

@@ -35,7 +35,7 @@ static func populate() -> void:
 	
 	create_standard_magic_data_set("earth",
 		{
-			gravity = Vector3(0, -5.0, 0),
+			gravity = Vector3(0, -3.0, 0),
 		},
 		
 		# projectile
@@ -120,6 +120,14 @@ static func populate() -> void:
 		},
 	)
 	
+	MagicVFXData.get_projectile_data("light").add_element_data(
+		"mesh", 
+		InheritedDictionary.new([], {
+			mesh = preload("uid://b0q1odwydy1f3"), 
+			material_override = preload("uid://cb4xjagqb7jla"),
+		})
+	)
+	
 	create_standard_magic_data_set("poison",
 		{
 			gravity = Vector3(0, 1, 0),
@@ -162,7 +170,7 @@ static func populate() -> void:
 			pitch_scale = 0.6,
 		},
 		{
-			amount = 12,
+			amount = 8,
 			randomness = 0.0,
 		},
 		
@@ -175,6 +183,14 @@ static func populate() -> void:
 		{
 			amount = 6,
 		},
+	)
+	
+	MagicVFXData.get_projectile_data("shadow").add_element_data(
+		"mesh", 
+		InheritedDictionary.new([], {
+			mesh = preload("uid://b0q1odwydy1f3"), 
+			material_override = preload("uid://dv5gofgqv5col"),
+		})
 	)
 	
 	create_standard_magic_data_set("water",
@@ -213,7 +229,7 @@ static func populate() -> void:
 static func create_standard_magic_data_set(magic_name: String, 
 	particle_data: Dictionary, 
 	projectile_audio_data: Dictionary, projectile_particle_data: Dictionary,
-	explosion_audio_data: Dictionary, explosion_particle_data: Dictionary):
+	explosion_audio_data: Dictionary, explosion_particle_data: Dictionary) -> MagicVFXData:
 		
 	var path = MagicVFX.get_magic_vfx_path(magic_name)
 	
@@ -237,6 +253,8 @@ static func create_standard_magic_data_set(magic_name: String,
 	var explosion_data = create_explosion_data(magic_name)
 	explosion_data.get_element_data("audio").replace_dictionary(explosion_audio_data)
 	explosion_data.get_element_data("particles").replace_dictionary(explosion_particle_data)
+	
+	return magic_data
 
 
 static func create_magic_data(magic_name: String) -> MagicVFXData:
