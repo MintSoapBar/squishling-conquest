@@ -52,6 +52,8 @@ func stop_local(params: Dictionary):
 	
 	call_replicated(stop_replicated, params)
 	
+	await get_tree().create_timer(get_startup()).timeout
+	
 	var damage_multiplier = get_skill_stat_multiplier("damage", params)
 	var speed_multiplier = get_skill_stat_multiplier("speed", params)
 	var size_multiplier = get_skill_stat_multiplier("size", params)
@@ -146,11 +148,14 @@ func start_replicated(params: Dictionary):
 		circle.basis = preview_basis
 		circle.scale = Vector3.ONE * 2 * base_projectile_radius * 1.5
 		add_child(circle)
-		circle.fade_in(get_startup()/2)
+		circle.fade_in(get_charge_startup()/2)
 	
 		data.magic_circle = circle
 	else:
-		var projectile: MagicProjectileVFX = MagicVFX.create_projectile_sphere(data.magic, base_projectile_radius)
+		var projectile: MagicProjectileVFX = MagicVFX.create_projectile_sphere(
+			data.magic, 
+			base_projectile_radius
+		)
 		projectile.position = preview_pos
 		projectile.basis = preview_basis
 		add_child(projectile)
@@ -190,6 +195,8 @@ func stop_replicated(params: Dictionary):
 	
 	var origin: Vector3 = params.tool_origin
 	var direction: Vector3 = (params.target_position - origin).normalized()
+	
+	await get_tree().create_timer(get_startup()).timeout
 	
 	var circle: MagicCircle = data.get("magic_circle")
 	if circle:
@@ -256,7 +263,10 @@ func explode_projectile_replicated(explode_position: Vector3):
 	
 	# explosion effects
 	
-	var explosion: MagicExplosionVFX = MagicVFX.create_explosion_sphere(data.magic, explosion_radius)
+	var explosion: MagicExplosionVFX = MagicVFX.create_explosion_sphere(
+		data.magic, 
+		explosion_radius
+	)
 	explosion.position = explode_position
 	add_child(explosion)
 	

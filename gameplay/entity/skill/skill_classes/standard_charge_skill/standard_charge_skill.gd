@@ -14,7 +14,7 @@ func start_local(params: Dictionary):
 	action.poll_stop = true
 	
 	params.charge = 0
-	action.startup_end_time = data.start_time + get_startup()
+	action.startup_end_time = data.start_time + get_charge_startup()
 
 
 func continue_local(params: Dictionary):
@@ -24,7 +24,7 @@ func continue_local(params: Dictionary):
 	super(params)
 	
 	var time := GameTime.get_unpaused_elapsed_time()
-	var charge_time: float = time - data.start_time - get_startup()
+	var charge_time: float = time - data.start_time - get_startup() - get_charge_startup()
 	
 	params.charge = clamp(charge_time/SkillCharge.MAX_CHARGE_TIME, 0, 1)
 
@@ -36,7 +36,7 @@ func stop_local(params: Dictionary):
 	super(params)
 	
 	var time := GameTime.get_unpaused_elapsed_time()
-	var charge_time: float = time - data.start_time - get_startup()
+	var charge_time: float = time - data.start_time - get_startup() - get_charge_startup()
 	
 	action.poll_continue = false
 	action.poll_stop = false

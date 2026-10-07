@@ -23,7 +23,7 @@ static func populate() -> void:
 		# explosion
 		{
 			stream = preload("uid://b51wo72u54jbp"),
-			volume = -25,
+			volume_db = -25,
 			pitch_scale = 0.9,
 		},
 		{
@@ -51,7 +51,7 @@ static func populate() -> void:
 		# explosion
 		{
 			stream = preload("uid://c3a4wi10tfwlq"),
-			volume = -43,
+			volume_db = -43,
 			pitch_scale = 0.7,
 		},
 		{
@@ -79,7 +79,7 @@ static func populate() -> void:
 		# explosion
 		{
 			stream = preload("uid://c2pm5vs11kt7r"),
-			volume = -41,
+			volume_db = -41,
 			pitch_scale = 1.5,
 		},
 		{
@@ -110,7 +110,7 @@ static func populate() -> void:
 		# explosion
 		{
 			stream = preload("uid://da7iqe6edxb2p"),
-			volume = -43,
+			volume_db = -43,
 			pitch_scale = 1.0,
 		},
 		{
@@ -148,7 +148,7 @@ static func populate() -> void:
 		# explosion
 		{
 			stream = preload("uid://b51wo72u54jbp"),
-			volume = -25,
+			volume_db = -25,
 			pitch_scale = 0.7,
 		},
 		{
@@ -177,7 +177,7 @@ static func populate() -> void:
 		# explosion
 		{
 			stream = preload("uid://dvrmq7yxrayay"),
-			volume = -40,
+			volume_db = -40,
 			pitch_scale = 0.8,
 		},
 		{
@@ -215,7 +215,7 @@ static func populate() -> void:
 		# explosion
 		{
 			stream = preload("uid://c43t1u1utpbvu"),
-			volume = -33,
+			volume_db = -33,
 			pitch_scale = 1.0,
 		},
 		{

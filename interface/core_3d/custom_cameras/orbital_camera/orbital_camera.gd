@@ -11,7 +11,7 @@ signal camera_temp_lock_changed(bool)
 @export_category("General Settings")
 @export var min_distance: float = 0.0
 @export var max_distance: float = 2048.0
-@export var sensitivity: float = 0.003
+@export var sensitivity: float = 1/180.0*PI * 0.07 * 0.5
 @export var position_lerp_alpha: float = 0.3
 @export var camera_third_person_offset: Vector3 = Vector3(0, 0, 0)
 
