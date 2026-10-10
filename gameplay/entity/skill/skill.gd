@@ -79,7 +79,7 @@ func check_skill_valid() -> bool:
 
 
 func start_local(_params: Dictionary) -> void:
-	#params.tool_origin = tool.get_action_origin()
+	#params.tool_origin = tool.get_action_origin().origin
 	#params.tool_user_origin = tool.tool_user.sprite.get_chest_origin()
 	
 	data.start_time = GameTime.get_unpaused_elapsed_time()
@@ -91,7 +91,7 @@ func start_local(_params: Dictionary) -> void:
 
 func continue_local(_params: Dictionary) -> void:
 	pass
-	#params.tool_origin = tool.get_action_origin()
+	#params.tool_origin = tool.get_action_origin().origin
 	#params.tool_user_origin = tool.tool_user.sprite.get_chest_origin()
 	#
 	#if not params.get("target_position"):
@@ -100,7 +100,7 @@ func continue_local(_params: Dictionary) -> void:
 
 func stop_local(_params: Dictionary) -> void:
 	pass
-	#params.tool_origin = tool.get_action_origin()
+	#params.tool_origin = tool.get_action_origin().origin
 	#params.tool_user_origin = tool.tool_user.sprite.get_chest_origin()
 	#
 	#if not params.get("target_position"):

@@ -9,6 +9,10 @@ signal faded_out
 var color: Color
 var layers: Array[MeshInstance3D] = []
 
+var lerp_upright: bool = false
+
+var transform_follow_func: Callable
+
 
 static func create_magic_circle(magic: String) -> MagicCircle:
 	var new_circle: MagicCircle = MAGIC_CIRCLE.instantiate()
@@ -35,17 +39,22 @@ func initialize() -> void:
 
 
 func _process(delta: float) -> void:
-	var prev_scale = scale
-	basis = basis.orthonormalized()
+	if lerp_upright:
+		var prev_scale = scale
+		basis = basis.orthonormalized()
+		
+		var look = -basis.z
+		var up = Vector3.UP
+		if up.is_equal_approx(look):
+			up = get_viewport().get_camera_3d().global_basis.y
+		basis = basis.slerp(Basis.looking_at(look, up), 0.1)
+		
+		scale = prev_scale
 	
-	var look = -basis.z
-	var up = Vector3.UP
-	if up.is_equal_approx(look):
-		up = get_viewport().get_camera_3d().global_basis.y
-	basis = basis.slerp(Basis.looking_at(look, up), 0.1)
-	
-	scale = prev_scale
 	layers[1].rotation.z += delta
+	
+	if transform_follow_func:
+		global_transform = transform_follow_func.call()
 
 
 func set_magic(magic: String):

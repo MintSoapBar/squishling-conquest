@@ -21,9 +21,11 @@ func start_local(params: Dictionary):
 	
 	action.active = true
 	
-	params.tool_origin = tool.get_action_origin()
+	params.tool_origin = tool.get_action_origin().origin
 	if not params.get("target_position"):
-		params.target_position = get_aimbot_target_position(params)
+		params.target_position = get_target_position(params)
+	
+	data.merge(params, true)
 	
 	tool.lock(action)
 	
@@ -33,9 +35,11 @@ func start_local(params: Dictionary):
 func continue_local(params: Dictionary):
 	super(params)
 	
-	params.tool_origin = tool.get_action_origin()
+	params.tool_origin = tool.get_action_origin().origin
 	if not params.get("target_position"):
-		params.target_position = get_aimbot_target_position(params)
+		params.target_position = get_target_position(params)
+	
+	data.merge(params, true)
 	
 	call_replicated(continue_replicated, params)
 
@@ -46,20 +50,24 @@ func stop_local(params: Dictionary):
 	
 	super(params)
 	
-	params.tool_origin = tool.get_action_origin()
-	if not params.get("target_position"):
-		params.target_position = get_aimbot_target_position(params)
+	var origin: Vector3 = tool.get_action_origin().origin
+	var target_position: Vector3 = get_target_position(params)
 	
-	call_replicated(stop_replicated, params)
+	call_replicated(stop_replicated, {tool_origin = origin, target_position = target_position})
 	
 	await get_tree().create_timer(get_startup()).timeout
 	
-	var damage_multiplier = get_skill_stat_multiplier("damage", params)
-	var speed_multiplier = get_skill_stat_multiplier("speed", params)
-	var size_multiplier = get_skill_stat_multiplier("size", params)
+	action.poll_continue = false
+	action.poll_stop = false
 	
-	var origin: Vector3 = params.tool_origin
-	var direction: Vector3 = (params.target_position - params.tool_origin).normalized()
+	origin = tool.get_action_origin().origin
+	var direction: Vector3 = (data.target_position - origin).normalized()
+	
+	call_replicated_2(release_projectile, origin, direction)
+	
+	var damage_multiplier = get_skill_stat_multiplier("damage", data)
+	var speed_multiplier = get_skill_stat_multiplier("speed", data)
+	var size_multiplier = get_skill_stat_multiplier("size", data)
 	
 	var start_time: float = GameTime.get_unpaused_elapsed_time()
 	
@@ -140,13 +148,16 @@ func start_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var preview_pos: Vector3 = params.tool_origin
-	var preview_basis: Basis = Basis.looking_at(params.target_position - params.tool_origin)
+	data.merge(params, true)
+	
+	var preview_pos: Vector3 = data.tool_origin
+	var preview_basis: Basis = Basis.looking_at(data.target_position - data.tool_origin)
 	if not data.get("hide_circle"):
 		var circle: MagicCircle = MagicCircle.create_magic_circle(data.magic)
 		circle.position = preview_pos
 		circle.basis = preview_basis
 		circle.scale = Vector3.ONE * 2 * base_projectile_radius * 1.5
+		circle.lerp_upright = true
 		add_child(circle)
 		circle.fade_in(get_charge_startup()/2)
 	
@@ -167,9 +178,11 @@ func continue_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var preview_pos: Vector3 = params.tool_origin
-	var target_delta: Vector3 = params.target_position - preview_pos
-	var charge_size_multiplier: float = SkillCharge.get_stat_multiplier("size", params.charge)
+	data.merge(params, true)
+	
+	var preview_pos: Vector3 = data.tool_origin
+	var target_delta: Vector3 = data.target_position - preview_pos
+	var charge_size_multiplier: float = SkillCharge.get_stat_multiplier("size", data.charge)
 	if not data.get("hide_circle"):
 		var circle: Node3D = data.magic_circle
 		circle.position = preview_pos
@@ -180,7 +193,7 @@ func continue_replicated(params: Dictionary):
 		projectile.position = preview_pos
 		projectile.basis = Basis.looking_at(target_delta)
 		
-		var size_multiplier = get_skill_stat_multiplier("size", params)
+		var size_multiplier = get_skill_stat_multiplier("size", data)
 		projectile.set_radius(base_projectile_radius * size_multiplier)
 
 
@@ -188,15 +201,18 @@ func stop_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	data.charge = params.charge
-	
-	var speed_multiplier = get_skill_stat_multiplier("speed", params)
-	var size_multiplier = get_skill_stat_multiplier("size", params)
-	
-	var origin: Vector3 = params.tool_origin
-	var direction: Vector3 = (params.target_position - origin).normalized()
-	
-	await get_tree().create_timer(get_startup()).timeout
+	continue_replicated(params)
+
+
+
+func cancel():
+	if not data.get("projectile"):
+		queue_free()
+
+
+func release_projectile(origin: Vector3, direction: Vector3):
+	var speed_multiplier = get_skill_stat_multiplier("speed", data)
+	var size_multiplier = get_skill_stat_multiplier("size", data)
 	
 	var circle: MagicCircle = data.get("magic_circle")
 	if circle:
@@ -237,11 +253,6 @@ func stop_replicated(params: Dictionary):
 		direction * base_projectile_speed * speed_multiplier * max_projectile_lifetime)
 
 
-func cancel():
-	if not data.get("projectile"):
-		queue_free()
-
-
 @rpc("authority", "call_local")
 func explode_projectile_replicated(explode_position: Vector3):
 	if not check_skill_valid():
@@ -274,7 +285,10 @@ func explode_projectile_replicated(explode_position: Vector3):
 	explosion.tree_exited.connect(queue_free)
 
 
-func get_aimbot_target_position(params: Dictionary) -> Vector3:
+func get_target_position(params: Dictionary) -> Vector3:
+	if tool_user is Player:
+		return action.get_mouse_target_pos()
+	
 	var target_entity: Entity = params.get("target_entity")
 	if target_entity:
 		var origin: Vector3 = params.tool_origin

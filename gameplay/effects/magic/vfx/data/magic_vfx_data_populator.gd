@@ -114,7 +114,7 @@ static func populate() -> void:
 			pitch_scale = 1.0,
 		},
 		{
-			amount = 6,
+			amount = 5,
 			scale_amount_min = 1.5,
 			scale_amount_max = 1.5,
 		},

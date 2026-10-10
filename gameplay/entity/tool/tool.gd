@@ -111,7 +111,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				action.pressed = false
 				
 				if action.poll_stop:
-					action.stop_action({target_position = get_target_pos()})
+					action.stop_action({})
 		else:
 			for action_key in tool_actions:
 				var action = tool_actions[action_key]
@@ -125,13 +125,13 @@ func _unhandled_input(event: InputEvent) -> void:
 					if action.pressed:
 						continue
 					action.pressed = true
-					action.start_action({target_position = get_target_pos()})
+					action.start_action({})
 				else:
 					if not action.pressed:
 						continue
 					action.pressed = false
 					if action.poll_stop:
-						action.stop_action()
+						action.stop_action({})
 	
 	# sink input
 	for action_key in tool_actions:
@@ -147,7 +147,7 @@ func _physics_process(_delta: float) -> void:
 	for action_key in tool_actions:
 		var action = tool_actions[action_key]
 		if action.poll_continue:
-			action.continue_action({target_position = get_target_pos()})
+			action.continue_action({})
 
 
 #@rpc("any_peer", "call_local")
@@ -188,26 +188,6 @@ func bind_action(action_key: String, action: ToolAction):
 	action.action_key = action_key
 
 
-func get_target_pos(max_distance: float = 1000) -> Vector3:
-	var camera: Camera3D = get_viewport().get_camera_3d()
-	var mouse_pos: Vector2
-	if Player.orbital_camera:
-		mouse_pos = Player.orbital_camera.get_mouse_pos()
-	else:
-		mouse_pos = get_viewport().get_mouse_position()
-	
-	var ray_origin: Vector3 = camera.project_ray_origin(mouse_pos)
-	var ray_target: Vector3 = ray_origin + camera.project_ray_normal(mouse_pos) * max_distance
-
-	var space_state := get_world_3d().direct_space_state
-	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_target)
-	query.exclude = [tool_user.get_rid()]
-	var result: Dictionary = space_state.intersect_ray(query)
-	
-	var target_pos := result.position as Vector3 if result else ray_target
-	return target_pos
-
-
 func input_event_triggers_action(event: InputEvent, action: ToolAction) -> bool:
 	if InputMap.has_action(action.action_key) and event.is_action(action.action_key):
 		return true
@@ -243,5 +223,5 @@ func unlock():
 	unlocked.emit()
 
 
-func get_action_origin() -> Vector3:
-	return global_position
+func get_action_origin() -> Transform3D:
+	return global_transform

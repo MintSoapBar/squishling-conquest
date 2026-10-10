@@ -98,10 +98,6 @@ func _ready() -> void:
 	)
 	
 	reset_world()
-	
-	#while true:
-		#await get_tree().create_timer(5).timeout
-		#print(multiplayer.multiplayer_peer)
 
 
 func _process(_delta: float) -> void:

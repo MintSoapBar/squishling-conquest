@@ -38,8 +38,8 @@ func stop_local(params: Dictionary):
 	var time := GameTime.get_unpaused_elapsed_time()
 	var charge_time: float = time - data.start_time - get_startup() - get_charge_startup()
 	
-	action.poll_continue = false
-	action.poll_stop = false
+	#action.poll_continue = false
+	#action.poll_stop = false
 	
 	params.charge = clamp(charge_time/SkillCharge.MAX_CHARGE_TIME, 0, 1)
 	

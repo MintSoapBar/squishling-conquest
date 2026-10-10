@@ -62,7 +62,7 @@ func _to_string() -> String:
 	return action_name
 
 
-func get_target_pos(max_distance: float = 1000) -> Vector3:
+func get_mouse_target_pos(max_distance: float = 1000) -> Vector3:
 	var camera: Camera3D = tool_user.get_viewport().get_camera_3d()
 	var mouse_pos: Vector2
 	if Player.orbital_camera:

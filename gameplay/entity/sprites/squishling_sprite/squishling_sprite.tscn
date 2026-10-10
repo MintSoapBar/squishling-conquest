@@ -54,7 +54,7 @@ mesh = ExtResource("3_fwonu")
 script = ExtResource("4_45m62")
 
 [node name="LeftEye" type="MeshInstance3D" parent="Model/Body" unique_id=1872408738]
-transform = Transform3D(1, 0, 0, 0, 0.9962854, -0.086112484, 0, 0.086112484, 0.9962854, -0.2, 0.1932505, -0.8195118)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.193, -0.82)
 mesh = SubResource("CapsuleMesh_3pf2m")
 
 [node name="RightEye" type="MeshInstance3D" parent="Model/Body" unique_id=812131439]
@@ -76,3 +76,6 @@ texture = SubResource("ViewportTexture_ooq1l")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 shape = SubResource("SphereShape3D_1o6en")
 script = ExtResource("8_nctdn")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=59168020]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0808716, 0)

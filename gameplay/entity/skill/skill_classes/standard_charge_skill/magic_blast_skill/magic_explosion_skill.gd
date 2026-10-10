@@ -8,8 +8,8 @@ const base_explosion_radius := 1.5
 
 func initialize() -> void:
 	base_charge_startup = 0.6
-	base_startup = 0.3
-	base_endlag = 0.6
+	base_startup = 0.6
+	base_endlag = 0.3
 
 
 func start_local(params: Dictionary):
@@ -17,9 +17,11 @@ func start_local(params: Dictionary):
 	
 	action.active = true
 	
-	params.tool_origin = tool.get_action_origin()
+	params.tool_origin = tool_user.position
 	if not params.get("target_position"):
-		params.target_position = get_aimbot_target_position(params)
+		params.target_position = get_target_position(params)
+	
+	data.merge(params, true)
 	
 	tool.lock(action)
 	
@@ -29,9 +31,11 @@ func start_local(params: Dictionary):
 func continue_local(params: Dictionary):
 	super(params)
 	
-	params.tool_origin = tool.get_action_origin()
+	params.tool_origin = tool.get_action_origin().origin
 	if not params.get("target_position"):
-		params.target_position = get_aimbot_target_position(params)
+		params.target_position = get_target_position(params)
+	
+	data.merge(params, true)
 	
 	call_replicated(continue_replicated, params)
 
@@ -42,16 +46,21 @@ func stop_local(params: Dictionary):
 	
 	super(params)
 	
-	params.tool_origin = tool.get_action_origin()
+	params.tool_origin = tool.get_action_origin().origin
 	if not params.get("target_position"):
-		params.target_position = get_aimbot_target_position(params)
+		params.target_position = get_target_position(params)
+	
+	data.merge(params, true)
 	
 	call_replicated(stop_replicated, params)
 	
 	await get_tree().create_timer(get_startup()).timeout
 	
-	var damage_multiplier = get_skill_stat_multiplier("damage", params)
-	var size_multiplier = get_skill_stat_multiplier("size", params)
+	action.poll_continue = false
+	action.poll_stop = false
+	
+	var damage_multiplier = get_skill_stat_multiplier("damage", data)
+	var size_multiplier = get_skill_stat_multiplier("size", data)
 	
 	var space_state := get_world_3d().direct_space_state
 	
@@ -61,7 +70,7 @@ func stop_local(params: Dictionary):
 	explosion_query_shape.radius = base_explosion_radius * size_multiplier
 	var explosion_query_params := PhysicsShapeQueryParameters3D.new()
 	explosion_query_params.shape = explosion_query_shape
-	explosion_query_params.transform = Transform3D(Basis.IDENTITY, params.target_position)
+	explosion_query_params.transform = Transform3D(Basis.IDENTITY, data.target_position)
 	explosion_query_params.exclude = get_excluded_rids()
 	
 	for result in space_state.intersect_shape(explosion_query_params):
@@ -75,16 +84,22 @@ func stop_local(params: Dictionary):
 			hit_entity.damage(base_damage * damage_multiplier, {data.magic: true})
 
 
+func get_magic_circle_basis(origin: Vector3, target: Vector3) -> Basis:
+	var circle_basis = Basis.looking_at((target - origin) * Vector3(1, 0, 1))
+	return circle_basis.rotated(circle_basis.x, -PI/2).orthonormalized()
+
+
 func start_replicated(params: Dictionary):
+	data.merge(params, true)
+	
 	if not check_skill_valid():
 		return
 	
-	var preview_pos: Vector3 = params.target_position
-	var preview_basis: Basis = Basis.IDENTITY.rotated(Vector3.RIGHT, PI/2)
+	var preview_pos: Vector3 = data.target_position
 	if not data.get("hide_circle"):
 		var circle: MagicCircle = MagicCircle.create_magic_circle(data.magic)
 		circle.position = preview_pos
-		circle.basis = preview_basis
+		circle.basis = get_magic_circle_basis(data.tool_origin, preview_pos)
 		circle.scale = Vector3.ONE * 2 * base_explosion_radius * 0.5
 		add_child(circle)
 		circle.fade_in(get_charge_startup()/2)
@@ -96,7 +111,6 @@ func start_replicated(params: Dictionary):
 			base_explosion_radius * 0.5
 		)
 		projectile.position = preview_pos
-		projectile.basis = preview_basis
 		add_child(projectile)
 		
 		data.charge_projectile = projectile
@@ -106,17 +120,21 @@ func continue_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	var preview_pos: Vector3 = params.target_position
-	var charge_size_multiplier: float = SkillCharge.get_stat_multiplier("size", params.charge)
+	data.merge(params, true)
+	
+	var preview_pos: Vector3 = data.target_position
+	var charge_size_multiplier: float = SkillCharge.get_stat_multiplier("size", data.charge)
 	if not data.get("hide_circle"):
 		var circle: Node3D = data.magic_circle
-		circle.position = preview_pos
+		circle.position = preview_pos + Vector3(0, 0.01, 0)
+		circle.basis = circle.basis.orthonormalized().slerp(
+			get_magic_circle_basis(data.tool_origin, preview_pos), 0.2)
 		circle.scale = Vector3.ONE * 2 * base_explosion_radius * 0.5 * charge_size_multiplier
 	else:
 		var projectile: MagicProjectileVFX = data.charge_projectile
 		projectile.position = preview_pos
 		
-		var size_multiplier = get_skill_stat_multiplier("size", params)
+		var size_multiplier = get_skill_stat_multiplier("size", data)
 		projectile.set_radius(base_explosion_radius * 0.5 * size_multiplier)
 
 
@@ -124,14 +142,12 @@ func stop_replicated(params: Dictionary):
 	if not check_skill_valid():
 		return
 	
-	data.charge = params.charge
-	
-	var size_multiplier = get_skill_stat_multiplier("size", params)
-	
-	#var origin: Vector3 = params.tool_origin
-	var target_position: Vector3 = params.target_position
+	data.merge(params, true)
 	
 	await get_tree().create_timer(get_startup()).timeout
+	
+	var size_multiplier = get_skill_stat_multiplier("size", data)
+	var target_position: Vector3 = data.target_position
 	
 	var circle: MagicCircle = data.get("magic_circle")
 	if circle:
@@ -146,7 +162,8 @@ func stop_replicated(params: Dictionary):
 	
 	var explosion_radius = base_explosion_radius * size_multiplier
 	
-	var explosion: MagicExplosionVFX = MagicVFX.create_explosion_sphere(data.magic, explosion_radius)
+	var explosion: MagicExplosionVFX = MagicVFX.create_explosion_sphere(
+		data.magic, explosion_radius)
 	data.set("explosion", explosion)
 	explosion.position = target_position
 	add_child(explosion)
@@ -160,7 +177,10 @@ func cancel():
 		queue_free()
 
 
-func get_aimbot_target_position(params: Dictionary) -> Vector3:
+func get_target_position(params: Dictionary) -> Vector3:
+	if tool_user is Player:
+		return action.get_mouse_target_pos()
+	
 	var target_entity: Entity = params.get("target_entity")
 	if target_entity:
 		return target_entity.get_aim_target_position()

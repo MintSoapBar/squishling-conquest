@@ -43,5 +43,5 @@ func _ready():
 	{"magic" = "fire"})
 
 
-func get_action_origin() -> Vector3:
-	return global_position + Vector3(0, 0.5, 0)
+func get_action_origin() -> Transform3D:
+	return global_transform.translated_local(Vector3(0, 0.5, 0))

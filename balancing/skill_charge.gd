@@ -1,6 +1,6 @@
 class_name SkillCharge
 
-static var MAX_CHARGE_TIME: float = 5
+static var MAX_CHARGE_TIME: float = 10
 
 static var stat_multipliers: Dictionary[String, float] = {
 	damage = 3.0,

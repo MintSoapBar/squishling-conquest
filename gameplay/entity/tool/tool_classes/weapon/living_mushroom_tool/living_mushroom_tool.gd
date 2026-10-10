@@ -6,6 +6,6 @@ func _ready():
 	tool_name = "mushroom_mob_tool"
 
 
-func get_action_origin() -> Vector3:
+func get_action_origin() -> Transform3D:
 	var face: Node3D = tool_user.sprite.get_node("Model/Face")
-	return face.global_position - face.global_basis.z * 0.5
+	return face.global_transform.translated_local(Vector3(0, 0, -0.5))
