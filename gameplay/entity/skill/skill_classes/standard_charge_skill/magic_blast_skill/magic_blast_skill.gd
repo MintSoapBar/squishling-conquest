@@ -51,6 +51,10 @@ func stop_local(params: Dictionary):
 	super(params)
 	
 	var origin: Vector3 = tool.get_action_origin().origin
+	params.tool_origin = origin
+	
+	data.merge(params, true)
+	
 	var target_position: Vector3 = get_target_position(params)
 	
 	call_replicated(stop_replicated, {tool_origin = origin, target_position = target_position})
