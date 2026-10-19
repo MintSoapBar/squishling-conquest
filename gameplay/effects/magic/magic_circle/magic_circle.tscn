@@ -33,6 +33,6 @@ material_override = SubResource("StandardMaterial3D_j3f7g")
 mesh = SubResource("QuadMesh_qivea")
 
 [node name="Layer1" type="MeshInstance3D" parent="." unique_id=1676181911]
-transform = Transform3D(-0.95776856, -0.28753975, 0, 0.28753975, -0.95776856, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.41071674, 0.9117627, 0, -0.9117627, 0.41071674, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_erh7g")
 mesh = SubResource("QuadMesh_fse72")

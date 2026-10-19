@@ -335,7 +335,7 @@ func can_move() -> bool:
 	return is_network_authority() and is_alive()
 
 
-func get_aim_target_position() -> Vector3:
+func get_hurtbox_target_position() -> Vector3:
 	return global_position + Vector3(0, 0.5, 0)
 
 

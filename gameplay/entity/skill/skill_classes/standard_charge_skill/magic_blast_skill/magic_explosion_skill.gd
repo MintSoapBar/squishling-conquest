@@ -7,7 +7,7 @@ const base_explosion_radius := 1.5
 
 
 func initialize() -> void:
-	base_charge_startup = 0.6
+	base_charge_startup = 0.3
 	base_startup = 0.6
 	base_endlag = 0.3
 
@@ -54,10 +54,10 @@ func stop_local(params: Dictionary):
 	
 	call_replicated(stop_replicated, params)
 	
-	await get_tree().create_timer(get_startup()).timeout
-	
 	action.poll_continue = false
 	action.poll_stop = false
+	
+	await get_tree().create_timer(get_startup()).timeout
 	
 	var damage_multiplier = get_skill_stat_multiplier("damage", data)
 	var size_multiplier = get_skill_stat_multiplier("size", data)
@@ -177,13 +177,13 @@ func cancel():
 		queue_free()
 
 
-func get_target_position(params: Dictionary) -> Vector3:
+func get_aimbot_target_position(params: Dictionary) -> Vector3:
 	if tool_user is Player:
 		return action.get_mouse_target_pos()
 	
 	var target_entity: Entity = params.get("target_entity")
 	if target_entity:
-		return target_entity.get_aim_target_position()
+		return target_entity.get_hurtbox_target_position()
 	else:
 		push_error("params does not contain a target_entity to target " + str(params))
 		return Vector3.ZERO

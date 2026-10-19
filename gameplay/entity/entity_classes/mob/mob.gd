@@ -10,7 +10,9 @@ var walk_speed: float = 0
 
 var controls: Dictionary[String, Goal] = {}
 var target: Entity
-var movement_target_position: Vector3 = Vector3(0, 0, 0)
+var movement_target_position: Vector3 = Vector3.ZERO
+
+var aim_noise: FastNoiseLite = FastNoiseLite.new()
 
 var attack_interval_min: float = 3
 var attack_interval_max: float = 5
@@ -30,6 +32,8 @@ func initialize(_data: Dictionary) -> void:
 	_data.max_health = stat_block.max_health
 	walk_speed = stat_block.walk_speed
 	super(_data)
+	
+	aim_noise.seed = randi()
 
 
 var facing_direction = Vector3.MODEL_FRONT
@@ -92,6 +96,16 @@ func step_attack():
 	else:
 		if current_attack_action.poll_continue and target:
 			current_attack_action.continue_action({target_entity = target})
+
+
+func get_aim_position_offset():
+	var time := GameTime.get_elapsed_time()
+	var offset = Vector3(
+		aim_noise.get_noise_1d(time + 00) * 2,
+		aim_noise.get_noise_1d(time + 10)/2 + 0.25,
+		aim_noise.get_noise_1d(time + 20) * 2,
+	)
+	return offset
 
 
 func update_target():

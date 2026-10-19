@@ -201,3 +201,11 @@ func intersect_projectile(projectile_origin: Vector3, projectile_speed: float,
 		# target can be hit or inside projectile origin
 		var predicted_pos := target_origin + target_velocity * t
 		return predicted_pos
+
+
+func get_target_position(params: Dictionary) -> Vector3:
+	if tool_user is Player:
+		return action.get_mouse_target_pos()
+	if tool_user is Mob:
+		return get_aimbot_target_position(params) + (tool_user as Mob).get_aim_position_offset()
+	return Vector3.ZERO

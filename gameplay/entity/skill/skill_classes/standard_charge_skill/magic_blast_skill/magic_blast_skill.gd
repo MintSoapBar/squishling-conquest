@@ -52,17 +52,18 @@ func stop_local(params: Dictionary):
 	
 	var origin: Vector3 = tool.get_action_origin().origin
 	params.tool_origin = origin
+	var target_position: Vector3 = get_target_position(params)
+	params.target_position = target_position
 	
 	data.merge(params, true)
 	
-	var target_position: Vector3 = get_target_position(params)
+	call_replicated(stop_replicated, params)
 	
-	call_replicated(stop_replicated, {tool_origin = origin, target_position = target_position})
+	action.poll_stop = false
 	
 	await get_tree().create_timer(get_startup()).timeout
 	
 	action.poll_continue = false
-	action.poll_stop = false
 	
 	origin = tool.get_action_origin().origin
 	var direction: Vector3 = (data.target_position - origin).normalized()
@@ -289,15 +290,12 @@ func explode_projectile_replicated(explode_position: Vector3):
 	explosion.tree_exited.connect(queue_free)
 
 
-func get_target_position(params: Dictionary) -> Vector3:
-	if tool_user is Player:
-		return action.get_mouse_target_pos()
-	
+func get_aimbot_target_position(params: Dictionary) -> Vector3:
 	var target_entity: Entity = params.get("target_entity")
 	if target_entity:
 		var origin: Vector3 = params.tool_origin
 		var speed: float = base_projectile_speed * MagicStats.stats[data.magic].speed
-		var target_origin: Vector3 = target_entity.get_aim_target_position()
+		var target_origin: Vector3 = target_entity.get_hurtbox_target_position()
 		var target_velocity: Vector3 = target_entity.estimated_velocity
 		return intersect_projectile(origin, speed, target_origin, target_velocity)
 	else:
