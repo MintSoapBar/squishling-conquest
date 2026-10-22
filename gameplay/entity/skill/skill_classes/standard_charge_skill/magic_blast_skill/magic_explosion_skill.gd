@@ -52,10 +52,10 @@ func stop_local(params: Dictionary):
 	
 	data.merge(params, true)
 	
-	call_replicated(stop_replicated, params)
-	
 	action.poll_continue = false
 	action.poll_stop = false
+	
+	call_replicated(stop_replicated, params)
 	
 	await get_tree().create_timer(get_startup()).timeout
 	
@@ -144,12 +144,16 @@ func stop_replicated(params: Dictionary):
 	
 	data.merge(params, true)
 	
+	var target_position: Vector3 = data.target_position + Vector3(0, 0.01, 0)
+	
+	var circle: MagicCircle = data.get("magic_circle")
+	if circle:
+		circle.global_position = target_position
+	
 	await get_tree().create_timer(get_startup()).timeout
 	
 	var size_multiplier = get_skill_stat_multiplier("size", data)
-	var target_position: Vector3 = data.target_position
 	
-	var circle: MagicCircle = data.get("magic_circle")
 	if circle:
 		circle.fade_out(get_endlag()/2, get_endlag()/2)
 		circle.faded_out.connect(circle.queue_free)

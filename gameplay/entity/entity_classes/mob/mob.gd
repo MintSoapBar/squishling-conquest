@@ -98,14 +98,21 @@ func step_attack():
 			current_attack_action.continue_action({target_entity = target})
 
 
-func get_aim_position_offset():
+func get_aim_position_offset(target_entity: Entity):
 	var time := GameTime.get_elapsed_time()
-	var offset = Vector3(
-		aim_noise.get_noise_1d(time + 00) * 2,
+	var horizontal_offset = Vector3(
+		aim_noise.get_noise_1d(time + 00),
+		0,
+		aim_noise.get_noise_1d(time + 20),
+	) * log((target_entity.get_real_velocity() * Vector3(1, 0, 1)).length() + 1)/log(2)
+	
+	var vertical_offset = Vector3(
+		0,
 		aim_noise.get_noise_1d(time + 10)/2 + 0.25,
-		aim_noise.get_noise_1d(time + 20) * 2,
-	)
-	return offset
+		0
+	) * log(abs(target_entity.get_real_velocity().y) + 1)/log(2)
+	
+	return horizontal_offset + vertical_offset
 
 
 func update_target():

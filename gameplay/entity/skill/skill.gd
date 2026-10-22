@@ -143,8 +143,8 @@ func get_endlag():
 	return base_endlag / get_skill_stat_multiplier("speed")
 
 
-func get_aimbot_target_position(_params: Dictionary):
-	pass
+func get_aimbot_target_position(_params: Dictionary) -> Vector3:
+	return Vector3.ZERO
 
 
 func get_excluded_rids() -> Array[RID]:
@@ -207,5 +207,9 @@ func get_target_position(params: Dictionary) -> Vector3:
 	if tool_user is Player:
 		return action.get_mouse_target_pos()
 	if tool_user is Mob:
-		return get_aimbot_target_position(params) + (tool_user as Mob).get_aim_position_offset()
+		var aimbot_target_pos := get_aimbot_target_position(params)
+		var target_entity: Entity = params.get("target_entity")
+		if target_entity:
+			aimbot_target_pos += (tool_user as Mob).get_aim_position_offset(target_entity)
+		return aimbot_target_pos
 	return Vector3.ZERO
