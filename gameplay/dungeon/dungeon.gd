@@ -141,9 +141,12 @@ func generate(_dungeon_seed := dungeon_seed, _room_count := room_count,
 func clear_dungeon_entities():
 	for entity_id in entities:
 		entities[entity_id].destroy()
+	entities.clear()
 
 
 func clear_dungeon():
+	clear_dungeon_entities()
+	
 	for child in get_children():
 		child.queue_free()
 	
@@ -232,6 +235,9 @@ func attach_room(attached_door: Door, new_corridor: Corridor, attaching_door: Do
 	
 	add_child(new_corridor)
 	add_child(new_room)
+	
+	new_corridor.set_dungeon(self)
+	new_room.set_dungeon(self)
 	
 	return true
 

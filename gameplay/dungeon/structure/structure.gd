@@ -8,6 +8,8 @@ signal state_changed(new_state: StructureState)
 
 enum StructureState {UNEXPLORED, ACTIVE, EXPLORED}
 
+var dungeon: Dungeon
+
 var area: Area3D
 var interior_area: Area3D
 var attachment_points: Array[Node3D] = []
@@ -138,6 +140,10 @@ func get_area_query_params() -> Array[PhysicsShapeQueryParameters3D]:
 func set_state(new_state: StructureState):
 	state = new_state
 	state_changed.emit(state)
+
+
+func set_dungeon(new_dungeon: Dungeon):
+	dungeon = new_dungeon
 
 
 func is_colliding(space_state: PhysicsDirectSpaceState3D, _transform: Transform3D = transform):

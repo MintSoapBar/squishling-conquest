@@ -19,10 +19,14 @@ func trigger() -> void:
 	#for i in 1:
 		var data = BiomeEnemies.pick_enemy_data(biome, world, level)
 		data.position = get_random_floor_position()
+		
 		var mob = Entity.create_entity(data)
 		mobs[str(mob)] = mob
+		dungeon.entities[str(mob)] = mob
+		
 		mob.died.connect(func():
 			mobs.erase(str(mob))
+			dungeon.entities.erase(str(mob))
 			if mobs.size() <= 0:
 				set_doors_open(true)
 				set_state.rpc(StructureState.EXPLORED)

@@ -13,6 +13,7 @@ var target: Entity
 var movement_target_position: Vector3 = Vector3.ZERO
 
 var aim_noise: FastNoiseLite = FastNoiseLite.new()
+var aim_noise_frequency: float = 0.05;
 
 var attack_interval_min: float = 3
 var attack_interval_max: float = 5
@@ -101,14 +102,14 @@ func step_attack():
 func get_aim_position_offset(target_entity: Entity):
 	var time := GameTime.get_elapsed_time()
 	var horizontal_offset = Vector3(
-		aim_noise.get_noise_1d(time + 00),
+		aim_noise.get_noise_1d(time*aim_noise_frequency + 00),
 		0,
-		aim_noise.get_noise_1d(time + 20),
+		aim_noise.get_noise_1d(time*aim_noise_frequency + 20),
 	) * log((target_entity.get_real_velocity() * Vector3(1, 0, 1)).length() + 1)/log(2)
 	
 	var vertical_offset = Vector3(
 		0,
-		aim_noise.get_noise_1d(time + 10)/2 + 0.25,
+		aim_noise.get_noise_1d(time*aim_noise_frequency + 10)/2 + 0.25,
 		0
 	) * log(abs(target_entity.get_real_velocity().y) + 1)/log(2)
 	
