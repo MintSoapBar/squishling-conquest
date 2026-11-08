@@ -12,7 +12,7 @@ const base_explosion_radius := 0.5
 
 func initialize() -> void:
 	base_charge_startup = 0.3
-	base_startup = 0.2
+	base_startup = 0.1
 	base_endlag = 0.3
 
 

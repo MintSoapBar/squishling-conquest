@@ -11,7 +11,7 @@ static var enemies: Dictionary[String, Dictionary] = {
 				{entity_name = "rig"}: 1,
 			},
 			3: {
-				{entity_name = "living_mushroom"}: 1,
+				{entity_name = "living_bottle"}: 1,
 			},
 		}
 	}

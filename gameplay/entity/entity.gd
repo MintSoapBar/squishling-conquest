@@ -61,14 +61,14 @@ static func set_network(network_):
 
 static func initialize_registry():
 	var entity_classes_path := (Entity as GDScript).resource_path.replace("entity.gd", "entity_classes")
-	register_scenes(
+	register_files(
 		entity_registry, 
 		entity_classes_path, 
 		scene_inherits_entity
 	)
 	debug_prints("Registered entity scenes:", entity_registry.keys())
 
-static func register_scenes(registry: Dictionary, path: String, callback := Callable(), 
+static func register_files(registry: Dictionary, path: String, callback := Callable(), 
 	file_suffix := ".tscn"):
 	
 	var dir := DirAccess.open(path)
@@ -87,7 +87,7 @@ static func register_scenes(registry: Dictionary, path: String, callback := Call
 		var full_path := path + "/" + file
 		
 		if dir.current_is_dir():
-			register_scenes(registry, full_path, callback, file_suffix)
+			register_files(registry, full_path, callback, file_suffix)
 		elif file.contains(file_suffix) and not file.contains(".uid"):
 			var stripped_path = full_path.replace(".remap", "").replace(".import", "")
 			var resource: Resource = load(stripped_path)
@@ -332,7 +332,7 @@ func is_alive() -> bool:
 
 
 func can_move() -> bool:
-	return is_network_authority() and is_alive()
+	return is_alive()
 
 
 func get_hurtbox_target_position() -> Vector3:

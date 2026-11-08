@@ -5,6 +5,7 @@ extends Sprite
 const modeled_stalk_height: float = 3
 const modeled_stalk_radius: float = 1.15
 const modeled_cap_height: float = 1.3
+const modeled_cap_thickness: float = 0.7
 const modeled_cap_connection_height: float = 0.6
 const modeled_cap_radius: float = 2.5
 
@@ -49,6 +50,8 @@ var cap_connection_height: float = cap_height * (modeled_cap_connection_height /
 		if is_node_ready():
 			update_gills_color()
 
+@onready var face: Marker3D = $Model/Face
+
 @onready var cap: MeshInstance3D = $Model/MushroomBody/Cap
 @onready var stalk: MeshInstance3D = $Model/MushroomBody/Stalk
 var stalk_material: StandardMaterial3D
@@ -82,11 +85,20 @@ func _ready() -> void:
 	stalk_collider.reparent_to_collision_object_3d.call_deferred()
 	cap_collider_1.reparent_to_collision_object_3d.call_deferred()
 	cap_collider_2.reparent_to_collision_object_3d.call_deferred()
+	
+	update_stalk_height()
+	update_stalk_radius()
+	update_cap_height()
+	update_cap_radius()
+	update_stalk_color()
+	update_gills_color()
+	update_cap_color()
 
 
 func update_stalk_height():
 	stalk.scale.y = stalk_height/modeled_stalk_height
 	cap.position.y = stalk_height
+	face.position.y = 0.5 * stalk_height
 	update_status_bar_billboard()
 	update_stalk_collider()
 	update_cap_colliders()
@@ -119,7 +131,9 @@ func update_stalk_collider():
 
 
 func update_status_bar_billboard():
-	status_bar_billboard.position.y = stalk_height + cap_height
+	status_bar_billboard.position.y = stalk_height \
+		+ modeled_cap_thickness * cap_height/modeled_cap_height \
+		+ base_status_bar_billboard_offset
 
 
 func update_cap_colliders():

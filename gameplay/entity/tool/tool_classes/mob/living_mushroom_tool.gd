@@ -1,9 +1,9 @@
-class_name MushroomMobTool
+class_name LivingMushroomTool
 extends Tool
 
 func _ready():
 	super()
-	tool_name = "mushroom_mob_tool"
+	tool_name = "living_mushroom_tool"
 
 
 func get_action_origin() -> Transform3D:

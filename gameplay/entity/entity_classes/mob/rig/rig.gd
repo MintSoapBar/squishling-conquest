@@ -17,15 +17,3 @@ func _ready() -> void:
 	
 	inventory.add_stack(Stack.new("magic_staff", 1))
 	equip_tool(0)
-
-
-func _physics_process(delta: float) -> void:
-	super(delta)
-	
-	if not can_move():
-		return
-	
-	update_target()
-	if target:
-		movement_target_position = target.global_position
-		step_attack()

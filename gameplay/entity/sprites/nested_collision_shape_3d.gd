@@ -1,3 +1,4 @@
+@tool
 class_name NestedCollisionShape3D
 extends CollisionShape3D
 
@@ -22,6 +23,9 @@ func _ready() -> void:
 
 
 func reparent_to_collision_object_3d() -> void:
+	if Engine.is_editor_hint():
+		return
+	
 	var old_parent := get_parent()
 	var new_parent := find_parent_of_type(self, CollisionObject3D)
 	var old_transform := transform

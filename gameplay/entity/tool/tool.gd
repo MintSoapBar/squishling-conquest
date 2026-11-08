@@ -24,7 +24,8 @@ static var DEFAULT_ACTION_BINDING_MOUSE_MAP: Dictionary[String, int] = {
 	"tool_primary": MOUSE_BUTTON_LEFT
 }
 
-static var tool_registry: Dictionary[String, PackedScene] = {}
+static var tool_scene_registry: Dictionary[String, PackedScene] = {}
+static var tool_script_registry: Dictionary[String, GDScript] = {}
 
 var data: Dictionary
 var tool_name: String
@@ -35,12 +36,25 @@ var locking_action: ToolAction = null
 
 
 static func initialize_registry():
-	Entity.register_scenes(
-		tool_registry, 
-		(Tool as GDScript).resource_path.replace("tool.gd", "tool_classes"), 
+	var tool_classes_path = (Tool as GDScript).resource_path.replace("tool.gd", "tool_classes")
+	
+	Entity.register_files(
+		tool_scene_registry, 
+		tool_classes_path, 
 		scene_inherits_tool
 	)
-	Entity.debug_prints("Registered tool scenes:", tool_registry.keys())
+	
+	Entity.register_files(
+		tool_script_registry,
+		tool_classes_path,
+		func(script: GDScript):
+			return not tool_scene_registry.has(script.get_global_name().to_snake_case()) \
+			and script_inherits_tool(script),
+		".gd"
+	)
+	
+	Entity.debug_prints("Registered tool scenes:", tool_scene_registry.keys())
+	Entity.debug_prints("Registered tool scripts", tool_script_registry.keys())
 
 
 static var tool_script = Tool as Script
@@ -58,18 +72,34 @@ static func scene_inherits_tool(scene: Node) -> bool:
 
 
 static func create_tool(_data = {}) -> Tool:
-	assert(tool_registry.size() > 0, "Initialize tool registry before creating any tools")
+	assert(
+		tool_scene_registry.size() > 0 or tool_script_registry.size() > 0, 
+		"Initialize tool registry before creating any tools")
 	
 	var new_name = _data.tool_name
 	
 	assert(new_name, "Tool data must contain name " + str(_data))
-	assert(tool_registry.has(new_name), 
-		new_name + " not found in tool registry " + str(tool_registry))
 	
-	var new_tool = tool_registry[new_name].instantiate()
-	new_tool.initialize(_data)
+	if tool_scene_registry.has(new_name):
+		var new_tool = tool_scene_registry[new_name].instantiate()
+		new_tool.initialize(_data)
+		
+		return new_tool
+	elif tool_script_registry.has(new_name):
+		var new_tool = Node3D.new()
+		new_tool.set_script(tool_script_registry[new_name])
+		new_tool.initialize(_data)
+		
+		return new_tool
 	
-	return new_tool
+	push_error(
+		new_name, 
+		"not found in tool registries ", 
+		str(tool_scene_registry), 
+		str(tool_script_registry)
+	)
+	
+	return null
 
 
 static func from_stack(stack: Stack):
@@ -89,8 +119,9 @@ func initialize(_data: Dictionary):
 
 
 func _ready() -> void:
-	assert(scene_file_path, 
-		"This script must be instantiated from its scene, not with .new().")
+	pass
+	#assert(scene_file_path, 
+		#"This script must be instantiated from its scene, not with .new().")
 
 
 func _unhandled_input(event: InputEvent) -> void:

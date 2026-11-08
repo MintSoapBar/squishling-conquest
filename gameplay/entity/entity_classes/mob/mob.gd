@@ -42,6 +42,18 @@ func _physics_process(delta: float) -> void:
 	if not is_network_authority():
 		return
 	
+	step_movement(delta)
+	
+	if not is_alive():
+		return
+	
+	update_target()
+	if target:
+		movement_target_position = target.global_position
+		step_attack()
+
+
+func step_movement(delta: float):
 	if is_on_floor():
 		velocity.y = max(velocity.y, 0)
 	else:
@@ -65,6 +77,9 @@ func _physics_process(delta: float) -> void:
 
 
 func step_attack():
+	if not equipped_tool:
+		return
+	
 	var cur_time = GameTime.get_unpaused_elapsed_time()
 	if not current_attack_action:
 		if cur_time >= next_attack_time:

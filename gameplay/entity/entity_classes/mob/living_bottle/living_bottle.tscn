@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://b3r7wgnet71l2"]
+
+[ext_resource type="Script" uid="uid://canteyj7abms7" path="res://gameplay/entity/entity_classes/mob/living_bottle/living_bottle.gd" id="1_breia"]
+[ext_resource type="PackedScene" uid="uid://1cefywwq52eh" path="res://gameplay/entity/sprites/bottle_sprite/living_bottle_sprite.tscn" id="2_breia"]
+
+[node name="LivingBottle" type="CharacterBody3D" unique_id=1256429307]
+script = ExtResource("1_breia")
+
+[node name="LivingBottleSprite" parent="." unique_id=902926490 instance=ExtResource("2_breia")]
+bottle_height = 1.5
+bottle_radius = 0.25

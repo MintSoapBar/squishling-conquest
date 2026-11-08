@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://1cefywwq52eh"]
+
+[ext_resource type="Script" uid="uid://cr14lcdk4fy8e" path="res://gameplay/entity/sprites/bottle_sprite/living_bottle_sprite.gd" id="1_i1dxg"]
+[ext_resource type="PackedScene" uid="uid://dcnrljap6yrul" path="res://gameplay/entity/sprites/bottle_sprite/wine_bottle_body.tscn" id="2_i1dxg"]
+[ext_resource type="PackedScene" uid="uid://bso3hjhrkti3d" path="res://gameplay/status/status_bar/status_bar_billboard.tscn" id="3_eo1qm"]
+[ext_resource type="Script" uid="uid://1l7ir3xeydvc" path="res://gameplay/entity/sprites/nested_collision_shape_3d.gd" id="4_bldfy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dyerp"]
+albedo_color = Color(0, 0, 0, 1)
+metallic = 0.9
+metallic_specular = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nwcxb"]
+material = SubResource("StandardMaterial3D_dyerp")
+radius = 0.03
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50vk3"]
+albedo_color = Color(0, 0, 0, 1)
+metallic = 0.9
+metallic_specular = 1.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_i1dxg"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wwibx"]
+height = 1.9
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_eo1qm"]
+height = 1.1
+radius = 0.2
+
+[node name="LivingBottleSprite" type="Node3D" unique_id=902926490]
+script = ExtResource("1_i1dxg")
+
+[node name="Model" type="Node3D" parent="." unique_id=808506220]
+
+[node name="WineBottleBody" parent="Model" unique_id=36986126 instance=ExtResource("2_i1dxg")]
+
+[node name="Face" type="Marker3D" parent="Model" unique_id=528518289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -0.48)
+
+[node name="LeftEye" type="MeshInstance3D" parent="Model/Face" unique_id=927548374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.05, 0.02)
+mesh = SubResource("CapsuleMesh_nwcxb")
+
+[node name="RightEye" type="MeshInstance3D" parent="Model/Face" unique_id=1300344123]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.05, 0.02)
+mesh = SubResource("CapsuleMesh_nwcxb")
+surface_material_override/0 = SubResource("StandardMaterial3D_50vk3")
+
+[node name="Hand" type="Marker3D" parent="." unique_id=2103551564]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35000002, 0.4, 0)
+
+[node name="StatusBarBillboard" parent="." unique_id=954147360 instance=ExtResource("3_eo1qm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.25, 0)
+texture = SubResource("ViewportTexture_i1dxg")
+
+[node name="BodyCollider" type="CollisionShape3D" parent="." unique_id=1218737846]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+shape = SubResource("CylinderShape3D_wwibx")
+script = ExtResource("4_bldfy")
+automatic_reparent = false
+
+[node name="NeckCollider" type="CollisionShape3D" parent="." unique_id=1850432546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.45, 0)
+shape = SubResource("CylinderShape3D_eo1qm")
+script = ExtResource("4_bldfy")
+automatic_reparent = false

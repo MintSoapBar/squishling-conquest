@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dcnrljap6yrul"]
+
+[ext_resource type="PackedScene" uid="uid://cw2acrjeuy7kh" path="res://gameplay/entity/sprites/bottle_sprite/wine_bottle.glb" id="1_la1se"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8cvtl"]
+albedo_color = Color(0.75663185, 0.0006645894, 0.7982939, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_82l37"]
+albedo_color = Color(0.9166399, 0.91663986, 0.9166398, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rt6j8"]
+albedo_color = Color(0.67, 0.25683334, 0, 1)
+
+[node name="WineBottleBody" unique_id=36986126 instance=ExtResource("1_la1se")]
+
+[node name="Bottle" parent="." index="0" unique_id=764948842]
+surface_material_override/0 = SubResource("StandardMaterial3D_8cvtl")
+surface_material_override/1 = SubResource("StandardMaterial3D_82l37")
+
+[node name="Cork" parent="." index="1" unique_id=1774179351]
+surface_material_override/0 = SubResource("StandardMaterial3D_rt6j8")

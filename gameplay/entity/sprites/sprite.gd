@@ -2,6 +2,8 @@
 class_name Sprite
 extends Node3D
 
+const base_status_bar_billboard_offset = 0.25
+
 var entity: Entity
 
 var tool: Tool

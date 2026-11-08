@@ -24,7 +24,7 @@ var peers: Dictionary[int, bool] = {}
 
 static func initialize_registry():
 	var skill_classes_path := (Skill as GDScript).resource_path.replace("skill.gd", "skill_classes")
-	Entity.register_scenes(
+	Entity.register_files(
 		skill_registry, 
 		skill_classes_path, 
 		script_inherits_skill, 
@@ -33,7 +33,7 @@ static func initialize_registry():
 	Entity.debug_prints("Registered skill scenes:", skill_registry.keys())
 	
 	# preload everything
-	Entity.register_scenes({}, skill_classes_path)
+	Entity.register_files({}, skill_classes_path)
 
 
 static var skill_script = Skill as Script

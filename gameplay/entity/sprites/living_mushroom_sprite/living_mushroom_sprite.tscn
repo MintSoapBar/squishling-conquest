@@ -76,7 +76,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_50vk3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35000002, 0.4, 0)
 
 [node name="StatusBarBillboard" parent="." unique_id=954147360 instance=ExtResource("3_ajriw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5192307, 0)
 texture = SubResource("ViewportTexture_ru2os")
 
 [node name="StalkCollider" type="CollisionShape3D" parent="." unique_id=1218737846]
